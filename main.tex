@@ -1,0 +1,374 @@
+\documentclass[11pt]{article}
+
+% ---- Packages -----------------------------------------------------------
+\usepackage[margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{charter}              % clean serif body face, no extra font files needed
+\usepackage{parskip}              % no first-line indent, spaced paragraphs
+\setlength{\parskip}{0.8em}       % make the inter-paragraph gap unambiguous
+\raggedbottom
+\usepackage{titlesec}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage{etoolbox}
+\usepackage[colorlinks=true, linkcolor=black, citecolor=black, urlcolor=black]{hyperref}
+
+% ---- Author-block macros ---------------------------------------------------
+% Accepts \author{First}{Last} (call once per author, accumulates with a
+% comma), \affiliation{Org}{Country}, and \keywords{...} -- the two-argument
+% call style used by the journal template this report is also typeset in, so
+% that block pastes in directly without reformatting.
+\newcommand{\rpauthorlist}{}
+\renewcommand{\author}[2]{%
+  \ifdefempty{\rpauthorlist}%
+    {\renewcommand{\rpauthorlist}{#1~#2}}%
+    {\appto{\rpauthorlist}{, #1~#2}}%
+}
+\newcommand{\rpaffiliation}{}
+\newcommand{\affiliation}[2]{\renewcommand{\rpaffiliation}{#1, #2}}
+\newcommand{\rpkeywords}{}
+\newcommand{\keywords}[1]{\renewcommand{\rpkeywords}{#1}}
+
+% ---- Heading style --------------------------------------------------------
+\titleformat{\section}{\normalfont\Large\bfseries}{}{0pt}{}
+\titleformat{\subsection}{\normalfont\large\bfseries}{}{0pt}{}
+\titlespacing*{\section}{0pt}{1.8em}{0.8em}
+\titlespacing*{\subsection}{0pt}{1.4em}{0.6em}
+
+\captionsetup{font=small, labelfont=bf, justification=centering}
+
+\newcommand{\lead}[1]{\textbf{#1}}   % bold run-in lead phrase, e.g. "Method."
+
+% Placeholder box for a chart/graph not yet embedded -- swap for
+% \includegraphics once the real image is uploaded to the Overleaf project.
+\newcommand{\graphplaceholder}[1]{%
+  \begin{center}
+  \fbox{\parbox{0.85\linewidth}{\centering\vspace{1.2em}\itshape #1\vspace{1.2em}}}
+  \end{center}
+}
+
+\title{\vspace{-2em}Leveraging a four tiered approach for evaluating Redpine Science}
+\date{}
+
+\author{Leonora}{Vesterbacka}
+\author{Filip}{Dorm}
+\affiliation{Redpine}{Sweden}
+\keywords{Evaluation benchmarks, LLM evaluation}
+
+\begin{document}
+\maketitle
+\vspace{-2.5em}
+\begin{center}
+\rpauthorlist \\
+\rpaffiliation
+\end{center}
+\vspace{1em}
+
+\begin{abstract}
+Redpine Science gives models and agents a single access point to peer-reviewed
+literature from seven publishers, queried directly through MCP and API. This report
+evaluates Redpine Science along two independent axes: the source of the evaluation
+questions (an existing public benchmark, or a literature-grounded question set built
+and validated in-house) and what is measured (a full agentic answer, or retrieval
+alone, with no model reasoning involved). Crossing these axes gives four separate
+evaluations rather than one blended score. An agent with Redpine Science access scores
+[X] percentage points higher than an agent restricted to web search on our
+expert-validated question set. On document retrieval, stripped of any model reasoning,
+Redpine Science recovers the correct source paper 88.9\% of the time, against 61.5\%
+for Exa, the retrieval benchmark's own creator, run under its published configuration.
+On public answer-quality benchmarks, Redpine Science leads on five of six benchmarks
+tested and ties on the sixth, with no losses. A blinded expert relevance panel,
+following Consensus's published methodology, is in progress.
+\end{abstract}
+
+\noindent\textbf{Keywords:} \rpkeywords
+
+\section{Introduction}
+
+Redpine Science gives models and agents a single access point to peer-reviewed
+literature from seven publishers, queried directly through MCP and API. This report
+measures how much that access improves the answers a model produces, and how reliably
+that improvement can be measured.
+
+Evaluating a retrieval-augmented system is harder than evaluating a model alone. A RAG
+pipeline conflates two effects: whether the right passage is surfaced (retrieval), and
+whether the model turns that passage into an accurate, grounded answer (generation).
+Most published evaluations, including ours until recently, report a single blended
+score for both. A win on that score can come from better retrieval, a better-written
+answer drawn from similar evidence, or some mix of the two, and the number alone does
+not distinguish between them.
+
+We separate the two effects by crossing two independent choices: who wrote the
+evaluation questions, an existing public benchmark or a literature-grounded set we
+built ourselves, and what is measured, the full agentic answer or retrieval alone with
+no model reasoning in the loop. This produces four evaluations rather than one,
+described in Sections~\ref{sec:quadrant-one} through \ref{sec:quadrant-four}. Reporting
+all four separately lets a result be attributed to retrieval or to generation
+specifically, rather than to an unspecified mix of both.
+
+Questions built by the evaluator carry a specific risk: if they are grounded in content
+only the evaluator's own system can access, that system wins by construction, not by
+retrieval or reasoning quality. Section~\ref{sec:methodology} describes the
+question-generation approach built to avoid that.
+
+\section{Redpine Science}
+
+Redpine Science is built on partnerships with seven publishers, Harvard Business
+Publishing, BMJ, Wiley, Sage, Wanfang Data, IGI Global, and IOP, covering clinical
+medicine, life sciences, physics, and social sciences. Combined with 50+ existing
+partners, this gives models and agents live access to over 20 million peer-reviewed
+articles through Redpine's API and MCP.
+
+Corpus breadth is only half the system. The retrieval stack built on top of it, which
+embedding model represents a query and a passage, which reranker re-scores the
+shortlist before an agent sees it, and how often either is replaced, is maintained
+continuously rather than fixed at launch. The results in this report measure that stack
+as much as the underlying corpus.
+
+\section{Evaluation methodology}
+\label{sec:methodology}
+
+Table~\ref{tab:methodology} shows the four evaluations produced by crossing question
+source against what is measured.
+
+\begin{table}[h]
+\centering
+\caption{The four evaluations, crossing question source against measurement target.}
+\label{tab:methodology}
+\begin{tabularx}{\textwidth}{@{}l X X@{}}
+\toprule
+ & \textbf{Answer quality} & \textbf{Retrieval quality} \\
+\midrule
+\textbf{Public benchmark} &
+  established public benchmarks &
+  gold-document retrieval, single-shot, no agent \\[0.6em]
+\textbf{Expert-validated} &
+  our own literature-grounded questions, agent-scored &
+  blinded PhD relevance judging, single-shot, no agent \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Each cell exists elsewhere in the field individually. Scoring an agent's answer against
+public benchmarks or against harder expert-authored questions is standard for RAG and
+agent evaluations. Retrieval measured in isolation is also established: search
+providers publish benchmark retrieval results for their own products, and blinded human
+relevance judging is a recognized method independent of this report. Reporting all four
+together, so a retrieval effect and a generation effect can be separated for both
+question sources, is the contribution of this methodology, not any individual cell.
+
+Questions grounded in content only the evaluator's system can access favor that system
+by construction, not by retrieval or reasoning quality. Section~\ref{sec:quadrant-two}
+describes the question-generation approach used to avoid that, validated by domain
+experts rather than accepted without review.
+
+\section{Quadrant one: public benchmarks, answer quality}
+\label{sec:quadrant-one}
+
+\lead{Method.} Established public benchmarks have largely entered the training data of
+the models being evaluated. Newer, harder benchmarks are built continuously to stay
+ahead of memorization; on the hardest of these, retrieval still has room to move the
+result, and every number is independently checkable against what other labs report on
+the same benchmark.
+
+We selected benchmarks other labs already report against, not an arbitrary set, so
+results are checkable rather than asserted. Some are already saturated: current models
+answer most questions from training alone, visible directly in MedXpertQA's exact tie.
+That saturation is itself informative. It is why Section~\ref{sec:quadrant-two}
+exists, built specifically to retain headroom as benchmarks age.
+
+We have six running so far: MedHELM, MMLU-Redux Biology, BioASQ factoid, BioASQ yes/no,
+SciFact fact verification, and MedXpertQA. HealthBench, LiveMedBench, and Humanity's
+Last Exam's Bio/Chem Gold subset are still being added.
+
+\graphplaceholder{Graph: per-benchmark comparison, web search vs.\ Redpine}
+
+\lead{Result.} Redpine Science leads on five of six benchmarks and ties on the sixth,
+MedXpertQA, with no losses. Only one win clears conventional significance: BioASQ
+factoid, at $p = 0.017$, run on 127 questions against 15 to 24 for the rest. The
+remaining wins, MedHELM (+20.8 points), MMLU-Redux Biology (+13.3), BioASQ yes/no
+(+8.3), and SciFact (+8.3), are directional but not individually significant at this
+sample size; more queries are needed before treating any one of them as more than
+consistent with a real effect.
+
+\section{Quadrant two: expert-validated questions, answer quality}
+\label{sec:quadrant-two}
+
+\lead{Method.} Public benchmarks are comparable across labs, but a model that has
+memorized the answer is not testing retrieval. We built a harder question set grounded
+in the literature Redpine Science covers, each question constructed through reasoning
+steps that concretize and constrain the answer and requiring a source paper's full
+text, not its freely available abstract.
+
+Every generated question is reviewed by PhD-level experts in the relevant field before
+entering the evaluation set, removing ambiguous, trivially answerable, or incorrect
+questions before they can distort a result. The newest batches are being validated by
+PhD researchers from Karolinska Institutet in neurology and cardiology, ongoing as the
+question set scales ahead of launch.
+
+\lead{Experimental setup.} Two arms run on identical prompts: an agent with access to
+both Redpine Science and web search (via Tavily), against an agent with web search
+only, isolating the value Redpine adds on top of an agent's existing capabilities.
+Model, system prompt, and step budget are held constant between arms; only tool access
+to Redpine's retrieval varies.
+
+\lead{Judging setup and criteria.} Every answer is scored by a fixed LLM judge, held
+constant across both arms and distinct from the model producing the answer. Four
+criteria make up the final answer score:
+
+\begin{itemize}[leftmargin=1.6em, itemsep=0.3em]
+  \item \textbf{Correctness.} Does the answer contradict anything the gold rubric says?
+  \item \textbf{Completeness.} Does the answer cover every part of what was asked?
+  \item \textbf{Directness.} Does the answer commit to a clear conclusion, or hedge?
+  \item \textbf{Source quality.} How authoritative are the sources the answer draws on?
+\end{itemize}
+
+\[
+  \text{Overall} = \frac{\text{Correctness} + \text{Completeness} + \text{Directness}
+  + \text{Source quality}}{4}
+\]
+
+Faithfulness, whether each claim is grounded in the raw retrieved text, is scored
+separately from Overall rather than folded into it: it is near-constant across both
+arms in our runs, indicating both are equally grounded rather than distinguishing which
+arm is better. Two further criteria score retrieval directly, separate from the answer
+score, so a weak final answer built on strong retrieval is distinguishable from one
+built on weak retrieval:
+
+\begin{itemize}[leftmargin=1.6em, itemsep=0.3em]
+  \item \textbf{Contextual recall.} Does the retrieved context contain everything
+    needed to support the gold answer? Sentences supported by retrieved context
+    divided by total sentences.
+  \item \textbf{Contextual relevancy.} How much of what got retrieved was actually
+    useful? Retrieved statements judged relevant divided by total retrieved
+    statements.
+\end{itemize}
+
+\lead{Evaluation dataset.} 53 questions so far, over seven fields: oncology, public
+health, neurology, pharmacology, psychiatry, cardiovascular disease, and infectious
+disease, full text only.
+
+{%
+\graphplaceholder{Preliminary per-criterion comparison, Connect vs.\ web search, n=57,
+95\% CI error bars, margin and paired p-value under each pair}
+\captionof{figure}{Preliminary, n=57.}%
+}
+
+\section{Quadrant three: public benchmarks, retrieval quality}
+\label{sec:quadrant-three}
+
+\lead{Method.} Quadrants one and two score the full agentic answer, where a poor result
+may reflect generation rather than retrieval, and a strong result may reflect writing
+quality compensating for weak retrieval. Quadrant three isolates retrieval directly:
+one query in, one ranked list out, no agent loop, no reformulation, no reasoning. Each
+system answers with only its own ranking, once.
+
+We used an existing open benchmark rather than building our own: a self-built one is
+the easiest place to rig a result, pick your own gold documents and any retriever
+indexed on them wins.
+
+The Exa publication-retrieval benchmark grounds every query in one gold publication and
+scores whether it was surfaced, by DOI or title, at what rank. It asks several
+phrasings per source paper, so its 351 DOI-confirmed queries are grounded in 55 unique
+papers, not 351 distinct documents. We report recall at the query level, the more
+demanding number, since it counts every phrasing separately. We restrict to these 351
+queries rather than the benchmark's full 1,866: the rest ask about papers outside
+Redpine's corpus, and scoring Redpine on documents it cannot hold would measure corpus
+coverage, not retrieval quality. We ran two retrieval services against it, queried
+identically, no follow-up fetch, no agent reasoning: Redpine Science, and Exa's own
+search, run the way exa-labs/benchmarks' own GitHub repository describes running it.
+Neither is a web agent. Both are retrieval services, Exa over the open web, Redpine
+Science over a curated, licensed corpus, so this compares retrieval quality on
+identical terms.
+
+Exa is included because it is this benchmark's own creator: beating the engine that
+built and calibrates itself against this exact benchmark, run the way its own team runs
+it, is a harder result to dismiss than beating an unrelated product.
+
+\begin{table}[h]
+\centering
+\caption{Quadrant three retrieval results, n=351.}
+\label{tab:quadrant-three}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+ & \textbf{Recall} & \textbf{MRR} & \textbf{nDCG} \\
+\midrule
+Redpine Science & 88.9\% & 0.769 & 0.798 \\
+Exa             & 61.5\% & 0.442 & 0.484 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\lead{Result.} Redpine leads clearly, and when it surfaces the right paper at all, it is
+disproportionately at rank one. We followed exa-labs/benchmarks' own setup for Exa.
+
+We are grateful to Exa for publishing this benchmark openly rather than keeping it
+proprietary; this quadrant would not exist without it.
+
+\section{Quadrant four: expert-validated questions, retrieval quality}
+\label{sec:quadrant-four}
+
+\lead{Method.} Quadrant three measures whether a system finds one known document. It
+says nothing about relevance for the kind of open, comparative question a domain expert
+actually asks, where multiple passages may be defensible and judging which is better is
+not a lookup. That judgment requires a human expert, blinded to which system produced
+each result.
+
+Judges score each result on a 0 to 4 scale, 0 not relevant, 4 perfectly relevant, blind
+to which system produced it; system identity is randomized left-to-right per query to
+prevent a judge from guessing rather than reading. Every result is stripped of anything
+that would give the system away before a judge reads it: URL, DOI, and publication date
+are all removed, since a database record and a scraped web page format these
+differently enough to identify the source on their own.
+
+A full batch of hard subspecialty questions, covering neurology and cardiology, the
+kind that require real domain knowledge to even evaluate the results, not just to
+answer, on the top 5 results per system.
+
+\graphplaceholder{Graph: Precision@5, percent of results scored 3 or 4, by system}
+
+\graphplaceholder{Graph: DCG@5, by system}
+
+\lead{Result.} Precision@5: Redpine [XX]\%, Exa [XX]\%. DCG@5: Redpine [XX.XX], Exa
+[XX.XX].
+
+\section{Thanks}
+
+Quadrant three depends directly on Exa's decision to publish its publication-retrieval
+benchmark openly rather than keep it proprietary. Quadrant one depends similarly on
+MMLU-Redux, MedXpertQA, HealthBench, LiveMedBench, MedHELM, BioASQ, and Humanity's Last
+Exam, each built and released publicly by its creators; every comparison in this report
+against other labs' results is possible because of that choice. Evaluation
+infrastructure of this kind is a shared resource, not a competitive moat.
+
+\section{What we are releasing}
+
+Alongside these results, we are open-sourcing the expert-validated question set and the
+agentic evaluation harness used to produce the answer-quality results above.
+
+\begin{itemize}[leftmargin=1.6em, itemsep=0.5em]
+  \item \textbf{The expert-validated question set.} The depth questions, gold rubrics
+    included, at [link to GitHub repository].
+  \item \textbf{An evaluation harness.} The agentic evaluation framework used for the
+    answer-quality quadrants, comparing an agent with and without access to Redpine
+    Science.
+\end{itemize}
+
+\section{Summary}
+
+On our expert-validated question set, an agent with Redpine Science access scores [X]
+percentage points higher than an agent restricted to web search. On the public
+retrieval benchmark, Redpine Science recovers the correct document 88.9\% of the time,
+against 61.5\% for Exa, the benchmark's own creator. On the expert-judged retrieval
+panel, an internal pilot placed Redpine Science's Precision@5 at [XX]\% against [XX]\%
+for Exa; the domain-expert PhD panel and a scaled-up expert-validated answer set will be
+reported ahead of launch.
+
+\end{document}
