@@ -93,9 +93,9 @@ following Consensus's published methodology, is in progress.
 \section{Introduction}
 
 Redpine Science gives models and agents a single access point to peer-reviewed
-literature from seven publishers, queried directly through MCP and API. This report
-measures how much that access improves the answers a model produces, and how reliably
-that improvement can be measured.
+literature from seven publishers, queried directly through MCP~\cite{mcp} and API. This
+report measures how much that access improves the answers a model produces, and how
+reliably that improvement can be measured.
 
 Evaluating a retrieval-augmented system is harder than evaluating a model alone. A RAG
 pipeline conflates two effects: whether the right passage is surfaced (retrieval), and
@@ -184,9 +184,11 @@ answer most questions from training alone, visible directly in MedXpertQA's exac
 That saturation is itself informative. It is why Section~\ref{sec:quadrant-two}
 exists, built specifically to retain headroom as benchmarks age.
 
-We have six running so far: MedHELM, MMLU-Redux Biology, BioASQ factoid, BioASQ yes/no,
-SciFact fact verification, and MedXpertQA. HealthBench, LiveMedBench, and Humanity's
-Last Exam's Bio/Chem Gold subset are still being added.
+We have six running so far: MedHELM~\cite{medhelm}, MMLU-Redux Biology~\cite{mmluredux},
+BioASQ factoid~\cite{bioasq}, BioASQ yes/no~\cite{bioasq}, SciFact fact
+verification~\cite{scifact}, and MedXpertQA~\cite{medxpertqa}. HealthBench~\cite{healthbench},
+LiveMedBench~\cite{livemedbench}, and Humanity's Last Exam's~\cite{hle} Bio/Chem Gold
+subset are still being added.
 
 \graphplaceholder{Graph: per-benchmark comparison, web search vs.\ Redpine}
 
@@ -238,9 +240,10 @@ criteria make up the final answer score:
 Faithfulness, whether each claim is grounded in the raw retrieved text, is scored
 separately from Overall rather than folded into it: it is near-constant across both
 arms in our runs, indicating both are equally grounded rather than distinguishing which
-arm is better. Two further criteria score retrieval directly, separate from the answer
-score, so a weak final answer built on strong retrieval is distinguishable from one
-built on weak retrieval:
+arm is better. Two further criteria, adapted from the RAGAS evaluation
+framework~\cite{ragas} and computed with DeepEval~\cite{deepeval}, score retrieval
+directly, separate from the answer score, so a weak final answer built on strong
+retrieval is distinguishable from one built on weak retrieval:
 
 \begin{itemize}[leftmargin=1.6em, itemsep=0.3em]
   \item \textbf{Contextual recall.} Does the retrieved context contain everything
@@ -274,8 +277,8 @@ We used an existing open benchmark rather than building our own: a self-built on
 the easiest place to rig a result, pick your own gold documents and any retriever
 indexed on them wins.
 
-The Exa publication-retrieval benchmark grounds every query in one gold publication and
-scores whether it was surfaced, by DOI or title, at what rank. It asks several
+The Exa publication-retrieval benchmark~\cite{exabenchmarks} grounds every query in one
+gold publication and scores whether it was surfaced, by DOI or title, at what rank. It asks several
 phrasings per source paper, so its 351 DOI-confirmed queries are grounded in 55 unique
 papers, not 351 distinct documents. We report recall at the query level, the more
 demanding number, since it counts every phrasing separately. We restrict to these 351
@@ -321,12 +324,14 @@ actually asks, where multiple passages may be defensible and judging which is be
 not a lookup. That judgment requires a human expert, blinded to which system produced
 each result.
 
-Judges score each result on a 0 to 4 scale, 0 not relevant, 4 perfectly relevant, blind
-to which system produced it; system identity is randomized left-to-right per query to
-prevent a judge from guessing rather than reading. Every result is stripped of anything
-that would give the system away before a judge reads it: URL, DOI, and publication date
-are all removed, since a database record and a scraped web page format these
-differently enough to identify the source on their own.
+Judges score each result on a 0 to 4 scale, 0 not relevant, 4 perfectly relevant,
+matching the scale and Precision@K / DCG@K reporting used by Consensus's own relevance
+evaluation~\cite{consensus}, blind to which system produced it; system identity is
+randomized left-to-right per query to prevent a judge from guessing rather than
+reading. Every result is stripped of anything that would give the system away before a
+judge reads it: URL, DOI, and publication date are all removed, since a database record
+and a scraped web page format these differently enough to identify the source on their
+own.
 
 A full batch of hard subspecialty questions, covering neurology and cardiology, the
 kind that require real domain knowledge to even evaluate the results, not just to
@@ -341,11 +346,14 @@ answer, on the top 5 results per system.
 
 \section{Thanks}
 
-Quadrant three depends directly on Exa's decision to publish its publication-retrieval
-benchmark openly rather than keep it proprietary. Quadrant one depends similarly on
-MMLU-Redux, MedXpertQA, HealthBench, LiveMedBench, MedHELM, BioASQ, and Humanity's Last
-Exam, each built and released publicly by its creators; every comparison in this report
-against other labs' results is possible because of that choice. Evaluation
+Quadrant three depends directly on Exa's decision to publish its
+publication-retrieval benchmark~\cite{exabenchmarks} openly rather than keep it
+proprietary. Quadrant one depends similarly on MMLU-Redux~\cite{mmluredux},
+MedXpertQA~\cite{medxpertqa}, HealthBench~\cite{healthbench},
+LiveMedBench~\cite{livemedbench}, MedHELM~\cite{medhelm}, BioASQ~\cite{bioasq}, and
+Humanity's Last Exam~\cite{hle}, each built and released publicly by its creators;
+every comparison in this report against other labs' results is possible because of
+that choice. Evaluation
 infrastructure of this kind is a shared resource, not a competitive moat.
 
 \section{What we are releasing}
@@ -370,5 +378,89 @@ against 61.5\% for Exa, the benchmark's own creator. On the expert-judged retrie
 panel, an internal pilot placed Redpine Science's Precision@5 at [XX]\% against [XX]\%
 for Exa; the domain-expert PhD panel and a scaled-up expert-validated answer set will be
 reported ahead of launch.
+
+\begin{thebibliography}{99}
+
+\bibitem{medhelm}
+S.~Bedi, H.~Cui, M.~Fuentes, A.~Unell, M.~Wornow, et~al.
+\newblock MedHELM: Holistic Evaluation of Large Language Models for Medical
+  Tasks.
+\newblock \emph{arXiv preprint arXiv:2505.23802}, 2025.
+
+\bibitem{mmluredux}
+A.~P. Gema, J.~O.~J. Leang, G.~Hong, A.~Devoto, A.~C.~M. Mancino, et~al.
+\newblock Are We Done with MMLU?
+\newblock \emph{arXiv preprint arXiv:2406.04127}, 2024.
+
+\bibitem{bioasq}
+G.~Tsatsaronis, G.~Balikas, P.~Malakasiotis, I.~Partalas, M.~Zschunke, et~al.
+\newblock An overview of the BIOASQ large-scale biomedical semantic indexing
+  and question answering competition.
+\newblock \emph{BMC Bioinformatics}, 16:138, 2015.
+  \url{https://doi.org/10.1186/s12859-015-0564-6}
+
+\bibitem{scifact}
+D.~Wadden, S.~Lin, K.~Lo, L.~L. Wang, M.~van Zuylen, A.~Cohan, and
+  H.~Hajishirzi.
+\newblock Fact or Fiction: Verifying Scientific Claims.
+\newblock In \emph{Proceedings of the 2020 Conference on Empirical Methods in
+  Natural Language Processing (EMNLP)}, pages 7534--7550, 2020.
+
+\bibitem{medxpertqa}
+Y.~Zuo, S.~Qu, Y.~Li, Z.~Chen, X.~Zhu, E.~Hua, K.~Zhang, N.~Ding, and
+  B.~Zhou.
+\newblock MedXpertQA: Benchmarking Expert-Level Medical Reasoning and
+  Understanding.
+\newblock \emph{arXiv preprint arXiv:2501.18362}, 2025. ICML 2025.
+
+\bibitem{healthbench}
+R.~K. Arora, J.~Wei, R.~S. Hicks, P.~Bowman, et~al.
+\newblock HealthBench: Evaluating Large Language Models Towards Improved
+  Human Health.
+\newblock \emph{arXiv preprint arXiv:2505.08775}, 2025.
+
+\bibitem{livemedbench}
+Z.~Yan, D.~Song, Z.~Fang, Y.~Ji, X.~Li, Q.~Li, and L.~Sun.
+\newblock LiveMedBench: A Contamination-Free Medical Benchmark for LLMs with
+  Automated Rubric Evaluation.
+\newblock \emph{arXiv preprint arXiv:2602.10367}, 2026.
+
+\bibitem{hle}
+L.~Phan, A.~Gatti, Z.~Han, N.~Li, J.~Hu, H.~Zhang, et~al.
+\newblock Humanity's Last Exam.
+\newblock \emph{Nature}, 2025/2026. \url{https://doi.org/10.1038/s41586-025-09962-4};
+  preprint \emph{arXiv:2501.14249}.
+
+\bibitem{exabenchmarks}
+Exa Labs.
+\newblock exa-labs/benchmarks: Open benchmarks for evaluating search APIs.
+\newblock GitHub repository, 2026.
+  \url{https://github.com/exa-labs/benchmarks}
+
+\bibitem{consensus}
+Consensus.
+\newblock Consensus Outperforms Google Scholar for Academic Search Retrieval.
+\newblock Consensus blog, 2025.
+  \url{https://consensus.app/home/blog/consensus-outperforms-google-scholar-for-academic-search-retrieval/}
+
+\bibitem{ragas}
+S.~Es, J.~James, L.~Espinosa Anke, and S.~Schockaert.
+\newblock Ragas: Automated Evaluation of Retrieval Augmented Generation.
+\newblock In \emph{Proceedings of the 18th Conference of the European
+  Chapter of the Association for Computational Linguistics: System
+  Demonstrations}, pages 150--158, 2024.
+
+\bibitem{deepeval}
+Confident AI.
+\newblock confident-ai/deepeval: The LLM Evaluation Framework.
+\newblock GitHub repository. \url{https://github.com/confident-ai/deepeval}
+
+\bibitem{mcp}
+Anthropic.
+\newblock Introducing the Model Context Protocol.
+\newblock Anthropic News, November 2024.
+  \url{https://www.anthropic.com/news/model-context-protocol}
+
+\end{thebibliography}
 
 \end{document}
