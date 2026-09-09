@@ -1,47 +1,15 @@
-\documentclass[11pt]{article}
-% ---- Packages -----------------------------------------------------------
-\usepackage[margin=1in]{geometry}
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
-\usepackage{amsmath}
-\usepackage{charter}              % clean serif body face, no extra font files needed
-\usepackage{parskip}              % no first-line indent, spaced paragraphs
-\setlength{\parskip}{0.8em}       % make the inter-paragraph gap unambiguous
+\documentclass[sn-mathphys,Numbered]{sn-jnl}% Math and Physical Sciences Reference Style
+
+%%%% Standard Packages
+\usepackage{graphicx}%
+\usepackage{amsmath,amssymb,amsfonts}%
+\usepackage{xcolor}%
+\usepackage{manyfoot}%
+\usepackage{booktabs}%
+\usepackage{tabularx}%
+\usepackage{enumitem}%
+
 \raggedbottom
-\usepackage{titlesec}
-\usepackage{booktabs}
-\usepackage{array}
-\usepackage{tabularx}
-\usepackage{longtable}
-\usepackage{graphicx}
-\usepackage{caption}
-\usepackage{enumitem}
-\usepackage{etoolbox}
-\usepackage[colorlinks=true, linkcolor=black, citecolor=black, urlcolor=black]{hyperref}
-
-% ---- Author-block macros ---------------------------------------------------
-% Accepts \author{First}{Last} (call once per author, accumulates with a
-% comma), \affiliation{Org}{Country}, and \keywords{...} -- the two-argument
-% call style used by the journal template this report is also typeset in, so
-% that block pastes in directly without reformatting.
-\newcommand{\rpauthorlist}{}
-\renewcommand{\author}[2]{%
-  \ifdefempty{\rpauthorlist}%
-    {\renewcommand{\rpauthorlist}{#1~#2}}%
-    {\appto{\rpauthorlist}{, #1~#2}}%
-}
-\newcommand{\rpaffiliation}{}
-\newcommand{\affiliation}[2]{\renewcommand{\rpaffiliation}{#1, #2}}
-\newcommand{\rpkeywords}{}
-\newcommand{\keywords}[1]{\renewcommand{\rpkeywords}{#1}}
-
-% ---- Heading style --------------------------------------------------------
-\titleformat{\section}{\normalfont\Large\bfseries}{}{0pt}{}
-\titleformat{\subsection}{\normalfont\large\bfseries}{}{0pt}{}
-\titlespacing*{\section}{0pt}{1.8em}{0.8em}
-\titlespacing*{\subsection}{0pt}{1.4em}{0.6em}
-
-\captionsetup{font=small, labelfont=bf, justification=centering}
 
 \newcommand{\lead}[1]{\textbf{#1}}   % bold run-in lead phrase, e.g. "Method."
 
@@ -53,25 +21,18 @@
   \end{center}
 }
 
-\title{\vspace{-2em}Leveraging a four tiered approach for evaluating Redpine Science}
-\date{}
-
-\author{Leonora}{Vesterbacka}
-\author{Filip}{Dorm}
-\affiliation{Redpine}{Sweden}
-\keywords{Evaluation benchmarks, LLM evaluation}
-
 \begin{document}
-\maketitle
-\vspace{-2.5em}
-\begin{center}
-\rpauthorlist \\
-\rpaffiliation
-\end{center}
-\vspace{1em}
 
-\begin{abstract}
-Redpine Science gives models and agents a single access point to peer-reviewed
+\title[Evaluating Redpine Science]{Leveraging a four tiered approach for evaluating
+Redpine Science}
+
+\author[1]{\fnm{Leonora} \sur{Vesterbacka}}
+
+\author[1]{\fnm{Filip} \sur{Dorm}}
+
+\affil[1]{\orgname{Redpine}, \orgaddress{\country{Sweden}}}
+
+\abstract{Redpine Science gives models and agents a single access point to peer-reviewed
 literature from seven publishers, queried directly through MCP and API. This report
 evaluates Redpine Science along two independent axes: the source of the evaluation
 questions (an existing public benchmark, or a literature-grounded question set built
@@ -84,12 +45,13 @@ Redpine Science recovers the correct source paper 88.9\% of the time, against 61
 for Exa, the retrieval benchmark's own creator, run under its published configuration.
 On public answer-quality benchmarks, Redpine Science leads on five of six benchmarks
 tested and ties on the sixth, with no losses. A blinded expert relevance panel,
-following Consensus's published methodology, is in progress.
-\end{abstract}
+following Consensus's published methodology, is in progress.}
 
-\noindent\textbf{Keywords:} \rpkeywords
+\keywords{Evaluation benchmarks, LLM evaluation}
 
-\section{Introduction}
+\maketitle
+
+\section{Introduction}\label{sec:introduction}
 
 Redpine Science gives models and agents a single access point to peer-reviewed
 literature from seven publishers, queried directly through MCP~\cite{mcp} and API. This
@@ -117,7 +79,7 @@ only the evaluator's own system can access, that system wins by construction, no
 retrieval or reasoning quality. Section~\ref{sec:methodology} describes the
 question-generation approach built to avoid that.
 
-\section{Redpine Science}
+\section{Redpine Science}\label{sec:redpine-science}
 
 Redpine Science is built on partnerships with seven publishers, Harvard Business
 Publishing, BMJ, Wiley, Sage, Wanfang Data, IGI Global, and IOP, covering clinical
@@ -131,14 +93,12 @@ shortlist before an agent sees it, and how often either is replaced, is maintain
 continuously rather than fixed at launch. The results in this report measure that stack
 as much as the underlying corpus.
 
-\section{Evaluation methodology}
-\label{sec:methodology}
+\section{Evaluation methodology}\label{sec:methodology}
 
 Table~\ref{tab:methodology} shows the four evaluations produced by crossing question
 source against what is measured.
 
 \begin{table}[h]
-\centering
 \caption{The four evaluations, crossing question source against measurement target.}
 \label{tab:methodology}
 \begin{tabularx}{\textwidth}{@{}l X X@{}}
@@ -168,8 +128,7 @@ by construction, not by retrieval or reasoning quality. Section~\ref{sec:quadran
 describes the question-generation approach used to avoid that, validated by domain
 experts rather than accepted without review.
 
-\section{Quadrant one: public benchmarks, answer quality}
-\label{sec:quadrant-one}
+\section{Quadrant one: public benchmarks, answer quality}\label{sec:quadrant-one}
 
 \lead{Method.} Established public benchmarks have largely entered the training data of
 the models being evaluated. Newer, harder benchmarks are built continuously to stay
@@ -199,8 +158,7 @@ remaining wins, MedHELM (+20.8 points), MMLU-Redux Biology (+13.3), BioASQ yes/n
 sample size; more queries are needed before treating any one of them as more than
 consistent with a real effect.
 
-\section{Quadrant two: expert-validated questions, answer quality}
-\label{sec:quadrant-two}
+\section{Quadrant two: expert-validated questions, answer quality}\label{sec:quadrant-two}
 
 \lead{Method.} Public benchmarks are comparable across labs, but a model that has
 memorized the answer is not testing retrieval. We built a harder question set grounded
@@ -257,14 +215,13 @@ retrieval is distinguishable from one built on weak retrieval:
 health, neurology, pharmacology, psychiatry, cardiovascular disease, and infectious
 disease, full text only.
 
-{%
+\begin{figure}[h]
 \graphplaceholder{Preliminary per-criterion comparison, Connect vs.\ web search, n=57,
 95\% CI error bars, margin and paired p-value under each pair}
-\captionof{figure}{Preliminary, n=57.}%
-}
+\caption{Preliminary, n=57.}\label{fig:quadrant-two}
+\end{figure}
 
-\section{Quadrant three: public benchmarks, retrieval quality}
-\label{sec:quadrant-three}
+\section{Quadrant three: public benchmarks, retrieval quality}\label{sec:quadrant-three}
 
 \lead{Method.} Quadrants one and two score the full agentic answer, where a poor result
 may reflect generation rather than retrieval, and a strong result may reflect writing
@@ -295,7 +252,6 @@ built and calibrates itself against this exact benchmark, run the way its own te
 it, is a harder result to dismiss than beating an unrelated product.
 
 \begin{table}[h]
-\centering
 \caption{Quadrant three retrieval results, n=351.}
 \label{tab:quadrant-three}
 \begin{tabular}{@{}lccc@{}}
@@ -314,8 +270,7 @@ disproportionately at rank one. We followed exa-labs/benchmarks' own setup for E
 We are grateful to Exa for publishing this benchmark openly rather than keeping it
 proprietary; this quadrant would not exist without it.
 
-\section{Quadrant four: expert-validated questions, retrieval quality}
-\label{sec:quadrant-four}
+\section{Quadrant four: expert-validated questions, retrieval quality}\label{sec:quadrant-four}
 
 \lead{Method.} Quadrant three measures whether a system finds one known document. It
 says nothing about relevance for the kind of open, comparative question a domain expert
@@ -343,7 +298,7 @@ answer, on the top 5 results per system.
 \lead{Result.} Precision@5: Redpine [XX]\%, Exa [XX]\%. DCG@5: Redpine [XX.XX], Exa
 [XX.XX].
 
-\section{Thanks}
+\section{Thanks}\label{sec:thanks}
 
 Quadrant three depends directly on Exa's decision to publish its
 publication-retrieval benchmark~\cite{exabenchmarks} openly rather than keep it
@@ -355,7 +310,7 @@ every comparison in this report against other labs' results is possible because 
 that choice. Evaluation
 infrastructure of this kind is a shared resource, not a competitive moat.
 
-\section{What we are releasing}
+\section{What we are releasing}\label{sec:releasing}
 
 Alongside these results, we are open-sourcing the expert-validated question set and the
 agentic evaluation harness used to produce the answer-quality results above.
@@ -368,7 +323,7 @@ agentic evaluation harness used to produce the answer-quality results above.
     Science.
 \end{itemize}
 
-\section{Summary}
+\section{Summary}\label{sec:summary}
 
 On our expert-validated question set, an agent with Redpine Science access scores [X]
 percentage points higher than an agent restricted to web search. On the public
