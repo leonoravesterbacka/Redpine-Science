@@ -21,6 +21,8 @@
   \end{center}
 }
 
+\newcommand{\todo}[1]{{\color{red}\bf [TODO: #1]}}
+
 \begin{document}
 
 \title[Evaluating Redpine Science]{Leveraging a four tiered approach for evaluating
@@ -298,17 +300,6 @@ answer, on the top 5 results per system.
 \lead{Result.} Precision@5: Redpine [XX]\%, Exa [XX]\%. DCG@5: Redpine [XX.XX], Exa
 [XX.XX].
 
-\section{Thanks}\label{sec:thanks}
-
-Quadrant three depends directly on Exa's decision to publish its
-publication-retrieval benchmark~\cite{exabenchmarks} openly rather than keep it
-proprietary. Quadrant one depends similarly on MMLU-Redux~\cite{mmluredux},
-MedXpertQA~\cite{medxpertqa}, HealthBench~\cite{healthbench},
-LiveMedBench~\cite{livemedbench}, MedHELM~\cite{medhelm}, BioASQ~\cite{bioasq}, and
-Humanity's Last Exam~\cite{hle}, each built and released publicly by its creators;
-every comparison in this report against other labs' results is possible because of
-that choice. Evaluation
-infrastructure of this kind is a shared resource, not a competitive moat.
 
 \section{What we are releasing}\label{sec:releasing}
 
@@ -332,6 +323,19 @@ against 61.5\% for Exa, the benchmark's own creator. On the expert-judged retrie
 panel, an internal pilot placed Redpine Science's Precision@5 at [XX]\% against [XX]\%
 for Exa; the domain-expert PhD panel and a scaled-up expert-validated answer set will be
 reported ahead of launch.
+
+\section{Acknowledgments}\label{sec:thanks}
+
+Quadrant three depends directly on Exa's decision to publish its
+publication-retrieval benchmark~\cite{exabenchmarks} openly rather than keep it
+proprietary. Quadrant one depends similarly on MMLU-Redux~\cite{mmluredux},
+MedXpertQA~\cite{medxpertqa}, HealthBench~\cite{healthbench},
+LiveMedBench~\cite{livemedbench}, MedHELM~\cite{medhelm}, BioASQ~\cite{bioasq}, and
+Humanity's Last Exam~\cite{hle}, each built and released publicly by its creators;
+every comparison in this report against other labs' results is possible because of
+that choice. Evaluation
+infrastructure of this kind is a shared resource, not a competitive moat.
+\todo{thank our phd evaluators, felix perhaps}
 
 \begin{thebibliography}{99}
 
