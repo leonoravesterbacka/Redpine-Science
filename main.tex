@@ -21,6 +21,10 @@
   \end{center}
 }
 
+%own commands and packets 
+\usepackage{duckuments}
+
+
 \newcommand{\todo}[1]{{\color{red}\bf [TODO: #1]}}
 
 \begin{document}
@@ -49,7 +53,7 @@ On public answer-quality benchmarks, Redpine Science leads on five of six benchm
 tested and ties on the sixth, with no losses. A blinded expert relevance panel,
 following Consensus's published methodology, is in progress.}
 
-\keywords{Evaluation benchmarks, LLM evaluation}
+\keywords{Evaluation Benchmarks, LLM, RAG}
 
 \maketitle
 
@@ -132,17 +136,10 @@ experts rather than accepted without review.
 
 \section{Quadrant one: public benchmarks, answer quality}\label{sec:quadrant-one}
 
-\lead{Method.} Established public benchmarks have largely entered the training data of
-the models being evaluated. Newer, harder benchmarks are built continuously to stay
-ahead of memorization; on the hardest of these, retrieval still has room to move the
-result, and every number is independently checkable against what other labs report on
-the same benchmark.
+\lead{Method.} The rise of public benchmarks has enabled systematic evaluation of LLM capabilities across an increasing range of domains, including coding \todo{add citations}. The biomedical domain is no exception, with a growing number of established benchmarks. However, many widely used public benchmarks are likely to have been incorporated into the training data of the models being evaluated. As a result, performance on some benchmarks may increasingly reflect memorization rather than the ability to retrieve, integrate, and reason over relevant information. Newer and more challenging benchmarks are therefore continually introduced to remain informative as model capabilities improve. On the more difficult benchmarks, retrieval may still provide a measurable benefit, while performance can be independently compared against results reported by other groups on the same tasks.
 
-We selected benchmarks other labs already report against, not an arbitrary set, so
-results are checkable rather than asserted. Some are already saturated: current models
-answer most questions from training alone, visible directly in MedXpertQA's exact tie.
-That saturation is itself informative. It is why Section~\ref{sec:quadrant-two}
-exists, built specifically to retain headroom as benchmarks age.
+We evaluate models across a broad set of biomedical benchmarks. These benchmarks span a range of difficulty and susceptibility to memorization. Some are already approaching saturation, with current models answering a large proportion of questions correctly without external retrieval, as reflected in \todo{point to benchmarks}. Others remain sufficiently challenging that access to additional biomedical information may improve performance. This allows us to measure the value of Redpine retrieval across both settings: whether it provides gains where models are already strong, and whether those gains are larger on benchmarks where relevant information remains difficult to access from model parameters alone.
+
 
 We have six running so far: MedHELM~\cite{medhelm}, MMLU-Redux Biology~\cite{mmluredux},
 BioASQ factoid~\cite{bioasq}, BioASQ yes/no~\cite{bioasq}, SciFact fact
@@ -150,7 +147,12 @@ verification~\cite{scifact}, and MedXpertQA~\cite{medxpertqa}. HealthBench~\cite
 LiveMedBench~\cite{livemedbench}, and Humanity's Last Exam's~\cite{hle} Bio/Chem Gold
 subset are still being added.
 
-\graphplaceholder{Graph: per-benchmark comparison, web search vs.\ Redpine}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.5\textwidth]{example-image-duck}
+    \caption{Graph: per-benchmark comparison, web search vs.\ Redpine}
+    \label{fig:duck_placeholder}
+\end{figure}
 
 \lead{Result.} Redpine Science leads on five of six benchmarks and ties on the sixth,
 MedXpertQA, with no losses. Only one win clears conventional significance: BioASQ
@@ -166,16 +168,14 @@ consistent with a real effect.
 memorized the answer is not testing retrieval. We built a harder question set grounded
 in the literature Redpine Science covers, each question constructed through reasoning
 steps that concretize and constrain the answer and requiring a source paper's full
-text, not its freely available abstract.
+text, not its freely available abstract. \todo{add more details on what models and such we use}
 
 Every generated question is reviewed by PhD-level experts in the relevant field before
 entering the evaluation set, removing ambiguous, trivially answerable, or incorrect
-questions before they can distort a result. The newest batches are being validated by
-PhD researchers from Karolinska Institutet in neurology and cardiology, ongoing as the
-question set scales ahead of launch.
+questions before they can distort a result. \todo{for this we built an annotation tool where the experts were asked to assess the quality of different questions, reject them and modify them. the initial llm generating pipeline produced questions of quality split X good/Y needs edit / Z bad}.
 
-\lead{Experimental setup.} Two arms run on identical prompts: an agent with access to
-both Redpine Science and web search (via Tavily), against an agent with web search
+\lead{Experimental setup.} Two near identical set ups, only differeing by the tools they have access to, run on identical prompts: an agent with access to
+both Redpine Science and web search (via Tavily \todo{add source}), against an agent with web search
 only, isolating the value Redpine adds on top of an agent's existing capabilities.
 Model, system prompt, and step budget are held constant between arms; only tool access
 to Redpine's retrieval varies.
@@ -217,10 +217,13 @@ retrieval is distinguishable from one built on weak retrieval:
 health, neurology, pharmacology, psychiatry, cardiovascular disease, and infectious
 disease, full text only.
 
-\begin{figure}[h]
-\graphplaceholder{Preliminary per-criterion comparison, Connect vs.\ web search, n=57,
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.5\textwidth]{example-image-duck}
+    \caption{Preliminary per-criterion comparison, Connect vs.\ web search, n=57,
 95\% CI error bars, margin and paired p-value under each pair}
-\caption{Preliminary, n=57.}\label{fig:quadrant-two}
+    \label{fig:duck_placeholder}
 \end{figure}
 
 \section{Quadrant three: public benchmarks, retrieval quality}\label{sec:quadrant-three}
@@ -293,9 +296,19 @@ A full batch of hard subspecialty questions, covering neurology and cardiology, 
 kind that require real domain knowledge to even evaluate the results, not just to
 answer, on the top 5 results per system.
 
-\graphplaceholder{Graph: Precision@5, percent of results scored 3 or 4, by system}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.5\textwidth]{example-image-duck}
+    \caption{Graph: Precision@5, percent of results scored 3 or 4, by system}
+    \label{fig:duck_placeholder}
+\end{figure}
 
-\graphplaceholder{Graph: DCG@5, by system}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.5\textwidth]{example-image-duck}
+    \caption{Graph: DCG@5, by system}
+    \label{fig:duck_placeholder}
+\end{figure}
 
 \lead{Result.} Precision@5: Redpine [XX]\%, Exa [XX]\%. DCG@5: Redpine [XX.XX], Exa
 [XX.XX].
