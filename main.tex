@@ -63,8 +63,7 @@ for Exa, the retrieval benchmark's own creator, run under its published configur
 On public answer-quality benchmarks, Redpine Science leads on five of six benchmarks
 tested and ties on the sixth, with no losses. A blinded expert relevance panel,
 following Consensus's published methodology, places Redpine Science's Precision@5 at
-58.9\% against 32.6\% for PubMed, the search researchers actually use today rather than
-an idealized retrieval competitor.}
+58.9\% against 32.6\% for PubMed.}
 
 \keywords{Evaluation Benchmarks, LLM, RAG}
 
@@ -91,7 +90,7 @@ built ourselves, and what is measured, the full agentic answer or retrieval alon
 no model reasoning in the loop. This produces four evaluations rather than one,
 described in Sections~\ref{sec:method-quadrant-one} through \ref{sec:method-quadrant-four}. Reporting
 all four separately lets a result be attributed to retrieval or to generation
-specifically, rather than to an unspecified mix of both.
+specifically.
 
 Questions built by the evaluator carry a specific risk: if they are grounded in content
 only the evaluator's own system can access, that system wins by construction, not by
@@ -156,20 +155,32 @@ agent evaluations. Retrieval measured in isolation is also established: search
 providers publish benchmark retrieval results for their own products, and blinded human
 relevance judging is a recognized method independent of this report. Reporting all four
 together, so a retrieval effect and a generation effect can be separated for both
-question sources, is the contribution of this methodology, not any individual cell.
+question sources, is this methodology's contribution.
 
 Questions grounded in content only the evaluator's system can access favor that system
 by construction, not by retrieval or reasoning quality. Section~\ref{sec:method-quadrant-two}
-describes the question-generation approach used to avoid that, validated by domain
-experts rather than accepted without review.
+describes the question-generation approach used to avoid that: domain experts validate
+every question before it enters the evaluation set.
 
 \section{Method}\label{sec:method}
 
 \subsection{Quadrant one: public benchmarks, Q\&As}\label{sec:method-quadrant-one}
 
-The rise of public benchmarks has enabled systematic evaluation of LLM capabilities across an increasing range of domains, including coding \todo{add citations}. The biomedical domain is no exception, with a growing number of established benchmarks. However, many widely used public benchmarks are likely to have been incorporated into the training data of the models being evaluated. As a result, performance on some benchmarks may increasingly reflect memorization rather than the ability to retrieve, integrate, and reason over relevant information. Newer and more challenging benchmarks are therefore continually introduced to remain informative as model capabilities improve. On the more difficult benchmarks, retrieval may still provide a measurable benefit, while performance can be independently compared against results reported by other groups on the same tasks.
+Public benchmarks let LLM capabilities be evaluated systematically and compared across
+labs \todo{add citations}, and biomedicine has a growing set of them. Many are also
+likely present in the training data of the models being evaluated, so a high score can
+reflect memorization rather than retrieval, integration, and reasoning over new
+information. Harder, newer benchmarks correct for this as models improve; on those,
+retrieval can still add a measurable benefit, and results stay comparable against other
+groups' published numbers.
 
-We evaluate models across a broad set of biomedical benchmarks. These benchmarks span a range of difficulty and susceptibility to memorization. Some are already approaching saturation, with current models answering a large proportion of questions correctly without external retrieval, as reflected in \todo{point to benchmarks}. Others remain sufficiently challenging that access to additional biomedical information may improve performance. This allows us to measure the value of Redpine retrieval across both settings: whether it provides gains where models are already strong, and whether those gains are larger on benchmarks where relevant information remains difficult to access from model parameters alone.
+We run a broad set of biomedical benchmarks spanning this range of difficulty and
+memorization risk. Some are already close to saturated, with current models answering
+most questions correctly without any retrieval \todo{point to benchmarks}; others are
+hard enough that added biomedical information still helps. Running both lets us measure
+Redpine retrieval's value in each regime: whether it adds gains where models are already
+strong, and whether those gains grow on benchmarks where the relevant information is
+hard to access from model parameters alone.
 
 
 We have six running so far: MedHELM~\cite{medhelm}, MMLU-Redux Biology~\cite{mmluredux},
@@ -182,15 +193,16 @@ subset are still being added.
 
 Public benchmarks are comparable across labs, but a model that has
 memorized the answer is not testing retrieval. We built a harder question set grounded
-in the literature Redpine Science covers, each question constructed through reasoning
-steps that concretize and constrain the answer and requiring a source paper's full
-text, not its freely available abstract. \todo{add more details on what models and such we use}
+in the literature Redpine Science covers: each question is built through reasoning
+steps that narrow and constrain the answer, and is answerable only from a source
+paper's full text, not its freely available abstract. \todo{add more details on what models and such we use}
 
 Every generated question is reviewed by PhD-level experts in the relevant field before
 entering the evaluation set, removing ambiguous, trivially answerable, or incorrect
 questions before they can distort a result. \todo{for this we built an annotation tool where the experts were asked to assess the quality of different questions, reject them and modify them. the initial llm generating pipeline produced questions of quality split X good/Y needs edit / Z bad}.
 
-\lead{Experimental setup.} Two near identical set ups, only differeing by the tools they have access to, run on identical prompts: an agent with access to
+\lead{Experimental setup.} Two near-identical setups, differing only in the tools they
+have access to, run on identical prompts: an agent with access to
 both Redpine Science and web search (via Tavily \todo{add source}), against an agent with web search
 only, isolating the value Redpine adds on top of an agent's existing capabilities.
 Model, system prompt, and step budget are held constant between arms; only tool access
@@ -213,12 +225,12 @@ criteria make up the final answer score:
 \]
 
 Faithfulness, whether each claim is grounded in the raw retrieved text, is scored
-separately from Overall rather than folded into it: it is near-constant across both
-arms in our runs, indicating both are equally grounded rather than distinguishing which
-arm is better. Two further criteria, adapted from the RAGAS evaluation
-framework~\cite{ragas} and computed with DeepEval~\cite{deepeval}, score retrieval
-directly, separate from the answer score, so a weak final answer built on strong
-retrieval is distinguishable from one built on weak retrieval:
+separately from Overall: it is near-constant across both arms in our runs, showing both
+are equally grounded but not distinguishing which arm is better. Two further criteria,
+adapted from the RAGAS evaluation framework~\cite{ragas} and computed with
+DeepEval~\cite{deepeval}, score retrieval directly, separate from the answer score,
+distinguishing a weak final answer built on strong retrieval from one built on weak
+retrieval:
 
 \begin{itemize}[leftmargin=1.6em, itemsep=0.3em]
   \item \textbf{Contextual recall.} Does the retrieved context contain everything
@@ -246,13 +258,13 @@ the easiest place to rig a result, pick your own gold documents and any retrieve
 indexed on them wins.
 
 The Exa publication-retrieval benchmark~\cite{exabenchmarks} grounds every query in one
-gold publication and scores whether it was surfaced, by DOI or title, at what rank. It asks several
-phrasings per source paper, so its 351 DOI-confirmed queries are grounded in 55 unique
-papers, not 351 distinct documents. We report recall at the query level, the more
-demanding number, since it counts every phrasing separately. We restrict to these 351
-queries rather than the benchmark's full 1,866: the rest ask about papers outside
-Redpine's corpus, and scoring Redpine on documents it cannot hold would measure corpus
-coverage, not retrieval quality. We ran two retrieval services against it, queried
+gold publication and scores whether it was surfaced, by DOI or title, at what rank. It
+asks several phrasings per source paper, so its 351 DOI-confirmed queries map to 55
+unique source papers. We report recall at the query level, the more demanding number,
+since it counts every phrasing separately. We restrict to these 351 queries rather than
+the benchmark's full 1,866: the rest ask about papers outside Redpine's corpus, and
+scoring Redpine on documents it cannot hold would measure corpus coverage rather than
+retrieval quality. We ran two retrieval services against it, queried
 identically, no follow-up fetch, no agent reasoning: Redpine Science, and Exa's own
 search, run the way exa-labs/benchmarks' own GitHub repository describes running it.
 Neither is a web agent. Both are retrieval services, Exa over the open web, Redpine
@@ -280,11 +292,9 @@ judge reads it: URL, DOI, and publication date are all removed, since a database
 and a scraped web page format these differently enough to identify the source on their
 own.
 
-The comparison arm is PubMed, not a competing AI search product. This quadrant measures
-Redpine Science against what a researcher actually does today, typing a question
-straight into PubMed, rather than an idealized isolation against the most
-sophisticated retrieval competitor available. Both arms receive the identical,
-unmodified question text, no query engineering on either side.
+The comparison arm is PubMed: what a researcher actually types a question into today,
+not the most sophisticated retrieval competitor available. Both arms receive the
+identical, unmodified question text, with no query engineering on either side.
 
 Two PhD-level domain experts are the judges. One judge's 30 questions are mostly
 neurology, with a handful of adjacent critical care, immunology, microbiology, and
@@ -341,8 +351,8 @@ Exa             & 61.5\% & 0.442 & 0.484 \\
 Redpine leads clearly, and when it surfaces the right paper at all, it is
 disproportionately at rank one. We followed exa-labs/benchmarks' own setup for Exa.
 
-We are grateful to Exa for publishing this benchmark openly rather than keeping it
-proprietary; this quadrant would not exist without it.
+We are grateful to Exa for publishing this benchmark openly; this quadrant would not
+exist without it.
 
 \subsection{Quadrant four: expert-validated questions, retrieval quality}\label{sec:results-quadrant-four}
 
@@ -365,7 +375,7 @@ proprietary; this quadrant would not exist without it.
 Redpine Science leads on both metrics: Precision@5 58.9\% against 32.6\% for PubMed,
 mean DCG@5 7.85 against 4.83. Mean relevance per judged result is 2.64 against 1.66 on
 the 0 to 4 scale. The margin holds in the same direction for both judges individually:
-The mostly-neurology batch scores Redpine Science at 49.0\% Precision@5 against 20.8\%
+the mostly-neurology batch scores Redpine Science at 49.0\% Precision@5 against 20.8\%
 for PubMed; the cardiology batch scores 68.7\% against 44.3\%.
 
 
@@ -389,21 +399,19 @@ percentage points higher than an agent restricted to web search. On the public
 retrieval benchmark, Redpine Science recovers the correct document 88.9\% of the time,
 against 61.5\% for Exa, the benchmark's own creator. On the expert-judged retrieval
 panel, two PhD-level domain experts (neurology and cardiology) place Redpine Science's
-Precision@5 at 58.9\% against 32.6\% for PubMed, the researcher's actual status quo
-rather than an idealized retrieval competitor; a scaled-up
-expert-validated answer set will be reported ahead of launch.
+Precision@5 at 58.9\% against 32.6\% for PubMed; a scaled-up expert-validated answer
+set will be reported ahead of launch.
 
 \section{Acknowledgments}\label{sec:thanks}
 
 Quadrant three depends directly on Exa's decision to publish its
-publication-retrieval benchmark~\cite{exabenchmarks} openly rather than keep it
-proprietary. Quadrant one depends similarly on MMLU-Redux~\cite{mmluredux},
-MedXpertQA~\cite{medxpertqa}, HealthBench~\cite{healthbench},
-LiveMedBench~\cite{livemedbench}, MedHELM~\cite{medhelm}, BioASQ~\cite{bioasq}, and
-Humanity's Last Exam~\cite{hle}, each built and released publicly by its creators;
-every comparison in this report against other labs' results is possible because of
-that choice. Evaluation
-infrastructure of this kind is a shared resource, not a competitive moat.
+publication-retrieval benchmark~\cite{exabenchmarks} openly. Quadrant one depends
+similarly on MMLU-Redux~\cite{mmluredux}, MedXpertQA~\cite{medxpertqa},
+HealthBench~\cite{healthbench}, LiveMedBench~\cite{livemedbench},
+MedHELM~\cite{medhelm}, BioASQ~\cite{bioasq}, and Humanity's Last Exam~\cite{hle}, each
+built and released publicly by its creators; every comparison in this report against
+other labs' results is possible because of that choice. Evaluation infrastructure of
+this kind is a shared resource.
 \todo{thank our phd evaluators, felix perhaps}
 
 \begin{thebibliography}{99}
