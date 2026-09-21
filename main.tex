@@ -249,9 +249,9 @@ disease, full text only.
 
 Quadrants one and two score the full agentic answer, where a poor result
 may reflect generation rather than retrieval, and a strong result may reflect writing
-quality compensating for weak retrieval. Quadrant three isolates retrieval directly:
-one query in, one ranked list out, no agent loop, no reformulation, no reasoning. Each
-system answers with only its own ranking, once.
+quality compensating for weak retrieval. Quadrant three isolates retrieval directly: in
+a single-shot setting, each system returns only its own ranking, once, with no agent
+loop, reformulation, or added reasoning.
 
 We used an existing open benchmark rather than building our own: a self-built one is
 the easiest place to rig a result, pick your own gold documents and any retriever
@@ -264,9 +264,10 @@ unique source papers. We report recall at the query level, the more demanding nu
 since it counts every phrasing separately. We restrict to these 351 queries rather than
 the benchmark's full 1,866: the rest ask about papers outside Redpine's corpus, and
 scoring Redpine on documents it cannot hold would measure corpus coverage rather than
-retrieval quality. We ran two retrieval services against it, queried
-identically, no follow-up fetch, no agent reasoning: Redpine Science, and Exa's own
-search, run the way exa-labs/benchmarks' own GitHub repository describes running it.
+retrieval quality. We ran two retrieval services against it with the identical query
+and no follow-up fetch or agent reasoning on either side: Redpine Science, and Exa's
+own search, run the way exa-labs/benchmarks' own GitHub repository describes running
+it.
 Neither is a web agent. Both are retrieval services, Exa over the open web, Redpine
 Science over a curated, licensed corpus, so this compares retrieval quality on
 identical terms.
