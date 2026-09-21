@@ -8,6 +8,17 @@
 \usepackage{booktabs}%
 \usepackage{tabularx}%
 \usepackage{enumitem}%
+\usepackage{tikz}%
+
+% Redpine brand palette (see brand brief) -- the only 7 colours allowed to ship
+% under the Redpine name. Never introduce off-palette hues elsewhere in this doc.
+\definecolor{RPDarkRed}{HTML}{BD0519}
+\definecolor{RPCrimson}{HTML}{EB301F}
+\definecolor{RPOrange}{HTML}{FB8520}
+\definecolor{RPWarmWhite}{HTML}{FDFBF7}
+\definecolor{RPDarkGrey}{HTML}{171717}
+\definecolor{RPLightGreen}{HTML}{628F6B}
+\definecolor{RPSkyBlue}{HTML}{8BBCE5}
 
 \raggedbottom
 
@@ -101,25 +112,41 @@ as much as the underlying corpus.
 
 \section{Evaluation methodology}\label{sec:methodology}
 
-Table~\ref{tab:methodology} shows the four evaluations produced by crossing question
+Figure~\ref{fig:methodology} shows the four evaluations produced by crossing question
 source against what is measured.
 
-\begin{table}[h]
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[
+  quad/.style={draw=RPDarkGrey, line width=0.6pt, text width=5.3cm,
+    minimum height=3.3cm, align=center, inner sep=10pt, font=\small, text=RPDarkGrey},
+  axis/.style={font=\bfseries, text=RPDarkGrey},
+]
+  \node[quad, fill=RPSkyBlue!12] (q1) at (0,0)
+    {{\bfseries\large\color{RPCrimson}Q1}\\[2pt]
+     \textbf{Public benchmark $\times$ Q\&As}\\[4pt]
+     established public benchmarks};
+  \node[quad, fill=RPOrange!12] (q3) at (7.5,0)
+    {{\bfseries\large\color{RPCrimson}Q3}\\[2pt]
+     \textbf{Public benchmark $\times$ Retrieval}\\[4pt]
+     gold-document retrieval, single-shot, no agent};
+  \node[quad, fill=RPLightGreen!12] (q2) at (0,-4)
+    {{\bfseries\large\color{RPCrimson}Q2}\\[2pt]
+     \textbf{Expert-validated $\times$ Q\&As}\\[4pt]
+     our own literature-grounded questions, agent-scored};
+  \node[quad, fill=RPDarkRed!10] (q4) at (7.5,-4)
+    {{\bfseries\large\color{RPCrimson}Q4}\\[2pt]
+     \textbf{Expert-validated $\times$ Retrieval}\\[4pt]
+     blinded PhD relevance judging, single-shot, no agent};
+
+  \node[axis] at (0,2.0) {Q\&As};
+  \node[axis] at (7.5,2.0) {Retrieval quality};
+  \node[axis, rotate=90] at (-3.8,0) {Public benchmark};
+  \node[axis, rotate=90] at (-3.8,-4) {Expert-validated};
+\end{tikzpicture}
 \caption{The four evaluations, crossing question source against measurement target.}
-\label{tab:methodology}
-\begin{tabularx}{\textwidth}{@{}l X X@{}}
-\toprule
- & \textbf{Answer quality} & \textbf{Retrieval quality} \\
-\midrule
-\textbf{Public benchmark} &
-  established public benchmarks &
-  gold-document retrieval, single-shot, no agent \\[0.6em]
-\textbf{Expert-validated} &
-  our own literature-grounded questions, agent-scored &
-  blinded PhD relevance judging, single-shot, no agent \\
-\bottomrule
-\end{tabularx}
-\end{table}
+\label{fig:methodology}
+\end{figure}
 
 Each cell exists elsewhere in the field individually. Scoring an agent's answer against
 public benchmarks or against harder expert-authored questions is standard for RAG and
@@ -136,7 +163,7 @@ experts rather than accepted without review.
 
 \section{Method}\label{sec:method}
 
-\subsection{Quadrant one: public benchmarks, answer quality}\label{sec:method-quadrant-one}
+\subsection{Quadrant one: public benchmarks, Q\&As}\label{sec:method-quadrant-one}
 
 The rise of public benchmarks has enabled systematic evaluation of LLM capabilities across an increasing range of domains, including coding \todo{add citations}. The biomedical domain is no exception, with a growing number of established benchmarks. However, many widely used public benchmarks are likely to have been incorporated into the training data of the models being evaluated. As a result, performance on some benchmarks may increasingly reflect memorization rather than the ability to retrieve, integrate, and reason over relevant information. Newer and more challenging benchmarks are therefore continually introduced to remain informative as model capabilities improve. On the more difficult benchmarks, retrieval may still provide a measurable benefit, while performance can be independently compared against results reported by other groups on the same tasks.
 
@@ -149,7 +176,7 @@ verification~\cite{scifact}, and MedXpertQA~\cite{medxpertqa}. HealthBench~\cite
 LiveMedBench~\cite{livemedbench}, and Humanity's Last Exam's~\cite{hle} Bio/Chem Gold
 subset are still being added.
 
-\subsection{Quadrant two: expert-validated questions, answer quality}\label{sec:method-quadrant-two}
+\subsection{Quadrant two: expert-validated questions, Q\&As}\label{sec:method-quadrant-two}
 
 Public benchmarks are comparable across labs, but a model that has
 memorized the answer is not testing retrieval. We built a harder question set grounded
@@ -257,7 +284,7 @@ answer, on the top 5 results per system.
 
 \section{Results}\label{sec:results}
 
-\subsection{Quadrant one: public benchmarks, answer quality}\label{sec:results-quadrant-one}
+\subsection{Quadrant one: public benchmarks, Q\&As}\label{sec:results-quadrant-one}
 
 \begin{figure}[htbp]
     \centering
@@ -274,7 +301,7 @@ remaining wins, MedHELM (+20.8 points), MMLU-Redux Biology (+13.3), BioASQ yes/n
 sample size; more queries are needed before treating any one of them as more than
 consistent with a real effect.
 
-\subsection{Quadrant two: expert-validated questions, answer quality}\label{sec:results-quadrant-two}
+\subsection{Quadrant two: expert-validated questions, Q\&As}\label{sec:results-quadrant-two}
 
 \begin{figure}[htbp]
     \centering
