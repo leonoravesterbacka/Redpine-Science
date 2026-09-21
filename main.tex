@@ -61,9 +61,9 @@ expert-validated question set. On document retrieval, stripped of any model reas
 Redpine Science recovers the correct source paper 88.9\% of the time, against 61.5\%
 for Exa, the retrieval benchmark's own creator, run under its published configuration.
 On public answer-quality benchmarks, Redpine Science leads on five of six benchmarks
-tested and ties on the sixth, with no losses. A blinded expert relevance panel,
-following Consensus's published methodology, places Redpine Science's Precision@5 at
-58.9\% against 32.6\% for PubMed.}
+tested and ties on the sixth, with no losses. A blinded expert relevance
+panel~\cite{consensus} places Redpine Science's Precision@5 at 58.9\% against 32.6\%
+for PubMed.}
 
 \keywords{Evaluation Benchmarks, LLM, RAG}
 
@@ -288,7 +288,7 @@ not a lookup. That judgment requires a human expert, blinded to which system pro
 each result.
 
 Judges score each result on a 0 to 4 scale, 0 not relevant, 4 perfectly relevant,
-matching the scale and Precision@K / DCG@K reporting used by Consensus's own relevance
+matching the scale and Precision@K / DCG@K reporting used in a published relevance
 evaluation~\cite{consensus}, blind to which system produced it; system identity is
 randomized left-to-right per query to prevent a judge from guessing rather than
 reading. Every result is stripped of anything that would give the system away before a
@@ -300,13 +300,13 @@ The comparison arm is PubMed: what a researcher actually types a question into t
 not the most sophisticated retrieval competitor available. Both arms receive the
 identical, unmodified question text, with no query engineering on either side.
 
-Two PhD-level domain experts are the judges. One judge's 30 questions are mostly
-neurology, with a handful of adjacent critical care, immunology, microbiology, and
-pharmacology questions; the other's 30 are entirely cardiology: hard subspecialty
-questions that require real domain knowledge to even evaluate the results, not just to
-answer. Each judge scores the top 5 results per system for their own batch. The two
-batches do not overlap, so every number below pools both judges' ratings rather than
-measuring inter-rater agreement on shared queries.
+Two PhD-level domain experts are the judges, each scoring their own batch of 30
+questions. The questions range from neurology, with a handful of adjacent critical
+care, immunology, microbiology, and pharmacology questions, to cardiology: hard
+subspecialty questions that require real domain knowledge to even evaluate the
+results, not just to answer. The two batches do not overlap, so every number below
+pools both judges' ratings rather than measuring inter-rater agreement on shared
+queries.
 
 \section{Results}\label{sec:results}
 
