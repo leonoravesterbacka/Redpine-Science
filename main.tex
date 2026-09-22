@@ -256,13 +256,72 @@ it, or does not address it. Three scores follow. Claim coverage is the share of 
 claims the answer states; this is the primary score and corresponds to the strict recall
 of TREC nugget evaluation \todo{add reference: TREC nugget evaluation}. Contradiction
 rate is the share of claims the answer contradicts, as in K-QA \todo{add reference:
-K-QA}. Correctness is the F1 of coverage and one minus the contradiction rate.
+K-QA}. Correctness combines the two. With $n$ required claims, of which the answer states $s$
+and contradicts $c$, coverage is $C = s/n$, the contradiction rate is $K = c/n$, and
+%
+\begin{equation}
+  \text{correctness} = \frac{2\,C\,(1-K)}{C + (1-K)},
+  \label{eq:correctness}
+\end{equation}
+%
+the harmonic mean of the share of claims stated and the share not contradicted. An
+answer that states every claim and contradicts none scores 1; one that states half the
+claims and contradicts the rest scores 0.5. Figure~\ref{fig:q2-example} shows one
+question with its gold and the judge's verdicts on one answer.
 Citations, journal names and identifiers are removed before judging so that the judge
 grades what an answer says, not where it says it came from. Scores that compare an answer
 with its own retrieved text (groundedness, faithfulness, contextual recall and relevancy,
 computed with DeepEval~\cite{deepeval} after RAGAS~\cite{ragas}) are reported as
 diagnostics; because the two arms retrieve different text, these scores cannot compare
 the arms.
+
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[
+  panel/.style={draw=RPDarkGrey, line width=0.6pt, text width=12.2cm, align=left,
+    inner sep=9pt, font=\small, text=RPDarkGrey, anchor=north west},
+  tag/.style={font=\bfseries\footnotesize, text=RPCrimson},
+]
+  \node[panel, fill=RPSkyBlue!12] (q) at (0,0)
+    {{\tag Question}\\[2pt]
+     How does frailty burden relate to stroke risk in patients with atrial fibrillation
+     and HFpEF?};
+  \node[panel, fill=RPLightGreen!12] (g) at ([yshift=-5pt]q.south west)
+    {{\tag Gold}\\[2pt]
+     \textbf{A strong answer conveys:}\\
+     1.\ Greater frailty burden is associated with a substantially higher incidence of
+     stroke than the lowest frailty category.\\
+     2.\ Stroke risk rises in a graded, dose-response fashion as the frailty index
+     increases.\\
+     3.\ Frailer patients already carried higher conventional stroke risk scores at
+     baseline, so part of the excess stroke risk may reflect confounding by these
+     factors.\\[3pt]
+     \textbf{Certainty:} The graded link between frailty burden and stroke is a strong
+     but imprecisely estimated association that may be partly confounded by
+     conventional stroke risk factors, not evidence that frailty itself produces the
+     events.\\[3pt]
+     \textbf{Scope:} atrial fibrillation coexisting with heart failure with preserved
+     ejection fraction in older adults, outpatient settings.\\[3pt]
+     \textbf{An answer is wrong if} it directs intensifying or withholding
+     anticoagulation according to frailty category, or states that frailty-guided
+     stroke prevention has been shown to improve outcomes.};
+  \node[panel, fill=RPWarmWhite] (j) at ([yshift=-5pt]g.south west)
+    {{\tag Judge, one web-search answer}\\[2pt]
+     \textcolor{RPLightGreen}{\rule{0.9ex}{0.9ex}}\ 1.\ stated\quad
+     \textcolor{RPLightGreen}{\rule{0.9ex}{0.9ex}}\ 2.\ stated\quad
+     \textcolor{RPOrange}{\rule{0.9ex}{0.9ex}}\ 3.\ not addressed\\[2pt]
+     coverage $C = 2/3$,\quad contradiction rate $K = 0$,\quad
+     correctness $= 2 \cdot \tfrac{2}{3} \cdot 1 / (\tfrac{2}{3} + 1) = 0.80$};
+\end{tikzpicture}
+\caption{One question from the cardiology track, its gold, and the judge's verdicts on
+one web-search answer. The gold names three required claims, the certainty and scope
+they hold under, and the over-claim an answer must not make. The answer states two of
+the three claims and contradicts none, so coverage is 0.67, the contradiction rate is 0
+and correctness is 0.80 by Equation~\ref{eq:correctness}. Green marks a stated claim and
+orange a claim the answer does not address; a contradicted claim would be marked dark
+red.}
+\label{fig:q2-example}
+\end{figure}
 
 \lead{Checking the judge against the experts.} A pre-registered study asks whether the
 judge's claim verdicts agree with the experts'. The same three experts label answers
