@@ -204,8 +204,11 @@ from one paper in the Redpine Science full-text corpus. 105 of these papers are 
 access and 74 are paywalled. The split matters because web search can find an
 open-access paper, so results are reported by access class as well as overall.
 
-\lead{Writing the questions and their answer keys.} A language model pipeline
-(Claude Opus 5) turns a paper into a question and an answer key. The pipeline searches
+\lead{Writing the questions and their answer keys.} A language model pipeline turns a
+paper into a question and an answer key. Claude Opus 5 writes and reviews; Claude
+Sonnet 5 writes and grades the test answers described below. The first 39 questions
+came from the same stages run by hand in a model session; every later question came
+from the pipeline as code. The pipeline searches
 Redpine Science for papers in a track, skipping case reports, protocols without results
 and papers with no clinical content. It then writes the question with the paper's
 results hidden from it, so that the question reads as one a clinician would ask a
@@ -216,28 +219,35 @@ the answer key instead.
 The answer key, which we call the gold, lists two to four required claims, the facts a
 good answer must state. Every claim is tied to a quoted passage in the paper, and its
 wording is graded to the evidence: a causal claim needs a randomized comparison, anything
-weaker is stated as an association or a preliminary finding. The gold also names the
-population and setting the claims hold for, and one wrong-if clause: the most tempting
+weaker is stated as an association or a preliminary finding. The gold also carries a
+certainty sentence that says how strong the evidence is, names the population and
+setting the claims hold for, and ends with one wrong-if clause: the most tempting
 over-claim, which an answer must not make. Figure~\ref{fig:q2-example} shows one
 question with its gold in full. Passages from other papers on the same
-question decide whether a finding is corroborated, uncontested or contested, which sets
+question decide whether a finding is corroborated, uncontested or conflicting, which sets
 how firmly the gold may state it. A mechanical check confirms that every quote appears in
 the paper and every claim has evidence behind it. The model then reviews each gold
-against the standards our reviewers wrote down and repairs or discards it.
+against standards distilled from the experts' verdicts in earlier rounds, repairs what
+it can and discards the rest. A question ships to the experts only if this review, a
+check that the question belongs to its track, a check that the claims stay faithful to
+the paper after repair, and the mechanical check all pass.
 
-The last step tests the gold before an expert sees it. Three answers are generated for
-each question: one that read the paper, one that read a different but valid source, and
-one with no retrieval. Each is graded against the gold twice. The gold is kept only when
-the first answer scores well, the second is not punished for citing a different paper,
-and the third does not pass. This removes golds that reward one paper's phrasing and
-golds that a model can satisfy from memory.
+The last step measures the gold before an expert sees it. Three test answers are
+generated for each question: one that read the paper, one that read a different but
+valid source, and one with no retrieval. Each is graded against the gold twice and the
+scores travel with the question. A gold that the paper-informed answer scores below 0.75
+on, or that the retrieval-free answer scores 0.5 or above on, is flagged for the expert:
+the first rewards one paper's phrasing, the second can be satisfied from memory. The same
+three answers later guard every edit to a gold.
 
 \lead{Expert review.} Three PhD-level biomedical experts reviewed the questions in their
 own fields, in a browser deck that shows the question, the gold and the evidence behind
 it. For each question the expert marked good, edit or bad, could rewrite the question,
 and could comment. A suggested rewrite is applied once a check confirms that the gold still
 answers it. A change to a gold is taken over only if the three test answers, regraded
-against the new gold, still pass the same test as before. When either check fails, the
+against the new gold, keep their scores: the paper-informed answer stays at or above
+0.85 and within 0.05 of before, the other-source answer falls by at most 0.05, the
+retrieval-free answer rises by at most 0.05, and no new contradiction appears. When either check fails, the
 generated version stays and the failed edit is recorded with the reason: a rewrite that
 widens the question past what the gold answers is held, and a gold edit that lets the
 retrieval-free answer pass is refused. A question marked bad is dropped or regenerated
@@ -266,9 +276,8 @@ and contradicts $c$, coverage is $C = s/n$, the contradiction rate is $K = c/n$,
 the harmonic mean of the share of claims stated and the share not contradicted. An
 answer that states every claim and contradicts none scores 1; one that states half the
 claims and contradicts the rest scores 0.5. The bottom panel of Figure~\ref{fig:q2-example}
-shows the judge's verdicts on one answer and the scores they give.
-Citations, journal names and identifiers are removed before judging so that the judge
-grades what an answer says, not where it says it came from. Scores that compare an answer
+shows the judge's verdicts on one answer and the scores they give. The judge reads the
+answer as written, citations included. Scores that compare an answer
 with its own retrieved text (groundedness, faithfulness, contextual recall and relevancy,
 computed with DeepEval~\cite{deepeval} after RAGAS~\cite{ragas}) are reported as
 diagnostics; because the two arms retrieve different text, these scores cannot compare
@@ -324,8 +333,9 @@ red.}
 
 \lead{Checking the judge against the experts.} A pre-registered study asks whether the
 judge's claim verdicts agree with the experts'. The same three experts label answers
-with the judge's three verdicts plus cannot assess, one answer per screen and the two
-arms of a question several screens apart. Every expert labels a random core of 22
+with the judge's three verdicts plus cannot assess, one answer per screen with its
+citations replaced by a placeholder, and the two arms of a question at least two screens
+apart. Every expert labels a random core of 22
 questions; each also labels six further questions chosen to cover large and small
 judge differences, with the sampling weights recorded; eight screens per expert are
 repeats for consistency. Agreement is measured with Krippendorff's alpha~\cite{krippendorff} and with the intraclass correlation of the judge
