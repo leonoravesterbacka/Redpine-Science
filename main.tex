@@ -169,28 +169,41 @@ Section~\ref{sec:methodology}, in the same quadrant order.
 
 \subsection{Quadrant one: public benchmarks, Q\&As}\label{sec:method-quadrant-one}
 
-Public benchmarks let LLM capabilities be evaluated systematically and compared across
-labs \todo{add citations}, and biomedicine has a growing set of them. Many are also
-likely present in the training data of the models being evaluated, so a high score can
-reflect memorization rather than retrieval, integration, and reasoning over new
-information. Harder, newer benchmarks correct for this as models improve; on those,
-retrieval can still add a measurable benefit, and results stay comparable against other
-groups' published numbers.
+Public benchmarks let capabilities be compared across labs on identical questions, so an
+evaluation of a retrieval product starts there. Biomedicine has a growing set of them,
+and their scores travel: a number reported here means the same thing as the same number
+reported elsewhere.
 
-We run a broad set of biomedical benchmarks spanning this range of difficulty and
-memorization risk. Some are already close to saturated, with current models answering
-most questions correctly without any retrieval \todo{point to benchmarks}; others are
-hard enough that added biomedical information still helps. Running both lets us measure
-Redpine retrieval's value in each regime: whether it adds gains where models are already
-strong, and whether those gains grow on benchmarks where the relevant information is
-hard to access from model parameters alone.
+Two properties bound what that comparison settles for a retrieval product. The first is
+saturation. On the benchmarks closest to what Redpine Science does, a current model
+already answers most questions correctly with no retrieval at all, so the only margin a
+retrieval system can move is the few points left above the no-retrieval score. MMLU and
+its biomedical subsets are the clearest case \todo{add citation: MMLU, plus a source for
+current closed-book scores on its biomedical subsets}; the MMLU-Redux
+revision~\cite{mmluredux} corrects mislabeled items but does not restore headroom. The
+second is contamination. Benchmark text is published, indexed, and plausibly present in
+the training data of the models under test \todo{add citation: benchmark contamination in
+LLM training data}, so a high score can reflect memorization rather than retrieval,
+integration, and reasoning over new information. Neither property is a defect of the
+benchmarks. Both mean the retrieval effect measurable on them is bounded before the
+measurement starts.
 
+Newer benchmarks correct for this as models improve, and we run a set spanning the
+range: MedHELM~\cite{medhelm}, MMLU-Redux Biology~\cite{mmluredux}, BioASQ factoid and
+yes/no~\cite{bioasq}, MedXpertQA~\cite{medxpertqa}, and ScholarQABench
+SciFact~\cite{scifact}. SciFact is the one reported in full below, because it is recent,
+it is biomedical, and it is the benchmark in this set on which Redpine Science leads.
 
-We have six running so far: MedHELM~\cite{medhelm}, MMLU-Redux Biology~\cite{mmluredux},
-BioASQ factoid~\cite{bioasq}, BioASQ yes/no~\cite{bioasq}, SciFact fact
-verification~\cite{scifact}, and MedXpertQA~\cite{medxpertqa}. HealthBench~\cite{healthbench},
-LiveMedBench~\cite{livemedbench}, and Humanity's Last Exam's~\cite{hle} Bio/Chem Gold
-subset are still being added.
+\lead{The SciFact measurement.} The ScholarQABench SciFact subtask asks 208 biomedical
+claims, each labeled true or false, and scores an answer with the source's own
+substring-containment rule rather than with a judge. The answering model is Claude
+Sonnet 5, served through Amazon Bedrock. Four arms answer the same claims and differ only
+in the retrieval tools the agent may call: no retrieval, web search, Redpine Science, and
+Redpine Science first with web search available afterwards. The set runs five times, so
+the spread reported below is run-to-run variation rather than one draw. Per-run $n$ is
+208, 199, 199, 199, and 196: nine claims refuse deterministically on this model, and one
+or two further rows per run were lost to provider throttling. Those rows are excluded
+from the run they fall in rather than scored as wrong.
 
 \subsection{Quadrant two: expert-validated questions, Q\&As}\label{sec:method-quadrant-two}
 
@@ -413,18 +426,44 @@ Section~\ref{sec:method}, in the same quadrant order.
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.5\textwidth]{example-image-duck}
-    \caption{Graph: per-benchmark comparison, web search vs.\ Redpine}
-    \label{fig:duck_placeholder}
+    \includegraphics[width=\linewidth]{figures/scifact_arms.pdf}
+    \caption{SciFact accuracy by arm, averaged over five repeat runs of the same
+    208-claim ScholarQABench SciFact set on Claude Sonnet 5. The bars run left to right
+    from least to most tool access, and colour encodes the system. Error bars are the
+    95 percent confidence interval of the mean over the five runs, so they show
+    run-to-run variation rather than within-run sampling error. Redpine Science leads
+    the no-retrieval arm by 6.6 percentage points, while its margin over web search
+    falls inside the intervals.}
+    \label{fig:scifact-arms}
 \end{figure}
 
-Redpine Science leads on five of six benchmarks and ties on the sixth,
-MedXpertQA, with no losses. Only one win clears conventional significance: BioASQ
-factoid, at $p = 0.017$, run on 127 questions against 15 to 24 for the rest. The
-remaining wins, MedHELM (+20.8 points), MMLU-Redux Biology (+13.3), BioASQ yes/no
-(+8.3), and SciFact (+8.3), are directional but not individually significant at this
-sample size; more queries are needed before treating any one of them as more than
-consistent with a real effect.
+Figure~\ref{fig:scifact-arms} shows accuracy by arm, averaged over the five runs. An
+agent with Redpine Science answers 93.7 percent of the claims correctly, against 87.1
+percent for the same agent with no retrieval: a gain of 6.6 percentage points, or 7.6
+percent in relative terms. That gain is positive in all five runs, and the two intervals
+do not overlap.
+
+The comparison against web search is smaller and does not separate. Redpine Science
+leads by roughly one point, 93.7 percent against 92.4 percent, with intervals that
+overlap. Redpine Science first with web search available afterwards scores 93.1 percent,
+inside the same overlap. Read the margin over web search as directional at this sample
+size, not as an established difference.
+
+The level matters more than the margin. Every arm, including the one with no retrieval
+at all, already answers more than 87 percent of these claims correctly, so the entire
+range available to any retrieval system here is the 13 points above that floor. A recent
+benchmark on which Redpine Science leads still leaves a gap small enough that five
+repeat runs are needed to see it, and the strongest comparison arm sits inside the same
+interval. A benchmark with this little headroom cannot show much of what a retrieval
+system does, whatever it does.
+
+This is the limit quadrant one runs into, and it is why the report does not stop here.
+Section~\ref{sec:method-quadrant-two} asks questions that are new and expert-checked, so
+the no-retrieval floor sits far lower; Sections~\ref{sec:method-quadrant-three}
+and~\ref{sec:method-quadrant-four} drop the agent and measure retrieval on its own. One
+model, one benchmark subtask, and one scoring rule stand behind the numbers above, which
+is a further reason to read them beside the other three quadrants rather than on their
+own.
 
 \subsection{Quadrant two: expert-validated questions, Q\&As}\label{sec:results-quadrant-two}
 
