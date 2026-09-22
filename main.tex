@@ -195,98 +195,87 @@ subset are still being added.
 \subsection{Quadrant two: expert-validated questions, Q\&As}\label{sec:method-quadrant-two}
 
 Public benchmarks are comparable across labs, but a model that has memorized an answer
-is not exercising retrieval. Quadrant two therefore uses questions we generate from
-papers in the Redpine Science full-text corpus and that clinical experts have reviewed.
+is not retrieving anything. Quadrant two therefore asks questions that are new, that
+have one paper behind them, and that a biomedical expert has checked.
 
 \lead{Question set.} The set holds 179 questions in four clinical tracks: cardiology
-(79), neuroimmunology (60), sepsis (20) and immunology (20; 10 rheumatology, 10
-lymphoma). Each question is anchored to one paper. 105 anchor papers are open access and
-74 are paywalled; we record the access class per question, because web search can reach
-an open-access paper.
+(79), neuroimmunology (60), sepsis (20) and immunology (20). Each question is written
+from one paper in the Redpine Science full-text corpus. 105 of these papers are open
+access and 74 are paywalled. The split matters because web search can find an
+open-access paper, so results are reported by access class as well as overall.
 
-\lead{Generation pipeline.} A staged pipeline run with Claude Opus 5 on Amazon Bedrock
-produces each question and its rubric. Discipline-steered searches against Redpine
-Science select anchor papers, whose full text is fetched by DOI; case reports,
-results-free protocols and non-clinical papers are excluded. The question is written
-from the paper with its results hidden, as a clinician would put it to a literature
-assistant: one construct, 10 to 22 words, open form, no yes/no stem, no direction words,
-no study fingerprints such as timepoints, thresholds or registry names. The gold answer,
-not the question, carries the specifics. Passages on the same construct from other papers
-let each finding be labelled corroborated, uncontested or conflicting, which sets how
-strongly the gold may state it.
+\lead{Writing the questions and their answer keys.} A language model pipeline
+(Claude Opus 5) turns a paper into a question and an answer key. The pipeline searches
+Redpine Science for papers in a track, skipping case reports, protocols without results
+and papers with no clinical content. It then writes the question with the paper's
+results hidden from it, so that the question reads as one a clinician would ask a
+literature assistant rather than as a summary of the paper: one thing asked, 10 to 22
+words, and no hint of the paper's design, thresholds or timepoints. The specifics go into
+the answer key instead.
 
-The rubric is built in four stages: a fit check that drops unusable cases; a typed
-evidence table whose every row carries a verbatim quote from the paper; a calibration of
-each finding (causal only for randomized between-group evidence, otherwise association,
-preliminary or descriptive); and the gold, two to four single-assertion required claims
-each witnessed by evidence rows, a certainty sentence, a scope (condition, population,
-setting) and one wrong-if clause naming the most plausible clinical over-claim. A
-mechanical validator checks every quote against the anchor text and every claim against
-its evidence rows. The model then reviews the object under the written standards of the
-three human reviewers; objects marked for repair are repaired and reviewed again,
-unusable ones are dropped. Each surviving question is probed with three generated
-answers, one informed by the anchor paper, one from a different valid source and one
-without retrieval, each graded twice against the gold; a gold is kept only if the anchor
-answer reaches it, the other-source answer is not penalised and the retrieval-free answer
-does not pass. The gold follows a fixed template from which the required claims are
-parsed deterministically for judging.
+The answer key, which we call the gold, lists two to four required claims, the facts a
+good answer must state. Every claim is tied to a quoted passage in the paper, and its
+wording is graded to the evidence: a causal claim needs a randomized comparison, anything
+weaker is stated as an association or a preliminary finding. The gold also names the
+population and setting the claims hold for, and one wrong-if clause: the most tempting
+over-claim, which an answer must not make. Passages from other papers on the same
+question decide whether a finding is corroborated, uncontested or contested, which sets
+how firmly the gold may state it. A mechanical check confirms that every quote appears in
+the paper and every claim has evidence behind it. The model then reviews each gold
+against the standards our reviewers wrote down and repairs or discards it.
 
-\lead{Expert review.} Three PhD-level reviewers each reviewed their own track: a
-cardiologist; a cellular neuroimmunologist, who also took sepsis; and an immunologist
-for rheumatology and lymphoma. Each reviewed the question, the gold and the evidence in a
-browser deck and gave a verdict (good, edit or bad), comments and, where wanted, a
-rewritten question. Four rounds were sent: 40 questions (39 kept), 20, 100 and 20, each with a
-pre-registered read written before the deck was built: a good-rate band against the
-reviewer's own baseline and a stop-and-fix rule for a defect class appearing on three or
-more of twenty items. A rewritten question is applied after a coverage check confirms
-that the gold still answers it. A gold change is applied only if the stored probe
-answers, regraded against the old and the new gold, keep the anchor answer at or above
-0.85, lower the alternative-source answer by at most 0.05, raise the retrieval-free
-answer by at most 0.05, and gain no contradiction. Of 180 reviewed questions, 125 were
-kept as generated, 40 carry the reviewer's wording, 14 carry a gated gold change and 1
-was dropped. No defect class crossed the stop threshold on a gold.
+The last step tests the gold before an expert sees it. Three answers are generated for
+each question: one that read the paper, one that read a different but valid source, and
+one with no retrieval. Each is graded against the gold twice. The gold is kept only when
+the first answer scores well, the second is not punished for citing a different paper,
+and the third does not pass. This removes golds that reward one paper's phrasing and
+golds that a model can satisfy from memory.
 
-\lead{Two arms.} The same agent runs on identical questions in both arms: Claude Opus 5,
-a budget of 20 tool calls, 8192 output tokens per turn, retrieved passages cut at 4000
-characters, one system prompt. The Redpine arm has two tools, Redpine Science search and
-web search; the baseline arm has web search only. Web search is Tavily at its advanced
-depth in both arms \todo{add reference: Tavily}. Answers are cached per question, so
-every judge pass scores the same text.
+\lead{Expert review.} Three PhD-level biomedical experts reviewed the questions in their
+own fields, in a browser deck that shows the question, the gold and the evidence behind
+it. For each question the expert marked good, edit or bad, could rewrite the question,
+and could comment. Four rounds went out: 40, 20, 100 and 20 questions. Before each round
+we wrote down what would count as a problem: a drop in the expert's good-rate against
+their own earlier rounds, or the same defect appearing on three or more of twenty
+questions. A rewritten question is taken over once a check confirms that the gold still
+answers it. A change to a gold is taken over only if the three test answers, regraded
+against the new gold, still pass the same test as before. Of 180 reviewed questions, 125
+are unchanged, 40 carry the expert's wording, 14 carry an edited gold and one was
+dropped.
 
-\lead{Judge.} A fixed judge model, Claude Sonnet 5 on Bedrock, distinct from the
-answering model and identical for both arms, sees the question, the scope line and the
-required claims, and returns one verdict per claim: stated, contradicted or not
-addressed. Citations, journal names and identifiers are removed from the answer before
-judging. Three scores follow from the same verdicts. Claim coverage, the fraction of
-required claims stated, is the primary metric and is the strict recall of TREC nugget
-evaluation \todo{add reference: TREC nugget evaluation}. Contradiction rate is the
-fraction of claims contradicted, as in K-QA \todo{add reference: K-QA}. Correctness is
-the F1 of coverage and one minus the contradiction rate. Metrics scored against an arm's
-own retrieved text (groundedness, faithfulness, contextual recall and contextual
-relevancy, computed with DeepEval~\cite{deepeval} and adapted from RAGAS~\cite{ragas})
-are diagnostics only: each arm is scored against different retrieved text, so they
-cannot compare arms.
+\lead{Two arms.} The same agent (Claude Opus 5, a budget of 20 tool calls, one system
+prompt) answers every question twice. In one arm it has Redpine Science search and web
+search; in the other it has web search only. Web search is Tavily in both arms
+\todo{add reference: Tavily}. Answers are stored, so every judging pass scores the same
+text.
 
-\lead{Judge reliability.} Two identical judge passes agreed on 95.9\% and 95.0\% of
-claim verdicts for the two arms (Krippendorff's alpha 0.879 and 0.892 \todo{add
-reference: Krippendorff's alpha}), and the arm difference moved by 0.006 against a
-standard error of 0.023. Re-judging with citation detail blinded, with the answers
-paraphrased by a different model, and with citation markers removed kept the arm
-difference within one standard error in each case. A holistic 0 to 1 correctness score
-from the same judge agreed with itself on a four-band label only 69.8\% of the time and
-serves only as a construct-validity anchor.
+\lead{Judging.} A second, fixed model (Claude Sonnet 5) judges every answer, the same
+way for both arms. It reads the question, the population and setting from the gold, and
+the required claims, and says of each claim whether the answer states it, contradicts
+it, or does not address it. Three scores follow. Claim coverage is the share of required
+claims the answer states; this is the primary score and corresponds to the strict recall
+of TREC nugget evaluation \todo{add reference: TREC nugget evaluation}. Contradiction
+rate is the share of claims the answer contradicts, as in K-QA \todo{add reference:
+K-QA}. Correctness is the F1 of coverage and one minus the contradiction rate.
+Citations, journal names and identifiers are removed before judging so that the judge
+grades what an answer says, not where it says it came from. Scores that compare an answer
+with its own retrieved text (groundedness, faithfulness, contextual recall and relevancy,
+computed with DeepEval~\cite{deepeval} after RAGAS~\cite{ragas}) are reported as
+diagnostics; because the two arms retrieve different text, these scores cannot compare
+the arms.
 
-\lead{Expert agreement study.} A pre-registered study, with dated amendments, tests
-whether the judge's verdicts track the experts'. The three reviewers label answers with
-the judge's three labels plus cannot assess, one blinded answer per screen with the two
-arms of a question at least two screens apart. A core of 22 random questions is seen by
-all three; an extension of 18, stratified on the judge's own arm gap, by one reviewer
-each with design weights recorded; eight screens per reviewer are delayed duplicates. The
-analysis reports Krippendorff's alpha against pre-registered floors (0.80 for stated
-versus not, 0.667 for the three-way label), the ICC(2,1) of the judge against the
-leave-one-out expert consensus beside the experts' own ceiling, the alt-test at epsilon
-0.2 clustered by question, and the arm difference over all 179 questions by
-prediction-powered inference \todo{add reference: prediction-powered inference}.
+\lead{Checking the judge against the experts.} A pre-registered study asks whether the
+judge's claim verdicts agree with the experts'. The same three experts label answers
+with the judge's three verdicts plus cannot assess, one answer per screen and the two
+arms of a question several screens apart. Every expert labels a random core of 22
+questions; each also labels six further questions chosen to cover large and small
+judge differences, with the sampling weights recorded; eight screens per expert are
+repeats for consistency. Agreement is measured with Krippendorff's alpha \todo{add
+reference: Krippendorff's alpha} and with the intraclass correlation of the judge
+against the experts' consensus, next to the experts' agreement with each other. The
+difference between the arms over all 179 questions is estimated by prediction-powered
+inference \todo{add reference: prediction-powered inference}, which corrects the judge's
+estimate with the expert labels.
 
 \subsection{Quadrant three: public benchmarks, retrieval quality}\label{sec:method-quadrant-three}
 
