@@ -189,13 +189,13 @@ plausibly in the training data of the models under test \todo{add citation: benc
 contamination in LLM training data}. A model that has memorized an answer scores well
 without retrieving anything, and the benchmark cannot separate the two.
 
-One mitigation is to move to newer benchmarks. A benchmark released after a model's
-training cutoff is less likely to be in its training data, and one built to be hard for
-current models leaves room for retrieval to move the score. ScholarQABench
-\todo{add citation: ScholarQABench, Asai et al. 2024} is a 2024 suite of literature
-tasks; its SciFact subtask repackages SciFact~\cite{scifact} as 208 biomedical claims,
-each labeled true or false, scored by the suite's own substring rule with no judge. It is
-the benchmark reported in full here.
+Moving to newer benchmarks mitigates some of these issues: a more recent benchmark is
+less likely to appear in a model's training data, and one built to be hard for current
+models leaves room for retrieval to move the score. ScholarQABench~\cite{openscholar} is
+a suite of literature-synthesis and paper-surfacing tasks, which is the use case Redpine
+Science is built for, so it is the benchmark reported here. Its SciFact subtask
+repackages SciFact~\cite{scifact} as 208 biomedical claims, each labeled true or false,
+scored by the suite's own substring rule with no judge.
 
 \lead{The SciFact measurement.} The answering model is Claude Sonnet 5, served through
 Amazon Bedrock. Four arms answer the same 208 claims and differ only in which retrieval
