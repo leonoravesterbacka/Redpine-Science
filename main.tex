@@ -171,7 +171,7 @@ Section~\ref{sec:methodology}, in the same quadrant order.
 
 Public benchmarks are the standard way to compare models across labs: the questions are
 fixed, the scoring rule is published, and a number can be checked against other groups'
-results. Biomedicine has many, among them MMLU-Redux Biology~\cite{mmluredux},
+results. Biomedicine has many, among them MMLU~\cite{mmlu},
 MedHELM~\cite{medhelm}, BioASQ~\cite{bioasq}, MedXpertQA~\cite{medxpertqa},
 HealthBench~\cite{healthbench}, LiveMedBench~\cite{livemedbench}, and the Bio/Chem Gold
 subset of Humanity's Last Exam~\cite{hle}.
@@ -179,10 +179,9 @@ subset of Humanity's Last Exam~\cite{hle}.
 Most of these benchmarks cannot show a retrieval effect, for two reasons. The first is
 saturation. Models answer most of the questions correctly from memory: by 2023, GPT-4
 with no retrieval scored 93.8 percent on MMLU Professional Medicine and 95.1 percent on
-MMLU College Biology~\cite{medprompt}. MMLU-Redux~\cite{mmluredux} re-annotates MMLU and finds errors in 6.5
-percent of its questions; it corrects those but does not add harder ones. When a model
-already scores 95 percent, retrieval can add a few points at most, and the run-to-run
-variation of the model is of the same size. The second is contamination. The question text has been public for years and is
+MMLU College Biology~\cite{medprompt}. When a model already scores 95 percent, retrieval
+can add a few points at most, and the run-to-run variation of the model is of the same
+size. The second is contamination. The question text has been public for years and is
 plausibly in the training data of the models under test \todo{add citation: benchmark
 contamination in LLM training data}. A model that has memorized an answer scores well
 without retrieving anything, and the benchmark cannot separate the two.
