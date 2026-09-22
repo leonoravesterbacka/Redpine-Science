@@ -198,13 +198,11 @@ published literature supports or refutes it. The agent reads the claim, searches
 has a tool, and states a verdict. The suite's scoring rule marks the answer correct if the
 stated verdict matches the label; no judge model is involved.
 
-\lead{The SciFact measurement.} The answering model is Claude Sonnet 5. Four arms
-answer the same 208 claims and differ only in which retrieval tool the agent may call:
-none, web search, Redpine Science, or Redpine Science first with web search as fallback.
-The full set is run five times, so the spread reported below is run-to-run variation
-rather than one draw. Nine claims refuse deterministically on this model and a few rows
-per run were lost to provider throttling; those rows are excluded from the run they fall
-in rather than scored as wrong.
+\lead{Arms.} The answering model is Claude Sonnet 5. Four arms answer the same 208
+claims and differ only in which retrieval tool the agent may call: none, web search,
+Redpine Science, or Redpine Science first with web search as fallback. The full set is
+run five times and the mean over runs is reported, so the spread is run-to-run variation
+rather than one draw.
 
 \subsection{Quadrant two: expert-validated questions, Q\&As}\label{sec:method-quadrant-two}
 
@@ -441,7 +439,10 @@ Figure~\ref{fig:scifact-arms} shows the result. With Redpine Science the agent a
 points, or 7.6 percent relative, and it holds in every one of the five runs. Web search
 scores 92.4 percent. Redpine Science is ahead of it by roughly one point, which is less
 than the run-to-run spread of either arm, so five runs do not settle that comparison.
-Redpine Science with web search as fallback scores 93.1 percent.
+Redpine Science with web search as fallback scores 93.1 percent. Nine of the 208 claims
+refuse deterministically on this model and a few rows per run were lost to provider
+throttling; those rows are excluded from the run they fall in rather than scored as
+wrong, so each run scores between 196 and 208 claims.
 
 The no-retrieval arm sets the floor at 87 percent. Retrieval of any kind can therefore
 move the score by at most 13 points on this benchmark, and the three arms with retrieval
