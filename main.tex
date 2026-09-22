@@ -171,13 +171,10 @@ Section~\ref{sec:methodology}, in the same quadrant order.
 
 Public benchmarks are the standard way to compare models across labs: the questions are
 fixed, the scoring rule is published, and a number can be checked against other groups'
-results. Biomedicine has many. Our harness runs MedHELM~\cite{medhelm}, MMLU-Redux
-Biology~\cite{mmluredux}, BioASQ factoid and yes/no~\cite{bioasq},
-MedXpertQA~\cite{medxpertqa}, and ScholarQABench SciFact~\cite{scifact}, each with four
-arms that differ only in which retrieval tool the agent may call: none, web search,
-Redpine Science, or Redpine Science first with web search as fallback.
+results. Biomedicine has many, among them MMLU-Redux Biology~\cite{mmluredux},
+MedHELM~\cite{medhelm}, BioASQ~\cite{bioasq}, MedXpertQA~\cite{medxpertqa},
 HealthBench~\cite{healthbench}, LiveMedBench~\cite{livemedbench}, and the Bio/Chem Gold
-subset of Humanity's Last Exam~\cite{hle} are implemented and not yet reported.
+subset of Humanity's Last Exam~\cite{hle}.
 
 Most of these benchmarks cannot show a retrieval effect, for two reasons. The first is
 saturation. A current model answers most of the questions correctly with no retrieval:
@@ -199,11 +196,13 @@ each labeled true or false, scored by the suite's own substring rule with no jud
 the benchmark reported in full here.
 
 \lead{The SciFact measurement.} The answering model is Claude Sonnet 5, served through
-Amazon Bedrock. The four arms answer the same 208 claims, and the full set is run five
-times, so the spread reported below is run-to-run variation rather than one draw. Per-run
-$n$ is 208, 199, 199, 199, and 196: nine claims refuse deterministically on this model,
-and one or two further rows per run were lost to provider throttling. Those rows are
-excluded from the run they fall in rather than scored as wrong.
+Amazon Bedrock. Four arms answer the same 208 claims and differ only in which retrieval
+tool the agent may call: none, web search, Redpine Science, or Redpine Science first
+with web search as fallback. The full set is run five times, so the spread reported
+below is run-to-run variation rather than one draw. Per-run $n$ is 208, 199, 199, 199,
+and 196: nine claims refuse deterministically on this model, and one or two further rows
+per run were lost to provider throttling. Those rows are excluded from the run they fall
+in rather than scored as wrong.
 
 \subsection{Quadrant two: expert-validated questions, Q\&As}\label{sec:method-quadrant-two}
 
