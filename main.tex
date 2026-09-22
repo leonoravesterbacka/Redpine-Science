@@ -192,10 +192,13 @@ without retrieving anything, and the benchmark cannot separate the two.
 Moving to newer benchmarks mitigates some of these issues: a more recent benchmark is
 less likely to appear in a model's training data, and one built to be hard for current
 models leaves room for retrieval to move the score. ScholarQABench~\cite{openscholar} is
-a suite of literature-synthesis and paper-surfacing tasks, which is the use case Redpine
-Science is built for, so it is the benchmark reported here. Its SciFact subtask
-repackages SciFact~\cite{scifact} as 208 biomedical claims, each labeled true or false,
-scored by the suite's own substring rule with no judge.
+a suite of literature-synthesis and paper-surfacing tasks, one of the use cases Redpine
+Science serves, so it is the benchmark reported here. Its SciFact subtask draws 208
+biomedical claims from SciFact~\cite{scifact}, each a one-sentence scientific statement
+such as a drug's effect on a patient group, with a label saying whether the published
+literature supports or refutes it. The agent reads the claim, searches if it has a
+tool, and states a verdict. The suite's scoring rule marks the answer correct if the
+stated verdict matches the label; no judge model is involved.
 
 \lead{The SciFact measurement.} The answering model is Claude Sonnet 5. Four arms
 answer the same 208 claims and differ only in which retrieval tool the agent may call:
