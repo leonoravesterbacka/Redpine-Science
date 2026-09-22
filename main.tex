@@ -168,6 +168,15 @@ every question before it enters the evaluation set.
 Below we describe the method for each of the four evaluations introduced in
 Section~\ref{sec:methodology}, in the same quadrant order.
 
+\lead{Agent and arms.} Quadrants one and two score answers from the same kind of agent:
+a language model in a tool-use loop, with a fixed budget of tool calls, that decides what
+to search and when to stop. Each arm of a comparison runs the same loop, the same model,
+and the same system prompt; the prompt differs between arms in one clause only, the list
+of tools the agent may call. The tools are Redpine Science search and web search, and
+web search is Tavily~\cite{tavily} wherever it appears. Answers are stored and scored
+afterwards, so a difference between arms can come only from the tools. Which arms run,
+which model answers, and how answers are scored are set per quadrant below.
+
 \subsection{Quadrant one: public benchmarks, Q\&As}\label{sec:method-quadrant-one}
 
 Public benchmarks are the standard way to compare models across labs: the questions are
@@ -198,10 +207,11 @@ published literature supports or refutes it. The agent reads the claim, searches
 has a tool, and states a verdict. The suite's scoring rule marks the answer correct if the
 stated verdict matches the label; no judge model is involved.
 
-\lead{Arms.} The answering model is Claude Sonnet 5. Four arms answer the same 208
-claims and differ only in which retrieval tool the agent may call: none, web search,
-Redpine Science, or Redpine Science first with web search as fallback. The full set is
-run five times and the mean over runs is reported, so the spread is run-to-run variation
+\lead{Arms.} Claude Sonnet 5 answers every claim in four arms with a budget of 16 tool
+calls: no tools, web search, Redpine Science, and Redpine Science with web search as
+fallback. In each arm with a tool, the first call is forced to that arm's primary tool,
+so no arm answers from memory alone; after that the agent decides. The full set is run
+five times and the mean over runs is reported, so the spread is run-to-run variation
 rather than one draw.
 
 \subsection{Quadrant two: expert-validated questions, Q\&As}\label{sec:method-quadrant-two}
@@ -266,10 +276,10 @@ retrieval-free answer pass is refused. A question marked bad is dropped or regen
 from the same paper. Of 180 reviewed questions, 125 are unchanged, 40 carry the expert's
 wording, 14 carry an edited gold and one was dropped.
 
-\lead{Two arms.} The same agent (Claude Opus 5, a budget of 20 tool calls, one system
-prompt) answers every question twice. In one arm it has Redpine Science search and web
-search; in the other it has web search only. Web search is Tavily in both arms~\cite{tavily}. Answers are stored, so every judging pass scores the same
-text.
+\lead{Two arms.} Claude Opus 5 answers every question in two arms with a budget of 20
+tool calls: web search only, and web search plus Redpine Science. No call is forced;
+the agent chooses when to use each tool, which is how a customer's agent would use it.
+Every judging pass scores the same stored text.
 
 \lead{Judging.} A second, fixed model (Claude Sonnet 5) judges every answer, the same
 way for both arms. It reads the question, the population and setting from the gold, and
