@@ -426,31 +426,27 @@ Section~\ref{sec:method}, in the same quadrant order.
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=\linewidth]{figures/scifact_arms.pdf}
-    \caption{Accuracy on ScholarQABench SciFact by arm, 208 claims, Claude Sonnet 5,
-    mean over five runs. Colour encodes the system; error bars are the 95 percent
-    confidence interval of the mean over the five runs, so they show run-to-run
-    variation. Redpine Science is 6.6 points above no retrieval; its margin over web
-    search is within the error bars.}
+    \caption{Accuracy on ScholarQABench SciFact by arm, Claude Sonnet 5, mean over
+    five runs of the 208 claims. Colour encodes the system; error bars are the 95
+    percent confidence interval of the mean over the five runs, so they show run-to-run
+    variation. Claims the model refuses and rows lost to provider throttling are
+    excluded from the run they fall in, so each run scores 196 to 208 claims.}
     \label{fig:scifact-arms}
 \end{figure}
 
-Figure~\ref{fig:scifact-arms} shows the result. With Redpine Science the agent answers
-93.7 percent of claims correctly; with no retrieval, 87.1 percent. The difference is 6.6
-points, or 7.6 percent relative, and it holds in every one of the five runs. Web search
-scores 92.4 percent. Redpine Science is ahead of it by roughly one point, which is less
-than the run-to-run spread of either arm, so five runs do not settle that comparison.
-Redpine Science with web search as fallback scores 93.1 percent. Nine of the 208 claims
-refuse deterministically on this model and a few rows per run were lost to provider
-throttling; those rows are excluded from the run they fall in rather than scored as
-wrong, so each run scores between 196 and 208 claims.
+Figure~\ref{fig:scifact-arms} shows the result. An agent with Redpine Science answers
+93.7 percent of the claims correctly, against 87.1 percent for the same agent with no
+retrieval: 6.6 percentage points more, or 7.6 percent more claims right, averaged over
+the five runs and positive in each of them. Web search scores 92.4 percent, and Redpine
+Science with web search as fallback 93.1 percent.
 
-The no-retrieval arm sets the floor at 87 percent. Retrieval of any kind can therefore
-move the score by at most 13 points on this benchmark, and the three arms with retrieval
-are within two points of each other. This is the pattern Section~\ref{sec:method-quadrant-one}
-anticipates: a benchmark recent enough to leave room for retrieval still leaves little,
-and the part that is left is close to the noise. One model, one benchmark, and one
-scoring rule stand behind these numbers. Quadrant two uses questions with a lower floor,
-and quadrants three and four measure retrieval without an agent.
+Every arm scores above 87 percent. The no-retrieval score is the floor a retrieval
+system starts from, and on this benchmark it leaves 13 points to gain; Redpine Science
+closes half of them. A benchmark on which the model already answers nine claims in ten
+from memory can show that retrieval helps, but not by how much, and it says nothing
+about whether the retrieved papers were the right ones. The remaining quadrants take
+those two questions in turn: quadrant two asks questions the model cannot answer from
+memory, and quadrants three and four measure the retrieved papers directly.
 
 \subsection{Quadrant two: expert-validated questions, Q\&As}\label{sec:results-quadrant-two}
 
