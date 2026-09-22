@@ -29,15 +29,13 @@ Each script writes two files beside itself: a `.pdf` for the document and a
 \end{figure}
 ```
 
-## Before the first compile
+## Text width
 
-Set `TEXT_WIDTH_IN` in `redpine_style.py` to the document's real text width.
-Put `\the\textwidth` anywhere in `main.tex`, compile, and read the value off
-the page; it prints in points, so divide by 72.27 for inches. Authoring the
-figure at the true text width and including it at `width=\linewidth` means the
-PDF is never rescaled, which keeps the label sizes exactly as set here. If the
-figure is authored too narrow, LaTeX stretches it and every label grows with
-it, which is how a document ends up with a different font size in every figure.
+`TEXT_WIDTH_IN` in `redpine_style.py` is the document's measured text width,
+372.0 pt (`\the\textwidth`, 2026-09-22), or 5.147 in. Authoring the figure at
+that width and including it at `width=\linewidth` means the PDF is never
+rescaled, so the label sizes are exactly as set in the style module. If the
+class or its options change, measure again and update the constant.
 
 ## Conventions
 

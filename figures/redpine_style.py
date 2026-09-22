@@ -60,11 +60,10 @@ ANNOTATION = DARK_RED
 
 # === Geometry ===============================================================
 # Width of the text block in the Springer Nature sn-jnl class, in inches.
-# CHECK THIS ONCE: put \the\textwidth in main.tex, compile, and read the value
-# off the PDF (it prints in points; divide by 72.27 for inches). Then set it
-# here and include figures at [width=\linewidth] so nothing is ever rescaled.
-# A figure authored at the true text width keeps the font sizes below exact.
-TEXT_WIDTH_IN = 5.3
+# Measured 2026-09-22 with \the\textwidth in main.tex: 372.0 pt / 72.27 = 5.147 in.
+# Include figures at [width=\linewidth] so nothing is ever rescaled; a figure
+# authored at the true text width keeps the font sizes below exact.
+TEXT_WIDTH_IN = 372.0 / 72.27
 
 # Golden-ratio-ish default. Wider than tall reads better in a single column and
 # leaves room for value labels above the bars.
