@@ -232,20 +232,22 @@ the paper after repair, and the mechanical check all pass.
 
 The last step measures the gold before an expert sees it. Three test answers are
 generated for each question: one that read the paper, one that read a different but
-valid source, and one with no retrieval. Each is graded against the gold twice and the
-scores travel with the question. A gold that the paper-informed answer scores below 0.75
-on, or that the retrieval-free answer scores 0.5 or above on, is flagged for the expert:
-the first rewards one paper's phrasing, the second can be satisfied from memory. The same
-three answers later guard every edit to a gold.
+valid source, and one with no retrieval. Each is graded twice for how much of the gold
+it covers, a coverage score from 0 to 1, and the three scores travel with the question.
+A gold on which the paper-informed answer scores below 0.75, or the retrieval-free
+answer 0.5 or above, is flagged for the expert: the first rewards one paper's phrasing,
+the second can be satisfied from memory. The same three answers later guard every edit
+to a gold.
 
 \lead{Expert review.} Three PhD-level biomedical experts reviewed the questions in their
 own fields, in a browser deck that shows the question, the gold and the evidence behind
 it. For each question the expert marked good, edit or bad, could rewrite the question,
 and could comment. A suggested rewrite is applied once a check confirms that the gold still
 answers it. A change to a gold is taken over only if the three test answers, regraded
-against the new gold, keep their scores: the paper-informed answer stays at or above
-0.85 and within 0.05 of before, the other-source answer falls by at most 0.05, the
-retrieval-free answer rises by at most 0.05, and no new contradiction appears. When either check fails, the
+against the new gold, keep their coverage scores: the paper-informed answer's score stays
+at or above 0.85 and drops by at most 0.05, the other-source answer's score drops by at
+most 0.05, the retrieval-free answer's score rises by at most 0.05, and no test answer
+newly contradicts the gold. When either check fails, the
 generated version stays and the failed edit is recorded with the reason: a rewrite that
 widens the question past what the gold answers is held, and a gold edit that lets the
 retrieval-free answer pass is refused. A question marked bad is dropped or regenerated
