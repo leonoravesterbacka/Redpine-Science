@@ -236,9 +236,12 @@ own fields, in a browser deck that shows the question, the gold and the evidence
 it. For each question the expert marked good, edit or bad, could rewrite the question,
 and could comment. A suggested rewrite is applied once a check confirms that the gold still
 answers it. A change to a gold is taken over only if the three test answers, regraded
-against the new gold, still pass the same test as before. Of 180 reviewed questions, 125
-are unchanged, 40 carry the expert's wording, 14 carry an edited gold and one was
-dropped.
+against the new gold, still pass the same test as before. When either check fails, the
+generated version stays and the failed edit is recorded with the reason: a rewrite that
+widens the question past what the gold answers is held, and a gold edit that lets the
+retrieval-free answer pass is refused. A question marked bad is dropped or regenerated
+from the same paper. Of 180 reviewed questions, 125 are unchanged, 40 carry the expert's
+wording, 14 carry an edited gold and one was dropped.
 
 \lead{Two arms.} The same agent (Claude Opus 5, a budget of 20 tool calls, one system
 prompt) answers every question twice. In one arm it has Redpine Science search and web
