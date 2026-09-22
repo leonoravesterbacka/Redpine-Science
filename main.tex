@@ -60,8 +60,9 @@ evaluations rather than one blended score. An agent with Redpine Science access 
 expert-validated question set. On document retrieval, stripped of any model reasoning,
 Redpine Science recovers the correct source paper 88.9\% of the time, against 61.5\%
 for Exa, the retrieval benchmark's own creator, run under its published configuration.
-On public answer-quality benchmarks, Redpine Science leads on five of six benchmarks
-tested and ties on the sixth, with no losses. A blinded expert relevance
+On ScholarQABench SciFact, the public answer-quality benchmark reported here, an agent
+with Redpine Science answers 93.7\% of claims correctly against 87.1\% with no retrieval
+and 92.4\% with web search, averaged over five runs. A blinded expert relevance
 panel~\cite{consensus} places Redpine Science's Precision@5 at 58.9\% against 32.6\%
 for PubMed.}
 
@@ -522,7 +523,11 @@ agentic evaluation harness used to produce the answer-quality results above.
 \section{Summary}\label{sec:summary}
 
 On our expert-validated question set, an agent with Redpine Science access scores [X]
-percentage points higher than an agent restricted to web search. On the public
+percentage points higher than an agent restricted to web search. On ScholarQABench
+SciFact, the agent answers 93.7\% of claims correctly with Redpine Science against
+87.1\% with no retrieval and 92.4\% with web search; every arm scores above 87\%, so a
+public benchmark of this kind leaves little room to measure retrieval, which is what the
+other three quadrants are for. On the public
 retrieval benchmark, Redpine Science recovers the correct document 88.9\% of the time,
 against 61.5\% for Exa, the benchmark's own creator. On the expert-judged retrieval
 panel, two PhD-level domain experts (neurology and cardiology) place Redpine Science's
@@ -533,10 +538,8 @@ set will be reported ahead of launch.
 
 Quadrant three depends directly on Exa's decision to publish its
 publication-retrieval benchmark~\cite{exabenchmarks} openly. Quadrant one depends
-similarly on MMLU-Redux~\cite{mmluredux}, MedXpertQA~\cite{medxpertqa},
-HealthBench~\cite{healthbench}, LiveMedBench~\cite{livemedbench},
-MedHELM~\cite{medhelm}, BioASQ~\cite{bioasq}, and Humanity's Last Exam~\cite{hle}, each
-built and released publicly by its creators; every comparison in this report against
+similarly on ScholarQABench~\cite{openscholar} and SciFact~\cite{scifact}, each built
+and released publicly by its creators; every comparison in this report against
 other labs' results is possible because of that choice. Evaluation infrastructure of
 this kind is a shared resource.
 \todo{thank our phd evaluators, felix perhaps}
