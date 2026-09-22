@@ -194,59 +194,99 @@ subset are still being added.
 
 \subsection{Quadrant two: expert-validated questions, Q\&As}\label{sec:method-quadrant-two}
 
-Public benchmarks are comparable across labs, but a model that has
-memorized the answer is not testing retrieval. We built a harder question set grounded
-in the literature Redpine Science covers: each question is built through reasoning
-steps that narrow and constrain the answer, and is answerable only from a source
-paper's full text, not its freely available abstract. \todo{add more details on what models and such we use}
+Public benchmarks are comparable across labs, but a model that has memorized an answer
+is not exercising retrieval. Quadrant two therefore uses questions we generate from
+papers in the Redpine Science full-text corpus and that clinical experts have reviewed.
 
-Every generated question is reviewed by PhD-level experts in the relevant field before
-entering the evaluation set, removing ambiguous, trivially answerable, or incorrect
-questions before they can distort a result. \todo{for this we built an annotation tool where the experts were asked to assess the quality of different questions, reject them and modify them. the initial llm generating pipeline produced questions of quality split X good/Y needs edit / Z bad}.
+\lead{Question set.} The set holds 179 questions in four clinical tracks: cardiology
+(79), neuroimmunology (60), sepsis (20) and immunology (20; 10 rheumatology, 10
+lymphoma). Each question is anchored to one paper. 105 anchor papers are open access and
+74 are paywalled; we record the access class per question, because web search can reach
+an open-access paper.
 
-\lead{Experimental setup.} Two near-identical setups, differing only in the tools they
-have access to, run on identical prompts: an agent with access to
-both Redpine Science and web search (via Tavily \todo{add source}), against an agent with web search
-only, isolating the value Redpine adds on top of an agent's existing capabilities.
-Model, system prompt, and step budget are held constant between arms; only tool access
-to Redpine's retrieval varies.
+\lead{Generation pipeline.} A staged pipeline run with Claude Opus 5 on Amazon Bedrock
+produces each question and its rubric. Discipline-steered searches against Redpine
+Science select anchor papers, whose full text is fetched by DOI; case reports,
+results-free protocols and non-clinical papers are excluded. The question is written
+from the paper with its results hidden, as a clinician would put it to a literature
+assistant: one construct, 10 to 22 words, open form, no yes/no stem, no direction words,
+no study fingerprints such as timepoints, thresholds or registry names. The gold answer,
+not the question, carries the specifics. Passages on the same construct from other papers
+let each finding be labelled corroborated, uncontested or conflicting, which sets how
+strongly the gold may state it.
 
-\lead{Judging setup and criteria.} Every answer is scored by a fixed LLM judge, held
-constant across both arms and distinct from the model producing the answer. Four
-criteria make up the final answer score:
+The rubric is built in four stages: a fit check that drops unusable cases; a typed
+evidence table whose every row carries a verbatim quote from the paper; a calibration of
+each finding (causal only for randomized between-group evidence, otherwise association,
+preliminary or descriptive); and the gold, two to four single-assertion required claims
+each witnessed by evidence rows, a certainty sentence, a scope (condition, population,
+setting) and one wrong-if clause naming the most plausible clinical over-claim. A
+mechanical validator checks every quote against the anchor text and every claim against
+its evidence rows. The model then reviews the object under the written standards of the
+three human reviewers; objects marked for repair are repaired and reviewed again,
+unusable ones are dropped. Each surviving question is probed with three generated
+answers, one informed by the anchor paper, one from a different valid source and one
+without retrieval, each graded twice against the gold; a gold is kept only if the anchor
+answer reaches it, the other-source answer is not penalised and the retrieval-free answer
+does not pass. The gold follows a fixed template from which the required claims are
+parsed deterministically for judging.
 
-\begin{itemize}[leftmargin=1.6em, itemsep=0.3em]
-  \item \textbf{Correctness.} Does the answer contradict anything the gold rubric says?
-  \item \textbf{Completeness.} Does the answer cover every part of what was asked?
-  \item \textbf{Directness.} Does the answer commit to a clear conclusion, or hedge?
-  \item \textbf{Source quality.} How authoritative are the sources the answer draws on?
-\end{itemize}
+\lead{Expert review.} Three PhD-level reviewers each reviewed their own track: a
+cardiologist; a cellular neuroimmunologist, who also took sepsis; and an immunologist
+for rheumatology and lymphoma. Each reviewed the question, the gold and the evidence in a
+browser deck and gave a verdict (good, edit or bad), comments and, where wanted, a
+rewritten question. Four rounds were sent: 40 questions (39 kept), 20, 100 and 20, each with a
+pre-registered read written before the deck was built: a good-rate band against the
+reviewer's own baseline and a stop-and-fix rule for a defect class appearing on three or
+more of twenty items. A rewritten question is applied after a coverage check confirms
+that the gold still answers it. A gold change is applied only if the stored probe
+answers, regraded against the old and the new gold, keep the anchor answer at or above
+0.85, lower the alternative-source answer by at most 0.05, raise the retrieval-free
+answer by at most 0.05, and gain no contradiction. Of 180 reviewed questions, 125 were
+kept as generated, 40 carry the reviewer's wording, 14 carry a gated gold change and 1
+was dropped. No defect class crossed the stop threshold on a gold.
 
-\[
-  \text{Overall} = \frac{\text{Correctness} + \text{Completeness} + \text{Directness}
-  + \text{Source quality}}{4}
-\]
+\lead{Two arms.} The same agent runs on identical questions in both arms: Claude Opus 5,
+a budget of 20 tool calls, 8192 output tokens per turn, retrieved passages cut at 4000
+characters, one system prompt. The Redpine arm has two tools, Redpine Science search and
+web search; the baseline arm has web search only. Web search is Tavily at its advanced
+depth in both arms \todo{add reference: Tavily}. Answers are cached per question, so
+every judge pass scores the same text.
 
-Faithfulness, whether each claim is grounded in the raw retrieved text, is scored
-separately from Overall: it is near-constant across both arms in our runs, showing both
-are equally grounded but not distinguishing which arm is better. Two further criteria,
-adapted from the RAGAS evaluation framework~\cite{ragas} and computed with
-DeepEval~\cite{deepeval}, score retrieval directly, separate from the answer score,
-distinguishing a weak final answer built on strong retrieval from one built on weak
-retrieval:
+\lead{Judge.} A fixed judge model, Claude Sonnet 5 on Bedrock, distinct from the
+answering model and identical for both arms, sees the question, the scope line and the
+required claims, and returns one verdict per claim: stated, contradicted or not
+addressed. Citations, journal names and identifiers are removed from the answer before
+judging. Three scores follow from the same verdicts. Claim coverage, the fraction of
+required claims stated, is the primary metric and is the strict recall of TREC nugget
+evaluation \todo{add reference: TREC nugget evaluation}. Contradiction rate is the
+fraction of claims contradicted, as in K-QA \todo{add reference: K-QA}. Correctness is
+the F1 of coverage and one minus the contradiction rate. Metrics scored against an arm's
+own retrieved text (groundedness, faithfulness, contextual recall and contextual
+relevancy, computed with DeepEval~\cite{deepeval} and adapted from RAGAS~\cite{ragas})
+are diagnostics only: each arm is scored against different retrieved text, so they
+cannot compare arms.
 
-\begin{itemize}[leftmargin=1.6em, itemsep=0.3em]
-  \item \textbf{Contextual recall.} Does the retrieved context contain everything
-    needed to support the gold answer? Sentences supported by retrieved context
-    divided by total sentences.
-  \item \textbf{Contextual relevancy.} How much of what got retrieved was actually
-    useful? Retrieved statements judged relevant divided by total retrieved
-    statements.
-\end{itemize}
+\lead{Judge reliability.} Two identical judge passes agreed on 95.9\% and 95.0\% of
+claim verdicts for the two arms (Krippendorff's alpha 0.879 and 0.892 \todo{add
+reference: Krippendorff's alpha}), and the arm difference moved by 0.006 against a
+standard error of 0.023. Re-judging with citation detail blinded, with the answers
+paraphrased by a different model, and with citation markers removed kept the arm
+difference within one standard error in each case. A holistic 0 to 1 correctness score
+from the same judge agreed with itself on a four-band label only 69.8\% of the time and
+serves only as a construct-validity anchor.
 
-\lead{Evaluation dataset.} 53 questions so far, over seven fields: oncology, public
-health, neurology, pharmacology, psychiatry, cardiovascular disease, and infectious
-disease, full text only.
+\lead{Expert agreement study.} A pre-registered study, with dated amendments, tests
+whether the judge's verdicts track the experts'. The three reviewers label answers with
+the judge's three labels plus cannot assess, one blinded answer per screen with the two
+arms of a question at least two screens apart. A core of 22 random questions is seen by
+all three; an extension of 18, stratified on the judge's own arm gap, by one reviewer
+each with design weights recorded; eight screens per reviewer are delayed duplicates. The
+analysis reports Krippendorff's alpha against pre-registered floors (0.80 for stated
+versus not, 0.667 for the three-way label), the ICC(2,1) of the judge against the
+leave-one-out expert consensus beside the experts' own ceiling, the alt-test at epsilon
+0.2 clustered by question, and the arm difference over all 179 questions by
+prediction-powered inference \todo{add reference: prediction-powered inference}.
 
 \subsection{Quadrant three: public benchmarks, retrieval quality}\label{sec:method-quadrant-three}
 
