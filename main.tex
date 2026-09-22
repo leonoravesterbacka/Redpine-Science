@@ -218,7 +218,8 @@ good answer must state. Every claim is tied to a quoted passage in the paper, an
 wording is graded to the evidence: a causal claim needs a randomized comparison, anything
 weaker is stated as an association or a preliminary finding. The gold also names the
 population and setting the claims hold for, and one wrong-if clause: the most tempting
-over-claim, which an answer must not make. Passages from other papers on the same
+over-claim, which an answer must not make. Figure~\ref{fig:q2-example} shows one
+question with its gold in full. Passages from other papers on the same
 question decide whether a finding is corroborated, uncontested or contested, which sets
 how firmly the gold may state it. A mechanical check confirms that every quote appears in
 the paper and every claim has evidence behind it. The model then reviews each gold
@@ -264,8 +265,8 @@ and contradicts $c$, coverage is $C = s/n$, the contradiction rate is $K = c/n$,
 %
 the harmonic mean of the share of claims stated and the share not contradicted. An
 answer that states every claim and contradicts none scores 1; one that states half the
-claims and contradicts the rest scores 0.5. Figure~\ref{fig:q2-example} shows one
-question with its gold and the judge's verdicts on one answer.
+claims and contradicts the rest scores 0.5. The bottom panel of Figure~\ref{fig:q2-example}
+shows the judge's verdicts on one answer and the scores they give.
 Citations, journal names and identifiers are removed before judging so that the judge
 grades what an answer says, not where it says it came from. Scores that compare an answer
 with its own retrieved text (groundedness, faithfulness, contextual recall and relevancy,
