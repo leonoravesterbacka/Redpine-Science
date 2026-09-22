@@ -197,13 +197,12 @@ Science is built for, so it is the benchmark reported here. Its SciFact subtask
 repackages SciFact~\cite{scifact} as 208 biomedical claims, each labeled true or false,
 scored by the suite's own substring rule with no judge.
 
-\lead{The SciFact measurement.} The answering model is Claude Sonnet 5, served through
-Amazon Bedrock. Four arms answer the same 208 claims and differ only in which retrieval
-tool the agent may call: none, web search, Redpine Science, or Redpine Science first
-with web search as fallback. The full set is run five times, so the spread reported
-below is run-to-run variation rather than one draw. Per-run $n$ is 208, 199, 199, 199,
-and 196: nine claims refuse deterministically on this model, and one or two further rows
-per run were lost to provider throttling. Those rows are excluded from the run they fall
+\lead{The SciFact measurement.} The answering model is Claude Sonnet 5. Four arms
+answer the same 208 claims and differ only in which retrieval tool the agent may call:
+none, web search, Redpine Science, or Redpine Science first with web search as fallback.
+The full set is run five times, so the spread reported below is run-to-run variation
+rather than one draw. Nine claims refuse deterministically on this model and a few rows
+per run were lost to provider throttling; those rows are excluded from the run they fall
 in rather than scored as wrong.
 
 \subsection{Quadrant two: expert-validated questions, Q\&As}\label{sec:method-quadrant-two}
