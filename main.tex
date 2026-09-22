@@ -280,14 +280,14 @@ the arms.
 \begin{tikzpicture}[
   panel/.style={draw=RPDarkGrey, line width=0.6pt, text width=12.2cm, align=left,
     inner sep=9pt, font=\small, text=RPDarkGrey, anchor=north west},
-  tag/.style={font=\bfseries\footnotesize, text=RPCrimson},
 ]
+  \newcommand{\paneltag}[1]{{\bfseries\footnotesize\color{RPCrimson}#1}}
   \node[panel, fill=RPSkyBlue!12] (q) at (0,0)
-    {{\tag Question}\\[2pt]
+    {\paneltag{Question}\\[2pt]
      How does frailty burden relate to stroke risk in patients with atrial fibrillation
      and HFpEF?};
   \node[panel, fill=RPLightGreen!12] (g) at ([yshift=-5pt]q.south west)
-    {{\tag Gold}\\[2pt]
+    {\paneltag{Gold}\\[2pt]
      \textbf{A strong answer conveys:}\\
      1.\ Greater frailty burden is associated with a substantially higher incidence of
      stroke than the lowest frailty category.\\
@@ -306,12 +306,12 @@ the arms.
      anticoagulation according to frailty category, or states that frailty-guided
      stroke prevention has been shown to improve outcomes.};
   \node[panel, fill=RPWarmWhite] (j) at ([yshift=-5pt]g.south west)
-    {{\tag Judge, one web-search answer}\\[2pt]
+    {\paneltag{Judge, one web-search answer}\\[2pt]
      \textcolor{RPLightGreen}{\rule{0.9ex}{0.9ex}}\ 1.\ stated\quad
      \textcolor{RPLightGreen}{\rule{0.9ex}{0.9ex}}\ 2.\ stated\quad
      \textcolor{RPOrange}{\rule{0.9ex}{0.9ex}}\ 3.\ not addressed\\[2pt]
-     coverage $C = 2/3$,\quad contradiction rate $K = 0$,\quad
-     correctness $= 2 \cdot \tfrac{2}{3} \cdot 1 / (\tfrac{2}{3} + 1) = 0.80$};
+     coverage $C = 2/3$, \ contradiction rate $K = 0$, \ correctness
+     $= \dfrac{2 \cdot \tfrac{2}{3} \cdot 1}{\tfrac{2}{3} + 1} = 0.80$};
 \end{tikzpicture}
 \caption{One question from the cardiology track, its gold, and the judge's verdicts on
 one web-search answer. The gold names three required claims, the certainty and scope
