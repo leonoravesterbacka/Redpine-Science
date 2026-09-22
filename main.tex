@@ -245,8 +245,7 @@ dropped.
 
 \lead{Two arms.} The same agent (Claude Opus 5, a budget of 20 tool calls, one system
 prompt) answers every question twice. In one arm it has Redpine Science search and web
-search; in the other it has web search only. Web search is Tavily in both arms
-\todo{add reference: Tavily}. Answers are stored, so every judging pass scores the same
+search; in the other it has web search only. Web search is Tavily in both arms~\cite{tavily}. Answers are stored, so every judging pass scores the same
 text.
 
 \lead{Judging.} A second, fixed model (Claude Sonnet 5) judges every answer, the same
@@ -254,9 +253,8 @@ way for both arms. It reads the question, the population and setting from the go
 the required claims, and says of each claim whether the answer states it, contradicts
 it, or does not address it. Three scores follow. Claim coverage is the share of required
 claims the answer states; this is the primary score and corresponds to the strict recall
-of TREC nugget evaluation \todo{add reference: TREC nugget evaluation}. Contradiction
-rate is the share of claims the answer contradicts, as in K-QA \todo{add reference:
-K-QA}. Correctness combines the two. With $n$ required claims, of which the answer states $s$
+of TREC nugget evaluation~\cite{nuggetrecall}. Contradiction
+rate is the share of claims the answer contradicts, as in K-QA~\cite{kqa}. Correctness combines the two. With $n$ required claims, of which the answer states $s$
 and contradicts $c$, coverage is $C = s/n$, the contradiction rate is $K = c/n$, and
 %
 \begin{equation}
@@ -329,11 +327,10 @@ with the judge's three verdicts plus cannot assess, one answer per screen and th
 arms of a question several screens apart. Every expert labels a random core of 22
 questions; each also labels six further questions chosen to cover large and small
 judge differences, with the sampling weights recorded; eight screens per expert are
-repeats for consistency. Agreement is measured with Krippendorff's alpha \todo{add
-reference: Krippendorff's alpha} and with the intraclass correlation of the judge
+repeats for consistency. Agreement is measured with Krippendorff's alpha~\cite{krippendorff} and with the intraclass correlation of the judge
 against the experts' consensus, next to the experts' agreement with each other. The
 difference between the arms over all 179 questions is estimated by prediction-powered
-inference \todo{add reference: prediction-powered inference}, which corrects the judge's
+inference~\cite{ppi,ppiplusplus}, which corrects the judge's
 estimate with the expert labels.
 
 \subsection{Quadrant three: public benchmarks, retrieval quality}\label{sec:method-quadrant-three}
@@ -590,6 +587,45 @@ Consensus.
 \newblock Consensus Outperforms Google Scholar for Academic Search Retrieval.
 \newblock Consensus blog, 2025.
   \url{https://consensus.app/home/blog/consensus-outperforms-google-scholar-for-academic-search-retrieval/}
+
+\bibitem{tavily}
+Tavily.
+\newblock Tavily: One secure API for real-time web access.
+\newblock \url{https://tavily.com}, accessed September 2026.
+
+\bibitem{nuggetrecall}
+R.~Pradeep, N.~Thakur, S.~Upadhyay, D.~Campos, N.~Craswell, and J.~Lin.
+\newblock The Great Nugget Recall: Automating Fact Extraction and RAG
+  Evaluation with Large Language Models.
+\newblock In \emph{Proceedings of the 48th International ACM SIGIR Conference
+  on Research and Development in Information Retrieval (SIGIR)}, 2025.
+  Preprint \emph{arXiv:2504.15068}.
+
+\bibitem{kqa}
+I.~Manes, N.~Ronn, D.~Cohen, R.~Ilan~Ber, Z.~Horowitz-Kugler, and
+  G.~Stanovsky.
+\newblock K-QA: A Real-World Medical Q\&A Benchmark.
+\newblock In \emph{Proceedings of the 23rd Workshop on Biomedical Natural
+  Language Processing (BioNLP)}, pages 277--294, Bangkok, Thailand, 2024.
+  \url{https://doi.org/10.18653/v1/2024.bionlp-1.22}
+
+\bibitem{krippendorff}
+A.~F. Hayes and K.~Krippendorff.
+\newblock Answering the Call for a Standard Reliability Measure for Coding
+  Data.
+\newblock \emph{Communication Methods and Measures}, 1(1):77--89, 2007.
+  \url{https://doi.org/10.1080/19312450709336664}
+
+\bibitem{ppi}
+A.~N. Angelopoulos, S.~Bates, C.~Fannjiang, M.~I. Jordan, and T.~Zrnic.
+\newblock Prediction-powered inference.
+\newblock \emph{Science}, 382(6671):669--674, 2023.
+  \url{https://doi.org/10.1126/science.adi6000}
+
+\bibitem{ppiplusplus}
+A.~N. Angelopoulos, J.~C. Duchi, and T.~Zrnic.
+\newblock PPI++: Efficient Prediction-Powered Inference.
+\newblock \emph{arXiv preprint arXiv:2311.01453}, 2023.
 
 \end{thebibliography}
 
