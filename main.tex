@@ -471,7 +471,7 @@ memory, and quadrants three and four measure the retrieved papers directly.
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.5\textwidth]{example-image-duck}
+    \includegraphics[width=0.6\linewidth]{example-image-duck}
     \caption{Preliminary per-criterion comparison, Connect vs.\ web search, n=57,
 95\% CI error bars, margin and paired p-value under each pair}
     \label{fig:duck_placeholder}
@@ -481,7 +481,7 @@ memory, and quadrants three and four measure the retrieved papers directly.
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=\linewidth]{figures/quadrant3_recall.pdf}
+  \includegraphics[width=0.6\linewidth]{figures/quadrant3_recall.pdf}
   \caption{Recall@1, Recall@5, and Recall@10 by system, n=668 (671 queries whose
   gold paper is confirmed present in Redpine Science's corpus, 3 dropped for a
   transient API error). Redpine Science leads at every cutoff: 6.9 points over
@@ -517,21 +517,12 @@ exist without it.
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=\linewidth]{figures/quadrant4_precision.pdf}
+    \includegraphics[width=0.6\linewidth]{figures/quadrant4_precision.pdf}
     \caption{Precision@5, fraction of results scored 3 or 4 of 4, by system, pooled
     across both judges (176/299 for Redpine Science, 97/298 for PubMed). Error bars
     are a 95\% confidence interval for a binomial proportion, computed from these
     exact counts.}
     \label{fig:quadrant4-precision}
-\end{figure}
-
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=\linewidth]{figures/quadrant4_dcg.pdf}
-    \caption{Mean DCG@5 per query, by system, pooled across both judges (n=60
-    queries). Error bars are a 95\% confidence interval of the mean over the
-    60 pooled per-query DCG@5 values.}
-    \label{fig:quadrant4-dcg}
 \end{figure}
 
 Redpine Science leads on both metrics: Precision@5 58.9\% against 32.6\% for PubMed,
