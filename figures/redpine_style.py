@@ -58,6 +58,9 @@ ARM_COLORS = {
     "exa": SKY_BLUE,              # Exa, the same "third-party system" role as web
     "tavily": LIGHT_GREEN,        # Tavily, a second comparison system in the
                                    # same chart as Exa, so it needs its own colour
+    "pubmed": SKY_BLUE,           # PubMed, quadrant four's comparison system --
+                                   # never appears alongside Exa or Tavily in the
+                                   # same chart, so it can reuse the Sky Blue role
 }
 ANNOTATION = DARK_RED
 

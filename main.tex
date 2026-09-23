@@ -517,17 +517,20 @@ exist without it.
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.7\textwidth]{figures/quadrant4_precision_at_5.png}
+    \includegraphics[width=\linewidth]{figures/quadrant4_precision.pdf}
     \caption{Precision@5, fraction of results scored 3 or 4 of 4, by system, pooled
-    across both judges (n=60 queries).}
+    across both judges (176/299 for Redpine Science, 97/298 for PubMed). Error bars
+    are a 95\% confidence interval for a binomial proportion, computed from these
+    exact counts.}
     \label{fig:quadrant4-precision}
 \end{figure}
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.7\textwidth]{figures/quadrant4_dcg_at_5.png}
+    \includegraphics[width=\linewidth]{figures/quadrant4_dcg.pdf}
     \caption{Mean DCG@5 per query, by system, pooled across both judges (n=60
-    queries).}
+    queries). No error bar: only the pooled mean is available from the judging
+    pipeline, not a per-query DCG list to derive a real confidence interval from.}
     \label{fig:quadrant4-dcg}
 \end{figure}
 
