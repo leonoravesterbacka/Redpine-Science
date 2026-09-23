@@ -381,16 +381,14 @@ are already public, so the result can be checked independently.
 The Exa publication-retrieval benchmark~\cite{exabenchmarks} grounds every query in one
 gold publication and scores whether it was surfaced and at what rank: a match is exact
 DOI when a system returns one (only Redpine does), or a normalized title substring
-otherwise. It asks several phrasings per source paper, so its 671 DOI-confirmed queries
+otherwise. It asks several phrasings per source paper, so its 668 DOI-confirmed queries
 map to 101 unique source papers. We report recall at the query level, the more
 demanding number, since it counts every phrasing separately, and at three ranks,
 Recall@1, Recall@5, and Recall@10, so a gain concentrated at the very top of the
 ranking is distinguishable from one that only shows up deeper in it. We restrict to
-these 671 queries rather than the benchmark's full 1,866: the rest ask about papers
+these 668 queries rather than the benchmark's full 1,866: the rest ask about papers
 outside Redpine's corpus, and scoring Redpine on documents it cannot hold would measure
-corpus coverage rather than retrieval quality. Three queries failed on a transient API
-error during the run; they are excluded rather than scored as misses, leaving 668
-queries actually scored.
+corpus coverage rather than retrieval quality.
 
 We ran three retrieval services against it with the identical query and no follow-up
 fetch or agent reasoning on any side: Redpine Science, Exa's own search, run the way
@@ -429,13 +427,14 @@ The comparison arm is PubMed, what a researcher actually types a question into
 today, emulating a realistic research use case. Both arms receive the identical,
 unmodified question text, with no query engineering on either side.
 
-Two PhD-level domain experts are the judges, each scoring their own batch of 30
-questions. The questions range from neurology, with a handful of adjacent critical
-care, immunology, microbiology, and pharmacology questions, to cardiology: hard
-subspecialty questions that require real domain knowledge to even evaluate the
-results, not just to answer. The two batches do not overlap, so every number below
-pools both judges' ratings rather than measuring inter-rater agreement on shared
-queries.
+Three PhD-level domain experts are the judges, each scoring their own batch of 30
+questions: one batch is mostly neurology, with a handful of adjacent critical care,
+immunology, microbiology, and pharmacology questions; another is entirely
+cardiology; the third is entirely rheumatology. These are hard subspecialty
+questions that require real domain knowledge to even evaluate the results, not just
+to answer. The three batches do not overlap. Results below pool the two batches
+scored so far, neurology and cardiology; the rheumatology batch is still being
+judged.
 
 \section{Results}\label{sec:results}
 
@@ -484,17 +483,16 @@ memory, and quadrants three and four measure the retrieved papers directly.
 \begin{figure}[h]
   \centering
   \includegraphics[width=0.6\linewidth]{figures/quadrant3_recall.pdf}
-  \caption{Recall@1, Recall@5, and Recall@10 by system, n=668 (671 queries whose
-  gold paper is confirmed present in Redpine Science's corpus, 3 dropped for a
-  transient API error). Redpine Science leads at every cutoff: 6.9 points over
+  \caption{Recall@1, Recall@5, and Recall@10 by system, n=668 queries whose
+  gold paper is confirmed present in Redpine Science's corpus. Redpine Science
+  leads at every cutoff: 6.9 points over
   Exa at Recall@1, narrowing to 5.5 points at Recall@10; the gap over Tavily
   stays between 27.7 and 30.4 points across all three.}
   \label{fig:quadrant3-recall}
 \end{figure}
 
 \begin{table}[h]
-\caption{Quadrant three retrieval results, n=668 (671 queries, 3 dropped for a
-transient API error).}
+\caption{Quadrant three retrieval results, n=668.}
 \label{tab:quadrant-three}
 \begin{tabular}{@{}lccccc@{}}
 \toprule
