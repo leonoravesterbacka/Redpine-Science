@@ -412,11 +412,9 @@ Quadrant three and quadrant four both test what is shown to an agent, not what a
 agent writes with it. Quadrant three isolates retrieval by checking whether a
 system's top results contain a pre-identified gold document pinned down with a DOI,
 the way the Exa benchmark constructs its query set: real evidence, but only for
-queries where that is possible. It says nothing about the open,
-comparative questions a domain expert actually asks, where several retrieved
-passages can be defensible and no DOI check can tell you which is more relevant.
-Quadrant four covers that gap: on queries without a gold DOI to check against, a
-blinded human expert judges relevance directly.
+queries where that is possible. Quadrant four extends this test to simulate a real
+research scenario: Redpine Science against PubMed, on queries that have no gold DOI
+attached, judged by a blinded human expert instead of a DOI check.
 
 Judges score each result on a 0 to 4 scale, 0 not relevant, 4 perfectly relevant,
 matching the scale and Precision@K / DCG@K reporting used in a published relevance
