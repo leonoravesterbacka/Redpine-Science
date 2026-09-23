@@ -55,6 +55,9 @@ ARM_COLORS = {
     "redpine_first": ORANGE,      # Redpine Science plus web search
     "web": SKY_BLUE,              # web search, or any third-party system
     "closed_book": BASELINE_GREY,  # the no-retrieval baseline
+    "exa": SKY_BLUE,              # Exa, the same "third-party system" role as web
+    "tavily": LIGHT_GREEN,        # Tavily, a second comparison system in the
+                                   # same chart as Exa, so it needs its own colour
 }
 ANNOTATION = DARK_RED
 

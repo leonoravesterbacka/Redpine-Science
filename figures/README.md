@@ -42,8 +42,11 @@ class or its options change, measure again and update the constant.
 These are deliberate, and a new figure should not quietly break them.
 
 - **Palette.** Brand colours for every system: Redpine Science is Crimson,
-  Redpine Science plus web search is Orange, web search alone is Sky Blue. A
-  colour means the same thing on every page.
+  Redpine Science plus web search is Orange, web search or any single
+  third-party comparison system is Sky Blue. When two third-party systems
+  appear in the same chart (quadrant three: Exa and Tavily), Exa keeps the
+  Sky Blue "third-party system" role and Tavily takes Light Green, the
+  palette's other cool colour. A colour means the same thing on every page.
 - **One deliberate exception.** The no-retrieval baseline uses `BASELINE_GREY`
   (`#9E9892`), which is not a brand colour. The palette's only grey is
   `#171717`, which reads as black at bar size and drowns the other bars. The
