@@ -406,13 +406,17 @@ it, is a harder result to dismiss than beating an unrelated product. Tavily is i
 because it is the same web-search baseline compared against Redpine Science elsewhere
 in this report, so this quadrant's result is comparable to the others.
 
-\subsection{Quadrant four: expert-validated questions, retrieval quality}\label{sec:method-quadrant-four}
+\subsection{Quadrant four: expert validated, retrieval}\label{sec:method-quadrant-four}
 
-Quadrant three measures whether a system finds one known document. It
-says nothing about relevance for the kind of open, comparative question a domain expert
-actually asks, where multiple passages may be defensible and judging which is better is
-not a lookup. That judgment requires a human expert, blinded to which system produced
-each result.
+Quadrant three and quadrant four both test what is shown to an agent, not what an
+agent writes with it. Quadrant three isolates retrieval by checking whether a
+system's top results contain one pre-identified gold document, real evidence, but
+only for queries where a single correct paper can be pinned down by DOI in advance,
+the way the Exa benchmark constructs its query set. It says nothing about the open,
+comparative questions a domain expert actually asks, where several retrieved
+passages can be defensible and no DOI check can tell you which is more relevant.
+Quadrant four covers that gap: on queries without a gold DOI to check against, a
+blinded human expert judges relevance directly.
 
 Judges score each result on a 0 to 4 scale, 0 not relevant, 4 perfectly relevant,
 matching the scale and Precision@K / DCG@K reporting used in a published relevance
@@ -513,7 +517,7 @@ Tavily is run the same way as it is throughout this report.
 We are grateful to Exa for publishing this benchmark openly; this quadrant would not
 exist without it.
 
-\subsection{Quadrant four: expert-validated questions, retrieval quality}\label{sec:results-quadrant-four}
+\subsection{Quadrant four: expert validated, retrieval}\label{sec:results-quadrant-four}
 
 \begin{figure}[htbp]
     \centering
