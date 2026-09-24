@@ -108,17 +108,19 @@ releasing (Section~\ref{sec:releasing}), and a summary (Section~\ref{sec:summary
 
 \section{Redpine Science}\label{sec:redpine-science}
 
-Redpine Science is built on partnerships with seven publishers, Harvard Business
-Publishing, BMJ, Wiley, Sage, Wanfang Data, IGI Global, and IOP, covering clinical
-medicine, life sciences, physics, and social sciences. Combined with 50+ existing
-partners, this gives models and agents live access to over 20 million peer-reviewed
-articles through Redpine's API and MCP.
+Redpine Science gives models and agents live access to over 20 million
+peer-reviewed articles, spanning both closed-access journals and open-access
+repositories, through Redpine's API and MCP. Coverage concentrates in
+biomedicine, with a smaller but real presence in physics and chemistry. That
+concentration motivates the rest of this report: most of the public benchmarks
+tested are biomedical, and the domain-expert judges brought in for relevance
+judging are PhDs in clinical subspecialties, matched to what the corpus actually
+covers. See [link to Redpine Science product page] for the full list of partners
+and coverage by field.
 
-Corpus breadth is only half the system. The retrieval stack built on top of it, which
-embedding model represents a query and a passage, which reranker re-scores the
-shortlist before an agent sees it, and how often either is replaced, is maintained
-continuously rather than fixed at launch. The results in this report measure that stack
-as much as the underlying corpus.
+Corpus breadth is only half the system. The retrieval stack built on top of it, a
+hybrid vector search, is maintained continuously rather than fixed at launch. The
+results in this report measure that stack as much as the underlying corpus.
 
 \section{Evaluation methodology}\label{sec:methodology}
 
