@@ -131,6 +131,7 @@ Figure~\ref{fig:methodology}.
 
 \begin{figure}[h]
 \centering
+\resizebox{\linewidth}{!}{%
 \begin{tikzpicture}[
   quad/.style={draw=RPDarkGrey, line width=0.6pt, text width=5.3cm,
     minimum height=3.3cm, align=center, inner sep=10pt, font=\small, text=RPDarkGrey},
@@ -157,7 +158,8 @@ Figure~\ref{fig:methodology}.
   \node[axis] at (7.5,2.0) {Retrieval};
   \node[axis, rotate=90] at (-3.8,0) {Public benchmark};
   \node[axis, rotate=90] at (-3.8,-4) {Expert-validated};
-\end{tikzpicture}
+\end{tikzpicture}%
+}
 \caption{The four evaluations, crossing question source against measurement target.}
 \label{fig:methodology}
 \end{figure}
@@ -178,8 +180,8 @@ every question before it enters the evaluation set.
 
 \section{Method}\label{sec:method}
 
-Below we describe the method for each of the four evaluations introduced in
-Section~\ref{sec:methodology}, in the same quadrant order.
+In this section we describe the method for each of the four evaluations
+introduced in Section~\ref{sec:methodology}, in the same quadrant order.
 
 \lead{Agent and arms.} Quadrants one and two score answers from the same kind of agent:
 a language model in a tool-use loop, with a fixed budget of tool calls, that decides what
