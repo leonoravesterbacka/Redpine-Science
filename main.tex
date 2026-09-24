@@ -51,12 +51,18 @@ Redpine Science}
 
 \abstract{Redpine Science gives models and agents a single access point to a wide range of
 peer-reviewed literature, queried directly through MCP and API. This report
-evaluates Redpine Science along two independent axes: the source of the evaluation
-questions (an existing public benchmark, or a literature-grounded question set built
-and validated in-house) and what is measured (a full agentic answer, or retrieval
-alone, with no model reasoning involved). Crossing these axes gives four separate
-evaluations rather than one blended score. An agent with Redpine Science access scores
-[X] percentage points higher than an agent restricted to web search on our
+evaluates Redpine Science along two axes: the source of the evaluation questions,
+an existing public benchmark or a literature-grounded set built and validated
+in-house, and what is tested, a full agentic answer or the retrieved chunks that
+answer is built on. Public benchmarks are comparable across labs, but a model that
+has memorized the answer is not testing retrieval; the in-house set, reviewed by
+domain experts before use, requires material only available in a paper's full
+text. Scoring retrieval separately from the final answer distinguishes a weak
+result caused by poor retrieval from one caused by poor reasoning over good
+retrieval, a distinction a single blended score cannot make. Crossing these two
+axes gives four separate evaluations rather than one blended score. An agent with
+Redpine Science access scores [X] percentage points higher than an agent
+restricted to web search on our
 expert-validated question set. On document retrieval, stripped of any model reasoning,
 Redpine Science recovers the correct source paper 83.1\% of the time, against 77.5\%
 for Exa, the retrieval benchmark's own creator, run under its published configuration.
