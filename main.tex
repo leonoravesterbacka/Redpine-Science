@@ -496,9 +496,10 @@ memory, and quadrants three and four measure the retrieved papers directly.
   \centering
   \includegraphics[width=0.6\linewidth]{figures/quadrant3_recall.pdf}
   \caption{Recall@1, Recall@5, and Recall@10 by system, n=668 queries whose
-  gold paper is confirmed present in Redpine Science's corpus. Redpine Science
-  leads at every cutoff: 6.9 points over
-  Exa at Recall@1, narrowing to 5.5 points at Recall@10; the gap over Tavily
+  gold paper is confirmed present in Redpine Science's corpus. Error bars are a
+  95\% confidence interval for a binomial proportion, computed from each cutoff's
+  exact found-count out of 668. Redpine Science leads at every cutoff: 6.9 points
+  over Exa at Recall@1, narrowing to 5.5 points at Recall@10; the gap over Tavily
   stays between 27.7 and 30.4 points across all three.}
   \label{fig:quadrant3-recall}
 \end{figure}
@@ -530,12 +531,15 @@ exist without it.
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.6\linewidth]{figures/quadrant4_precision.pdf}
-    \caption{Precision@5, fraction of results scored 3 or 4 of 4, by system, pooled
-    across both judges (176/299 for Redpine Science, 97/298 for PubMed). Error bars
-    are a 95\% confidence interval for a binomial proportion, computed from these
-    exact counts.}
-    \label{fig:quadrant4-precision}
+    \includegraphics[width=0.6\linewidth]{figures/quadrant4_metrics.pdf}
+    \caption{Precision@5 and mean DCG@5, by system, pooled across both judges.
+    Precision@5 is the fraction of results scored 3 or 4 of 4 (176/299 for Redpine
+    Science, 97/298 for PubMed); its error bars are a 95\% confidence interval for a
+    binomial proportion, computed from these exact counts. Mean DCG@5 is the
+    per-query discounted cumulative gain, averaged over the 60 pooled queries; its
+    error bars are a 95\% confidence interval of the mean over those 60 per-query
+    values.}
+    \label{fig:quadrant4-metrics}
 \end{figure}
 
 Quadrant four judges relevance directly, blind to which system produced each result.
