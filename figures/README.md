@@ -55,18 +55,19 @@ These are deliberate, and a new figure should not quietly break them.
 - **Bars start at zero.** A truncated axis turns a 6.6 point gap into a visual
   doubling, and this report's whole argument is that the numbers are modest and
   real.
-- **Bars are translucent (alpha 0.5) with a solid, fully opaque border**, via
-  `bar_style()` in `redpine_style.py`. Never pass a bare `alpha=` to `ax.bar`
-  itself — that fades the border to match the fill instead of keeping it
-  crisp against the fill and the gridlines behind it.
+- **Bars are translucent (alpha 0.5) with a solid, fully opaque, thin
+  (linewidth 0.55) border**, via `bar_style()` in `redpine_style.py`. Never
+  pass a bare `alpha=` to `ax.bar` itself — that fades the border to match
+  the fill instead of keeping it crisp.
 - **No title inside the figure.** The caption is the title, and it is numbered,
   referenced, and editable without regenerating a PDF.
 - **No headline number inside the figure**, for the same reason.
-- **Value labels on every bar**, so no one measures against the gridlines.
+- **Value labels on every bar**, so no one measures against the axis.
 - **Error bars only where they mean something**, and the caption says what they
   are. An error bar with no stated definition is worse than none.
-- **Two spines, light horizontal gridlines behind the data**, no box, no
-  shadows, no rounded corners, per the brand brief.
+- **Two spines, no background gridlines**, no box, no shadows, no rounded
+  corners, per the brand brief. The bars and their value labels carry the
+  comparison; there's nothing behind them to measure against.
 - **Transparent background**, so the figure sits on the page's own paper rather
   than carrying a slightly different white.
 - Fonts are embedded as Type 42, so the PDF stays vector and searchable.

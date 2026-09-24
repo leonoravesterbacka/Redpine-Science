@@ -16,7 +16,8 @@ Plotting conventions, which are not brand rules but are why the figures read wel
   * bar charts start at zero, always
   * no chart title: the caption belongs in LaTeX, where it is numbered and
     referenced
-  * horizontal reference lines only, behind the data, in a light grey
+  * no background gridlines: value labels carry the comparison, nothing to
+    measure a bar against behind it
   * every bar is labelled with its value, so the reader never measures against
     the axis
   * error bars are drawn only where they mean something, and the caption must
@@ -95,7 +96,7 @@ SMALL_PT = 8     # footnotes inside the axes, legend entries
 # the fill never overpowers the value label sitting on top of it.
 BAR_ALPHA = 0.5
 BAR_EDGECOLOR = DARK_GREY
-BAR_LINEWIDTH = 1.1
+BAR_LINEWIDTH = 0.55
 
 
 def apply_style():
@@ -131,12 +132,10 @@ def apply_style():
         "xtick.direction": "out",
         "ytick.direction": "out",
 
-        # Reference lines sit behind the data and stay quiet.
-        "axes.grid": True,
+        # No background reference lines: the bars and their value labels
+        # carry the comparison, nothing to measure against behind them.
+        "axes.grid": False,
         "axes.axisbelow": True,
-        "grid.color": "#D8D4CC",
-        "grid.linewidth": 0.6,
-        "grid.alpha": 1.0,
 
         # No rounded corners, no shadows, anywhere.
         "legend.frameon": False,
