@@ -317,7 +317,7 @@ computed with DeepEval~\cite{deepeval} after RAGAS~\cite{ragas}) are reported as
 diagnostics; because the two arms retrieve different text, these scores cannot compare
 the arms.
 
-\begin{figure}[t]
+\begin{figure}[htbp]
 \centering
 \begin{tikzpicture}[
   panel/.style={draw=RPDarkGrey, line width=0.6pt, text width=12.2cm, align=left,
@@ -395,9 +395,9 @@ gold publication and scores whether it was surfaced and at what rank: a match is
 DOI when a system returns one (only Redpine does), or a normalized title substring
 otherwise. It asks several phrasings per source paper, so its 668 DOI-confirmed queries
 map to 101 unique source papers. We report recall at the query level, the more
-demanding number, since it counts every phrasing separately, and at three ranks,
-Recall@1, Recall@5, and Recall@10, so a gain concentrated at the very top of the
-ranking is distinguishable from one that only shows up deeper in it. We restrict to
+demanding number since it counts every phrasing separately. We report it at three
+ranks, Recall@1, Recall@5, and Recall@10, so a gain at the top of the ranking is
+distinguishable from one that only shows up deeper in it. We restrict to
 these 668 queries rather than the benchmark's full 1,866: the rest ask about papers
 outside Redpine's corpus, and scoring Redpine on documents it cannot hold would measure
 corpus coverage rather than retrieval quality.
