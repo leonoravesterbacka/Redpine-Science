@@ -183,14 +183,13 @@ every question before it enters the evaluation set.
 In this section we describe the method for each of the four evaluations
 introduced in Section~\ref{sec:methodology}, in the same quadrant order.
 
-\lead{Agent and arms.} Quadrants one and two score answers from the same kind of agent:
-a language model in a tool-use loop, with a fixed budget of tool calls, that decides what
-to search and when to stop. Each arm of a comparison runs the same loop, the same model,
-and the same system prompt; the prompt differs between arms in one clause only, the list
-of tools the agent may call. The tools are Redpine Science search and web search, and
-web search is Tavily~\cite{tavily} wherever it appears. Answers are stored and scored
-afterwards, so a difference between arms can come only from the tools. Which arms run,
-which model answers, and how answers are scored are set per quadrant below.
+Quadrants one and two score answers from the same kind of agent: a language model in
+a tool-use loop, with a fixed budget of tool calls, that decides what to search and
+when to stop. Each arm of a comparison runs the same loop, the same model, and the
+same system prompt; the prompt differs between arms in one clause only, the list of
+tools the agent may call. Answers are stored and scored afterwards, so a difference
+between arms can come only from the tools. Which arms run, which model answers, and
+how answers are scored are set per quadrant below.
 
 \subsection{Quadrant one: public benchmarks, Q\&As}\label{sec:method-quadrant-one}
 
