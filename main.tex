@@ -120,9 +120,11 @@ and coverage by field.
 
 A query to Redpine Science returns a ranked list of chunks, short passages of text
 pulled from inside an article rather than whole documents, each tied back to its
-source paper. The retrieval quadrants in this report, Sections
-\ref{sec:method-quadrant-three} and \ref{sec:method-quadrant-four}, score exactly
-these ranked chunks, before any model reads or writes from them.
+source paper. The retrieval quadrants in this report score this ranked chunk list
+directly, before any model reads or writes from it, but at two different levels:
+Section~\ref{sec:method-quadrant-three} checks whether a chunk's source paper is
+the correct one, by DOI or title, at what rank; Section~\ref{sec:method-quadrant-four}
+has a domain expert judge the chunk's own content for relevance.
 
 Corpus breadth is only half the system. The retrieval stack built on top of it, a
 hybrid vector search, is maintained continuously rather than fixed at launch. The
