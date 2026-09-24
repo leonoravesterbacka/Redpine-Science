@@ -29,7 +29,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from redpine_style import (  # noqa: E402
-    ARM_COLORS, apply_style, figure, label_bars, save,
+    ARM_COLORS, apply_style, bar_style, figure, label_bars, save,
 )
 
 OUT = Path(__file__).resolve().parent / "quadrant3_recall"
@@ -67,7 +67,7 @@ def main():
         x = [c + offset for c in centers]
         bars = ax.bar(
             x, RECALL[system], width=BAR_WIDTH,
-            color=ARM_COLORS[system], label=LABELS[system], zorder=2,
+            **bar_style(ARM_COLORS[system]), label=LABELS[system], zorder=2,
         )
         label_bars(ax, bars, RECALL[system], offset=1.0)
 

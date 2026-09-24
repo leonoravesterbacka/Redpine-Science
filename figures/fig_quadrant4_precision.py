@@ -36,7 +36,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from redpine_style import (  # noqa: E402
-    ARM_COLORS, DARK_GREY, apply_style, figure, label_bars, save,
+    ARM_COLORS, DARK_GREY, apply_style, bar_style, figure, label_bars, save,
 )
 
 OUT = Path(__file__).resolve().parent / "quadrant4_precision"
@@ -74,7 +74,7 @@ def main():
     x = range(len(ORDER))
     bars = ax.bar(
         x, values, width=0.5,
-        color=[ARM_COLORS[s] for s in ORDER], zorder=2,
+        **bar_style([ARM_COLORS[s] for s in ORDER]), zorder=2,
     )
     ax.errorbar(
         x, values, yerr=errors, fmt="none",

@@ -55,6 +55,10 @@ These are deliberate, and a new figure should not quietly break them.
 - **Bars start at zero.** A truncated axis turns a 6.6 point gap into a visual
   doubling, and this report's whole argument is that the numbers are modest and
   real.
+- **Bars are translucent (alpha 0.5) with a solid, fully opaque border**, via
+  `bar_style()` in `redpine_style.py`. Never pass a bare `alpha=` to `ax.bar`
+  itself — that fades the border to match the fill instead of keeping it
+  crisp against the fill and the gridlines behind it.
 - **No title inside the figure.** The caption is the title, and it is numbered,
   referenced, and editable without regenerating a PDF.
 - **No headline number inside the figure**, for the same reason.
@@ -71,4 +75,6 @@ These are deliberate, and a new figure should not quietly break them.
 
 Copy `fig_scifact_arms.py`, keep the module-level docstring naming where the
 numbers came from (log filenames, branch, and what was excluded), and import
-the style module rather than setting any rcParam locally.
+the style module rather than setting any rcParam locally. For bars, pass
+`**bar_style(color)` (or a list of colours) to `ax.bar()` rather than a bare
+`color=` kwarg, so the fill/border convention above stays in one place.

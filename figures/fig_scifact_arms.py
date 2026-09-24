@@ -27,7 +27,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from redpine_style import (  # noqa: E402
-    ARM_COLORS, DARK_GREY, apply_style, figure, label_bars, save,
+    ARM_COLORS, DARK_GREY, apply_style, bar_style, figure, label_bars, save,
 )
 
 OUT = Path(__file__).resolve().parent / "scifact_arms"
@@ -74,7 +74,7 @@ def main():
     x = range(len(ORDER))
     bars = ax.bar(
         x, means, width=0.62,
-        color=[ARM_COLORS[arm] for arm in ORDER],
+        **bar_style([ARM_COLORS[arm] for arm in ORDER]),
         zorder=2,
     )
     ax.errorbar(

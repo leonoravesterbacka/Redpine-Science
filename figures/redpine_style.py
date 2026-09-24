@@ -21,11 +21,15 @@ Plotting conventions, which are not brand rules but are why the figures read wel
     the axis
   * error bars are drawn only where they mean something, and the caption must
     say what they are
+  * bars are a translucent block of colour (alpha 0.5) with a solid, fully
+    opaque border, via bar_style() -- never a bare `alpha=` on ax.bar itself,
+    which would fade the border to match the fill
 """
 
 from pathlib import Path
 
 import matplotlib as mpl
+import matplotlib.colors as mcolors
 import matplotlib.pyplot as plt
 
 # === Palette ================================================================
@@ -85,6 +89,14 @@ BASE_PT = 9      # tick labels and value labels
 LABEL_PT = 9.5   # axis labels
 SMALL_PT = 8     # footnotes inside the axes, legend entries
 
+# === Bars ====================================================================
+# Every bar is a translucent block of its brand colour with a solid, fully
+# opaque border, so two bars are told apart by outline as well as by fill, and
+# the fill never overpowers the value label sitting on top of it.
+BAR_ALPHA = 0.5
+BAR_EDGECOLOR = DARK_GREY
+BAR_LINEWIDTH = 1.1
+
 
 def apply_style():
     """Set the rcParams for every figure in the report. Call once per script."""
@@ -142,6 +154,21 @@ def apply_style():
 def figure(width_in=TEXT_WIDTH_IN, height_in=DEFAULT_HEIGHT_IN):
     """A figure sized to the document's text block."""
     return plt.subplots(figsize=(width_in, height_in))
+
+
+def bar_style(colors, alpha=BAR_ALPHA, edgecolor=BAR_EDGECOLOR, linewidth=BAR_LINEWIDTH):
+    """Kwargs for ax.bar(): translucent brand-colour fill, solid opaque border.
+
+    Pass a single colour or a list, one per bar. Bakes the alpha into the
+    facecolor rather than passing ax.bar's own `alpha=` kwarg, which would
+    fade the border to the same translucency as the fill instead of keeping
+    it crisp.
+    """
+    if isinstance(colors, str):
+        facecolor = mcolors.to_rgba(colors, alpha=alpha)
+    else:
+        facecolor = [mcolors.to_rgba(c, alpha=alpha) for c in colors]
+    return dict(facecolor=facecolor, edgecolor=edgecolor, linewidth=linewidth)
 
 
 def label_bars(ax, bars, values, fmt="{:.1f}", offset=0.9, color=DARK_GREY):
