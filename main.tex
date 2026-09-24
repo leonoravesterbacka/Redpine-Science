@@ -68,8 +68,10 @@ higher than an agent restricted to web search on our expert-validated question
 set. On document retrieval, stripped of any model reasoning, Redpine Science
 recovers the correct source paper 83.1\% of the time, against 77.5\% for a web
 search retrieval service, the benchmark's own creator, run under its published
-configuration. A blinded expert relevance panel~\cite{consensus} places Redpine
-Science's Precision@5 at 58.9\% against 32.6\% for PubMed.}
+configuration. A blinded expert relevance panel places Redpine Science's
+Precision@5 at 58.9\% against 32.6\% for PubMed. As part of this report, we
+release the expert-validated question set and instructions to reproduce every
+result above, at [link to redpine-benchmarks on GitHub].}
 
 \keywords{Evaluation Benchmarks, LLM, RAG}
 
@@ -546,7 +548,7 @@ agentic evaluation harness used to produce the answer-quality results above.
 
 \begin{itemize}[leftmargin=1.6em, itemsep=0.5em]
   \item \textbf{The expert-validated question set.} The depth questions, gold rubrics
-    included, at [link to GitHub repository].
+    included, at [link to redpine-benchmarks on GitHub].
   \item \textbf{An evaluation harness.} The agentic evaluation framework used for the
     answer-quality quadrants, comparing an agent with and without access to Redpine
     Science.
