@@ -118,6 +118,12 @@ judging are PhDs in clinical subspecialties, matched to what the corpus actually
 covers. See [link to Redpine Science product page] for the full list of partners
 and coverage by field.
 
+A query to Redpine Science returns a ranked list of chunks, short passages of text
+pulled from inside an article rather than whole documents, each tied back to its
+source paper. The retrieval quadrants in this report, Sections
+\ref{sec:method-quadrant-three} and \ref{sec:method-quadrant-four}, score exactly
+these ranked chunks, before any model reads or writes from them.
+
 Corpus breadth is only half the system. The retrieval stack built on top of it, a
 hybrid vector search, is maintained continuously rather than fixed at launch. The
 results in this report measure that stack as much as the underlying corpus.
