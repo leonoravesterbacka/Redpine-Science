@@ -6,7 +6,8 @@ subplots, for the same reason as fig_quadrant4_combined.py: the figure is
 authored at the true text width so LaTeX never rescales the type.
 
 Data provenance. The 179 expert-validated questions, both arms answered by
-Claude Opus 5 (web search only; web search plus Redpine Science), judged per
+Claude Opus 5 (web search only; Redpine Science with web search as fallback),
+judged per
 gold claim. Two judges over the same stored answers:
 
     Sonnet 5 on Bedrock, pass A          the pre-registered judge
@@ -50,24 +51,27 @@ OUT = Path(__file__).resolve().parent / "quadrant2_metrics"
 # Per judge, per metric, per arm: (mean, 95 percent t half-width), n = 179.
 DATA = {
     "sonnet": {
-        "claim_coverage":     {"web": (0.7016, 0.0444), "redpine": (0.8012, 0.0393)},
-        "contradiction_rate": {"web": (0.0694, 0.0241), "redpine": (0.0382, 0.0167)},
-        "correctness":        {"web": (0.7591, 0.0426), "redpine": (0.8467, 0.0346)},
+        "claim_coverage":     {"web": (0.7016, 0.0444), "redpine_first": (0.8012, 0.0393)},
+        "contradiction_rate": {"web": (0.0694, 0.0241), "redpine_first": (0.0382, 0.0167)},
+        "correctness":        {"web": (0.7591, 0.0426), "redpine_first": (0.8467, 0.0346)},
     },
     "jev": {
-        "claim_coverage":     {"web": (0.6962, 0.0446), "redpine": (0.7912, 0.0396)},
-        "contradiction_rate": {"web": (0.1068, 0.0265), "redpine": (0.0775, 0.0230)},
-        "correctness":        {"web": (0.7436, 0.0427), "redpine": (0.8277, 0.0361)},
+        "claim_coverage":     {"web": (0.6962, 0.0446), "redpine_first": (0.7912, 0.0396)},
+        "contradiction_rate": {"web": (0.1068, 0.0265), "redpine_first": (0.0775, 0.0230)},
+        "correctness":        {"web": (0.7436, 0.0427), "redpine_first": (0.8277, 0.0361)},
     },
 }
 
 JUDGES = ["sonnet", "jev"]
 JUDGE_LABELS = {"sonnet": "Sonnet 5", "jev": "Jev"}
 
-# Web search only is the comparison arm; web search plus Redpine Science is
-# Redpine's own result and takes the Crimson role, the only red in the chart.
-ARMS = ["web", "redpine"]
-ARM_LABELS = {"web": "Web search only", "redpine": "Web search plus Redpine Science"}
+# Web search only is the comparison arm. Redpine Science with web search as
+# fallback is the same arm quadrant one calls "Redpine Science then web", so it
+# takes that role's colour (redpine_first, Orange) and a colour keeps meaning
+# the same thing across the report.
+ARMS = ["web", "redpine_first"]
+ARM_LABELS = {"web": "Web search only",
+              "redpine_first": "Redpine Science with web search as fallback"}
 
 METRICS = [
     ("claim_coverage", "Claim coverage (higher is better)", (0, 1.0), [0, 0.2, 0.4, 0.6, 0.8, 1.0]),
@@ -137,7 +141,7 @@ def main():
     for judge in JUDGES:
         print(JUDGE_LABELS[judge])
         for metric, _, _, _ in METRICS:
-            web, rp = DATA[judge][metric]["web"], DATA[judge][metric]["redpine"]
+            web, rp = DATA[judge][metric]["web"], DATA[judge][metric]["redpine_first"]
             print(f"  {metric:18} web {web[0]:.3f} +/- {web[1]:.3f}   redpine {rp[0]:.3f} +/- {rp[1]:.3f}"
                   f"   gap {rp[0] - web[0]:+.3f}")
     print("wrote", out)
