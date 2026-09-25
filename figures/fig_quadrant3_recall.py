@@ -116,7 +116,9 @@ def main():
     ax.set_xticklabels(RANKS)
     ax.tick_params(axis="x", length=0)
     ax.grid(axis="x", visible=False)
-    ax.legend(loc="upper left")
+    # Above the axes entirely, not "upper left" inside them -- inside, the
+    # legend box sat directly over the Recall@1 group's value labels.
+    ax.legend(loc="lower left", bbox_to_anchor=(0.0, 1.0), ncol=3, borderaxespad=0.3)
 
     out = save(fig, OUT)
     for system in ORDER:
