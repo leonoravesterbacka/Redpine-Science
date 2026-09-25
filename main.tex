@@ -311,7 +311,7 @@ answer as written, citations included. Scores that compare an answer
 with its own retrieved text (groundedness, faithfulness, contextual recall and relevancy,
 computed with DeepEval~\cite{deepeval} after RAGAS~\cite{ragas}) are reported as
 diagnostics; because the two arms retrieve different text, these scores cannot compare
-the arms.
+the arms. Section~\ref{sec:results-quadrant-two} reports the three metrics for both arms.
 
 \begin{figure}[htbp]
 \centering
@@ -489,11 +489,63 @@ memory, and quadrants three and four measure the retrieved papers directly.
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.6\linewidth]{example-image-duck}
-    \caption{Preliminary per-criterion comparison, Connect vs.\ web search, n=57,
-95\% CI error bars, margin and paired p-value under each pair}
-    \label{fig:duck_placeholder}
+    \includegraphics[width=\linewidth]{figures/quadrant2_metrics.pdf}
+    \caption{Claim coverage, contradiction rate and correctness by arm on the 179
+    expert-validated questions (four tracks), under two judges. Sonnet 5, pass A, is
+    the pre-registered judge; Jev, the mean of two passes, is an exploratory second
+    judge over the same answers. Error bars are 95 percent t intervals of the mean
+    over the 179 questions. The paired intervals for the differences between the arms
+    are in the text.}
+    \label{fig:quadrant2-metrics}
 \end{figure}
+
+\begin{table}[htbp]
+\caption{Claim coverage difference, web search plus Redpine Science minus web search
+only, by track and judge. Paired 95 percent t intervals; n is the number of questions.}
+\label{tab:quadrant-two-tracks}
+\begin{tabular}{@{}lrcc@{}}
+\toprule
+\textbf{Track} & \textbf{n} & \textbf{Sonnet 5} & \textbf{Jev} \\
+\midrule
+Cardiology      & 79 & $+0.075$ $[+0.014, +0.136]$ & $+0.052$ $[-0.001, +0.106]$ \\
+Neuroimmunology & 60 & $+0.125$ $[+0.054, +0.196]$ & $+0.114$ $[+0.042, +0.186]$ \\
+Sepsis          & 20 & $+0.188$ $[+0.002, +0.373]$ & $+0.221$ $[+0.073, +0.369]$ \\
+Immunology      & 20 & $+0.033$ $[-0.072, +0.139]$ & $+0.081$ $[-0.022, +0.184]$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Figure~\ref{fig:quadrant2-metrics} shows the three metrics of
+Section~\ref{sec:method-quadrant-two} by arm. Under the pre-registered judge, the arm
+with Redpine Science states 80.1 percent of the gold claims against 70.2 percent for web
+search alone, a paired difference of $+0.100$ (95 percent interval $+0.058$ to $+0.142$,
+paired t $p = 6\times10^{-6}$, n = 179). It contradicts fewer claims, 3.8 percent against
+6.9 percent, a difference of $-0.031$ ($-0.055$ to $-0.008$, $p = 0.01$). Correctness,
+the F1 of the two, is 0.847 against 0.759, a difference of $+0.088$ ($+0.049$ to $+0.127$,
+$p = 2\times10^{-5}$). Per question, the Redpine Science arm covers more claims on 62
+questions, fewer on 22, and the same number on 95. Half the questions are answered
+equally well by both arms; the gain sits in the other half.
+
+The exploratory judge gives the same picture. Under Jev the coverage difference is
+$+0.095$ ($+0.056$ to $+0.134$, $p = 3\times10^{-6}$), the contradiction difference
+$-0.029$ ($-0.056$ to $-0.002$, $p = 0.03$) and the correctness difference $+0.084$
+($+0.048$ to $+0.121$, $p = 1\times10^{-5}$), with 62 questions won, 21 lost and 96 tied.
+Paired per question, the coverage difference under Jev and under Sonnet 5 differ by
+0.002 on a standard error of 0.015. Jev scores both arms lower on the absolute scale,
+mostly because it labels about twice as many claims contradicted (7.8 percent against
+3.8 percent on the Redpine Science arm), but the gap between the arms does not move.
+Contradiction is rare under either judge: at most 10.7 percent of claims on either arm.
+At the claim level the two judges give the same verdict on 89.9 percent of claims on the
+Redpine Science arm and 87.0 percent on the web search arm, with Krippendorff's alpha
+of 0.70 and 0.72 on the three-way label. That is agreement between two judges, not
+agreement with an expert.
+
+Table~\ref{tab:quadrant-two-tracks} splits the coverage difference by track. The gain
+is largest on sepsis and smallest on immunology, where both arms already cover more
+than four claims in five; the two 20-question tracks have intervals that include zero
+under at least one judge. These are the judge's margins. The expert study described in
+Section~\ref{sec:method-quadrant-two} has not yet returned labels; until it does, the
+numbers above say what the judge sees, not what an expert would.
 
 \subsection{Quadrant three: public benchmarks, retrieval}\label{sec:results-quadrant-three}
 
