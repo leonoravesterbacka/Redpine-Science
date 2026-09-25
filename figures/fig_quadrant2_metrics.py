@@ -62,13 +62,15 @@ ARMS = ["web", "redpine"]
 ARM_LABELS = {"web": "Web search only", "redpine": "Web search plus Redpine Science"}
 
 METRICS = [
-    ("claim_coverage", "Claim coverage", (0, 1.0), [0, 0.2, 0.4, 0.6, 0.8, 1.0]),
-    ("contradiction_rate", "Contradiction rate", (0, 0.2), [0, 0.05, 0.10, 0.15, 0.20]),
-    ("correctness", "Correctness (F1)", (0, 1.0), [0, 0.2, 0.4, 0.6, 0.8, 1.0]),
+    ("claim_coverage", "Claim coverage (higher is better)", (0, 1.0), [0, 0.2, 0.4, 0.6, 0.8, 1.0]),
+    ("contradiction_rate", "Contradiction rate (lower is better)", (0, 0.2), [0, 0.05, 0.10, 0.15, 0.20]),
+    ("correctness", "Correctness, F1 (higher is better)", (0, 1.0), [0, 0.2, 0.4, 0.6, 0.8, 1.0]),
 ]
 
-BAR_WIDTH = 0.46
-GROUP_GAP = 1.25    # distance between the two judges' pairs
+BAR_WIDTH = 0.38
+PAIR_GAP = 0.16     # clear space between the two arms of one judge, so a value
+                    # label never sits over the neighbouring bar
+GROUP_GAP = 1.30    # distance between the two judges' pairs
 
 
 def _draw_panel(ax, metric, ylabel, ylim, yticks):
@@ -76,7 +78,7 @@ def _draw_panel(ax, metric, ylabel, ylim, yticks):
     for j, judge in enumerate(JUDGES):
         for k, arm in enumerate(ARMS):
             mean, half = DATA[judge][metric][arm]
-            xs.append(j * GROUP_GAP + (k - 0.5) * BAR_WIDTH)
+            xs.append(j * GROUP_GAP + (k - 0.5) * (BAR_WIDTH + PAIR_GAP))
             means.append(mean)
             errors.append(half)
             colors.append(ARM_COLORS[arm])
@@ -86,14 +88,14 @@ def _draw_panel(ax, metric, ylabel, ylim, yticks):
     # Value above each bar, clear of its error bar.
     for bar, mean, half in zip(bars, means, errors):
         ax.text(bar.get_x() + bar.get_width() / 2, mean + half + 0.012 * ylim[1],
-                f"{mean:.2f}", ha="center", va="bottom", color=DARK_GREY, fontsize=7.5)
+                f"{mean:.2f}", ha="center", va="bottom", color=DARK_GREY, fontsize=7)
     # A bar chart is read by comparing heights, so every panel starts at zero.
     ax.set_ylim(*ylim)
     ax.set_yticks(yticks)
     ax.set_ylabel(ylabel)
     ax.set_xticks([j * GROUP_GAP for j in range(len(JUDGES))])
     ax.set_xticklabels([JUDGE_LABELS[j] for j in JUDGES])
-    ax.set_xlim(-0.7, (len(JUDGES) - 1) * GROUP_GAP + 0.7)
+    ax.set_xlim(-0.75, (len(JUDGES) - 1) * GROUP_GAP + 0.75)
     ax.tick_params(axis="x", length=0)
     ax.grid(axis="x", visible=False)
     return bars
