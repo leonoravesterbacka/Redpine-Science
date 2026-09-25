@@ -22,9 +22,15 @@
 \newcommand{\qOneRedpineThenWeb}{93.1\%}
 
 % --- Quadrant 2: expert-validated questions, Q&As ---
-% n=179 questions, four clinical tracks. Headline result not yet in --
-% still a [X] placeholder in the preprint as of the last sync above.
+% n=179 questions, four clinical tracks. Correctness (F1 of claim coverage
+% and one minus the contradiction rate) is in under two LLM judges; the
+% blinded expert read that actually settles the comparison, the preprint's
+% own [X] placeholder, hasn't returned yet.
 \newcommand{\qTwoN}{179}
+\newcommand{\qTwoCorrectnessSonnetWeb}{0.76}
+\newcommand{\qTwoCorrectnessSonnetRedpine}{0.85}
+\newcommand{\qTwoCorrectnessJevWeb}{0.74}
+\newcommand{\qTwoCorrectnessJevRedpine}{0.83}
 
 % --- Quadrant 3: public benchmarks, retrieval ---
 % Exa publication-retrieval benchmark, n=668 queries. Recall@10 shown here
