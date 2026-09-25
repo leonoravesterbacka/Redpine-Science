@@ -5,15 +5,19 @@ Data provenance. Five repeat runs of the ScholarQABench SciFact subtask
 rule) on claude-sonnet-5 via Bedrock. Per-run scores are read off the committed
 logs in connect-external-benchmarks on branch results/scaled-study:
 
-    scifact_20260911_110150   n=208
+    scifact_20260911_110150   n=197
     scifact_20260915_132619   n=199
     scifact_20260915_140004   n=199
     scifact_20260915_145823   n=199
     scifact_20260915_150156   n=196
 
-Runs differ in n because nine claims refuse deterministically on Sonnet 5 and a
-further one or two rows per run were lost to Bedrock throttling. Four further
-logs exist on disk and are superseded copies of runs 2 to 5, not extra runs.
+A claim is excluded from every arm of the run it falls in when the model refused
+it with no answer in at least one arm, or when an arm call failed after retries.
+Nine claims refuse deterministically on Sonnet 5 and a further one or two rows
+per run were lost to Bedrock throttling, so runs differ in n. Run 1 was rescored
+onto this rule on 2026-09-25, having first been scored with its refused claims
+counted incorrect. Four further logs exist on disk and are superseded copies of
+runs 2 to 5, not extra runs.
 The arithmetic behind the published percentage is in that repo's
 docs/CLAIM_MATH_2026-09-16.md.
 
@@ -34,10 +38,10 @@ OUT = Path(__file__).resolve().parent / "scifact_arms"
 
 # Per-run accuracy, in percent, one list per arm, five runs in order.
 RUNS = {
-    "closed_book":   [86.1, 86.9, 87.4, 87.4, 87.8],
-    "web":           [88.5, 93.5, 94.0, 93.5, 92.3],
-    "redpine":       [91.8, 93.5, 96.0, 94.5, 92.9],
-    "redpine_first": [89.9, 93.0, 93.5, 94.5, 94.4],
+    "closed_book":   [88.3, 86.9, 87.4, 87.4, 87.8],
+    "web":           [92.4, 93.5, 94.0, 93.5, 92.3],
+    "redpine":       [94.9, 93.5, 96.0, 94.5, 92.9],
+    "redpine_first": [93.9, 93.0, 93.5, 94.5, 94.4],
 }
 
 # Plot order runs left to right from least to most tool access, so the bars
