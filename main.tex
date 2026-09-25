@@ -65,7 +65,7 @@ against 87.6\% with no retrieval. On the expert-validated question set, an agent
 80.1\% of the required claims against 70.2\% for an agent restricted to web search. On document retrieval, stripped of any model reasoning, Redpine Science
 recovers the correct source paper 83.1\% of the time, against 77.5\% for Exa, the
 benchmark's creator, run under its published configuration. A blinded expert relevance panel places Redpine Science's
-Precision@5 at 54.3\% against 25.4\% for PubMed. We release the
+Precision@5 at 75.2\% against 39.8\% for PubMed. We release the
 expert-validated question set and instructions to reproduce every
 result above, at [link to redpine-benchmarks on GitHub].}
 
@@ -568,21 +568,23 @@ against 81\% for Exa and 72\% for Tavily.
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.6\linewidth]{figures/quadrant4_metrics.pdf}
-    \caption{Precision@5 and mean DCG@5, by system, pooled across all 115
-    questions (90 domain-specific plus 25 cross-judged real-world). Left panel
-    error bars are a 95\% confidence interval for a binomial proportion; right
-    panel error bars are a 95\% confidence interval of the mean over the pooled
-    per-query values.}
+    \caption{Precision@5 (score 2 or higher out of 4) and mean DCG@5, by system,
+    pooled across all 115 questions (90 domain-specific plus 25 cross-judged
+    real-world). Left panel error bars are a 95\% confidence interval for a
+    binomial proportion; right panel error bars are a 95\% confidence interval
+    of the mean over the pooled per-query values.}
     \label{fig:quadrant4-metrics}
 \end{figure}
 
 Figure~\ref{fig:quadrant4-metrics} shows the result over all 115 questions.
-Precision@5 is the fraction of a system's top 5 results a judge scores 3 or 4 out of
-4 for relevance, on a 0 to 100\% scale. DCG@5 also weights a relevant result more
-heavily the higher it is ranked; the scale is unbounded and higher is better. Redpine
-Science leads on both: Precision@5 54.3\% against 25.4\% for PubMed, and mean DCG@5
-7.70 against 4.45. Mean relevance per judged result is 2.59 against 1.54 on the 0 to 4
-scale. Agreement between the two panelists who judged the same real-world questions
+Precision@5 is the fraction of a system's top 5 results a judge scores 2 or higher out
+of 4 for relevance, a looser cutoff than the 3-or-4 threshold used by the evaluation
+this report's scale is otherwise matched to~\cite{consensus}, on a 0 to 100\% scale.
+DCG@5 also weights a relevant result more heavily the higher it is ranked; the scale is
+unbounded and higher is better. Redpine Science leads on both: Precision@5 75.2\%
+against 39.8\% for PubMed, and mean DCG@5 7.26 against 4.02. Mean relevance per judged
+result is 2.43 against 1.38 on the 0 to 4 scale. Agreement between the two panelists
+who judged the same real-world questions
 is moderate (quadratic-weighted Cohen's $\kappa$ = 0.59, n = 246 individually judged
 results across the 25 shared questions), the measured inter-rater ceiling for this
 panel.
@@ -612,7 +614,7 @@ retrieval benchmark, Redpine Science recovers the correct document 83.1\% of the
 against 77.5\% for Exa, the benchmark's creator. On the expert-judged retrieval
 panel, three PhD-level domain experts (neurology, cardiology, and rheumatology) plus
 a cross-judged real-world question pool, n = 115 in all, place Redpine Science's
-Precision@5 at 54.3\% against 25.4\% for PubMed; a larger expert-validated
+Precision@5 at 75.2\% against 39.8\% for PubMed; a larger expert-validated
 answer set will be reported later.
 
 \section{Acknowledgments}\label{sec:thanks}
