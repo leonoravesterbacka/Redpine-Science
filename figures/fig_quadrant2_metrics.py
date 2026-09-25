@@ -29,13 +29,21 @@ Run:  uv run --with matplotlib python figures/fig_quadrant2_metrics.py
 import sys
 from pathlib import Path
 
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from redpine_style import (  # noqa: E402
-    ARM_COLORS, DARK_GREY, TEXT_WIDTH_IN, apply_style, bar_style, save,
+    ARM_COLORS, BASE_PT, DARK_GREY, LABEL_PT, SMALL_PT, TEXT_WIDTH_IN, apply_style,
+    bar_style, save,
 )
+
+# The other figures in the report are authored at TEXT_WIDTH_IN and included at
+# 0.6\linewidth, so their type renders at 60 percent of the style's point sizes.
+# This figure has three panels and is included at \linewidth; its type is scaled
+# by the same factor so it reads the same size on the page as the others.
+TYPE_SCALE = 0.6
 
 OUT = Path(__file__).resolve().parent / "quadrant2_metrics"
 
@@ -82,13 +90,16 @@ def _draw_panel(ax, metric, ylabel, ylim, yticks):
             means.append(mean)
             errors.append(half)
             colors.append(ARM_COLORS[arm])
-    bars = ax.bar(xs, means, width=BAR_WIDTH, **bar_style(colors), zorder=2)
+    bars = ax.bar(xs, means, width=BAR_WIDTH, **bar_style(colors, linewidth=0.55 * TYPE_SCALE),
+                  zorder=2)
     ax.errorbar(xs, means, yerr=errors, fmt="none", ecolor=DARK_GREY,
-                elinewidth=0.9, capsize=3.0, capthick=0.9, zorder=3)
+                elinewidth=0.9 * TYPE_SCALE, capsize=3.0 * TYPE_SCALE,
+                capthick=0.9 * TYPE_SCALE, zorder=3)
     # Value above each bar, clear of its error bar.
     for bar, mean, half in zip(bars, means, errors):
         ax.text(bar.get_x() + bar.get_width() / 2, mean + half + 0.012 * ylim[1],
-                f"{mean:.2f}", ha="center", va="bottom", color=DARK_GREY, fontsize=7)
+                f"{mean:.2f}", ha="center", va="bottom", color=DARK_GREY,
+                fontsize=BASE_PT * TYPE_SCALE)
     # A bar chart is read by comparing heights, so every panel starts at zero.
     ax.set_ylim(*ylim)
     ax.set_yticks(yticks)
@@ -103,14 +114,24 @@ def _draw_panel(ax, metric, ylabel, ylim, yticks):
 
 def main():
     apply_style()
-    fig, axes = plt.subplots(1, 3, figsize=(TEXT_WIDTH_IN, 2.7))
+    mpl.rcParams.update({
+        "font.size": BASE_PT * TYPE_SCALE,
+        "axes.labelsize": LABEL_PT * TYPE_SCALE,
+        "xtick.labelsize": BASE_PT * TYPE_SCALE,
+        "ytick.labelsize": BASE_PT * TYPE_SCALE,
+        "legend.fontsize": SMALL_PT * TYPE_SCALE,
+        "axes.linewidth": 0.8 * TYPE_SCALE,
+        "xtick.major.width": 0.8 * TYPE_SCALE,
+        "ytick.major.width": 0.8 * TYPE_SCALE,
+    })
+    fig, axes = plt.subplots(1, 3, figsize=(TEXT_WIDTH_IN, 2.0))
     first = None
     for ax, (metric, ylabel, ylim, yticks) in zip(axes, METRICS):
         bars = _draw_panel(ax, metric, ylabel, ylim, yticks)
         first = first or bars
     fig.legend(first[:2], [ARM_LABELS[a] for a in ARMS], loc="lower center",
-               ncol=2, bbox_to_anchor=(0.5, -0.04), frameon=False)
-    fig.tight_layout(w_pad=2.0, rect=(0, 0.06, 1, 1))
+               ncol=2, bbox_to_anchor=(0.5, -0.03), frameon=False)
+    fig.tight_layout(w_pad=1.5, rect=(0, 0.07, 1, 1))
 
     out = save(fig, OUT)
     for judge in JUDGES:
