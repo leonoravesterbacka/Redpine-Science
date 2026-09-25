@@ -84,12 +84,12 @@ peer-reviewed literature, queried directly through MCP~\cite{mcp} and API. This
 report measures how much that access improves the answers a model produces, and how
 reliably that improvement can be measured.
 
-Evaluating a retrieval-augmented system is harder than evaluating a model alone. A RAG
+Evaluating a retrieval-augmented (RAG) system is harder than evaluating a model alone. A RAG
 pipeline conflates two effects: whether the right passage is surfaced (retrieval), and
 whether the model turns that passage into an accurate, grounded answer (generation).
-Most published evaluations, including ours until recently, report a single blended
+Most published evaluations, report a single blended
 score for both. A win on that score can come from better retrieval, a better-written
-answer drawn from similar evidence, or some mix of the two, and the number alone does
+answer drawn from similar evidence, or a mix of the two, and the number alone does
 not distinguish between them.
 
 We separate the two effects by crossing two independent choices: who wrote the
@@ -106,7 +106,7 @@ methodology, including the method for each of the four quadrants
 (Section~\ref{sec:methodology}), the results (Section~\ref{sec:results}), what we
 are releasing (Section~\ref{sec:releasing}), and a summary (Section~\ref{sec:summary}).
 
-\section{Redpine Science}\label{sec:redpine-science}
+\subsection{Redpine Science}\label{sec:redpine-science}
 
 Redpine Science gives models and agents live access to over 20 million
 peer-reviewed articles, spanning both closed-access journals and open-access
@@ -126,13 +126,9 @@ Section~\ref{sec:method-quadrant-three} checks whether a chunk's source paper is
 the correct one, by DOI or title, at what rank; Section~\ref{sec:method-quadrant-four}
 has a domain expert judge the chunk's own content for relevance.
 
-Corpus breadth is only half the system. The retrieval stack built on top of it, a
-hybrid vector search, is maintained continuously rather than fixed at launch. The
-results in this report measure that stack as much as the underlying corpus.
-
 \section{Evaluation methodology}\label{sec:methodology}
 
-At Redpine, we believe in transparent, reproducible evaluations. To this end we
+At Redpine, we believe in transparent, thorough, and reproducible evaluations. To this end we
 are leveraging a four tiered evaluation approach, crossing question source
 against what is measured to produce the four evaluations shown in
 Figure~\ref{fig:methodology}.
