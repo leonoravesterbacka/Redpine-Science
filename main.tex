@@ -69,7 +69,7 @@ set. On document retrieval, stripped of any model reasoning, Redpine Science
 recovers the correct source paper 83.1\% of the time, against 77.5\% for a web
 search retrieval service, the benchmark's own creator, run under its published
 configuration. A blinded expert relevance panel places Redpine Science's
-Precision@5 at 58.9\% against 32.6\% for PubMed. As part of this report, we
+Precision@5 at 54.3\% against 25.4\% for PubMed. As part of this report, we
 release the expert-validated question set and instructions to reproduce every
 result above, at [link to redpine-benchmarks on GitHub].}
 
@@ -435,14 +435,23 @@ The comparison arm is PubMed, what a researcher actually types a question into
 today, emulating a realistic research use case. Both arms receive the identical,
 unmodified question text, with no query engineering on either side.
 
-Three PhD-level domain experts are the judges, each scoring their own batch of 30
-questions: one batch is mostly neurology, with a handful of adjacent critical care,
-immunology, microbiology, and pharmacology questions; another is entirely
-cardiology; the third is entirely rheumatology. These are hard subspecialty
-questions that require real domain knowledge to even evaluate the results, not just
-to answer. The three batches do not overlap. Results below pool the two batches
-scored so far, neurology and cardiology; the rheumatology batch is still being
-judged.
+Three PhD-level domain experts are the judges. Each scores their own batch of 30
+domain-specific questions, hard subspecialty questions that require real domain
+knowledge to even evaluate the results, not just to answer: one batch is mostly
+neurology, with a handful of adjacent critical care, immunology, microbiology, and
+pharmacology questions; one is entirely cardiology; one is entirely rheumatology.
+These three batches do not overlap and each is judged by a single panelist, for
+breadth across subspecialties.
+
+A second, smaller pool of 25 real-world questions, drawn from de-identified
+production search queries rather than hand-written, is judged in full by more than
+one panelist against an identical blinded result set, specifically to measure
+inter-rater agreement rather than just breadth. Each real-world question is judged
+by two panelists; per-item scores are averaged across judges before pooling, so a
+real-world question contributes one data point below, not two.
+
+The full panel is 115 questions: 90 domain-specific, 30 from each of the three
+subspecialists, plus the 25 real-world questions.
 
 \section{Results}\label{sec:results}
 
@@ -533,26 +542,27 @@ exist without it.
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.6\linewidth]{figures/quadrant4_metrics.pdf}
-    \caption{Precision@5 and mean DCG@5, by system, pooled across both judges.
-    Left panel error bars are a 95\% confidence interval for a binomial proportion,
-    computed from the exact counts (176/299 for Redpine Science, 97/298 for
-    PubMed); right panel error bars are a 95\% confidence interval of the mean
-    over the 60 pooled per-query values.}
+    \caption{Precision@5 and mean DCG@5, by system, pooled across all 115
+    questions (90 domain-specific plus 25 cross-judged real-world). Left panel
+    error bars are a 95\% confidence interval for a binomial proportion; right
+    panel error bars are a 95\% confidence interval of the mean over the pooled
+    per-query values.}
     \label{fig:quadrant4-metrics}
 \end{figure}
 
-Quadrant four judges relevance directly, blind to which system produced each result.
-Precision@5 is the fraction of a system's top 5 results a judge scored 3 or 4 out
-of 4 for relevance, a 0 to 100 percent scale where higher means more of what is
-shown is actually useful. DCG@5 additionally weights a relevant result more
-heavily the higher it is ranked, an unbounded scale, driven by both a result's
-relevance score and its position, where higher is better. Redpine Science leads
-on both metrics: Precision@5 58.9\% against 32.6\% for PubMed,
-mean DCG@5 7.85 against 4.83. Mean relevance per judged result is 2.64 against 1.66 on
-the 0 to 4 scale. The margin holds in the same direction for both judges individually:
-the mostly-neurology batch scores Redpine Science at 49.0\% Precision@5 against 20.8\%
-for PubMed; the cardiology batch scores
-68.7\% against 44.3\%.
+Quadrant four judges relevance directly, blind to which system produced each
+result, pooled across all 115 questions: 90 domain-specific and 25 cross-judged
+real-world. Precision@5 is the fraction of a system's top 5 results a judge
+scored 3 or 4 out of 4 for relevance, a 0 to 100 percent scale where higher means
+more of what is shown is actually useful. DCG@5 additionally weights a relevant
+result more heavily the higher it is ranked, an
+unbounded scale, driven by both a result's relevance score and its position, where
+higher is better. Redpine Science leads on every metric: Precision@5 54.3\% against
+25.4\% for PubMed, mean DCG@5 7.70 against 4.45. Mean relevance per judged result is
+2.59 against 1.54 on the 0 to 4 scale. Agreement between the two panelists who have
+judged the same real-world questions is moderate (quadratic-weighted Cohen's
+$\kappa$ = 0.59, n = 246 individually judged results across the 25 shared
+questions), a real inter-rater ceiling for this panel rather than an assumed one.
 
 
 \section{What we are releasing}\label{sec:releasing}
@@ -578,9 +588,10 @@ public benchmark of this kind leaves little room to measure retrieval, which is 
 other three quadrants are for. On the public
 retrieval benchmark, Redpine Science recovers the correct document 83.1\% of the time,
 against 77.5\% for Exa, the benchmark's own creator. On the expert-judged retrieval
-panel, two PhD-level domain experts (neurology and cardiology) place Redpine Science's
-Precision@5 at 58.9\% against 32.6\% for PubMed; a scaled-up expert-validated answer
-set will be reported ahead of launch.
+panel, three PhD-level domain experts (neurology, cardiology, and rheumatology) plus
+a cross-judged real-world question pool, n=115 in all, place Redpine Science's
+Precision@5 at 54.3\% against 25.4\% for PubMed; a scaled-up expert-validated
+answer set will be reported ahead of launch.
 
 \section{Acknowledgments}\label{sec:thanks}
 
