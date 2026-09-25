@@ -1,0 +1,46 @@
+% facts.tex -- single source of truth for the headline numbers shared
+% between the Redpine Science preprint (github.com/leonoravesterbacka/
+% Redpine-Science) and this blog post (github.com/leonoravesterbacka/
+% redpine-science-blog).
+%
+% Overleaf does not support git submodules or cross-repo \input, so both
+% repos keep their own copy of this exact file rather than a live link.
+% Whenever a headline number changes in the preprint, update THIS file in
+% both repos (copy, don't hand-retype) and push both. Nothing in the prose
+% of either document should hardcode a number this file already defines --
+% write \qFourPrecisionRedpine, not "54.3\%", so a future update only ever
+% touches this one file.
+%
+% Last synced: 2026-09-25, against Redpine-Science commit f90dccb.
+
+% --- Quadrant 1: public benchmarks, Q&As ---
+% ScholarQABench SciFact, n=208 claims, mean of five runs.
+\newcommand{\qOneN}{208}
+\newcommand{\qOneRedpine}{93.7\%}
+\newcommand{\qOneNoRetrieval}{87.1\%}
+\newcommand{\qOneWebSearch}{92.4\%}
+\newcommand{\qOneRedpineThenWeb}{93.1\%}
+
+% --- Quadrant 2: expert-validated questions, Q&As ---
+% n=179 questions, four clinical tracks. Headline result not yet in --
+% still a [X] placeholder in the preprint as of the last sync above.
+\newcommand{\qTwoN}{179}
+
+% --- Quadrant 3: public benchmarks, retrieval ---
+% Exa publication-retrieval benchmark, n=668 queries. Recall@10 shown here
+% as the headline (found the right paper at all, within the top 10);
+% the preprint also reports Recall@1/5 and nDCG, not carried into the blog.
+\newcommand{\qThreeN}{668}
+\newcommand{\qThreeRedpineRecall}{83.1\%}
+\newcommand{\qThreeExaRecall}{77.5\%}
+
+% --- Quadrant 4: expert-validated questions, retrieval ---
+% Blinded PhD relevance panel, n=115 questions (90 domain-specific across
+% three subspecialists, plus 25 cross-judged real-world questions).
+% Precision@5 and mean DCG@5 shown here; the preprint also reports mean
+% relevance and an inter-rater kappa, not carried into the blog.
+\newcommand{\qFourN}{115}
+\newcommand{\qFourPrecisionRedpine}{54.3\%}
+\newcommand{\qFourPrecisionPubmed}{25.4\%}
+\newcommand{\qFourDCGRedpine}{7.70}
+\newcommand{\qFourDCGPubmed}{4.45}
