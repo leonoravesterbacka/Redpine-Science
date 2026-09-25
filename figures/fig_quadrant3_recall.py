@@ -26,11 +26,14 @@ Error bars are a Wald (normal-approximation) 95% confidence interval for a
 binomial proportion, computed here from these exact counts -- the same
 method fig_quadrant4_precision.py uses for its own Precision@5 bars.
 
-MRR and nDCG are reported in the main text's table, not this figure, which
-covers only the three recall cutoffs. Do not mix in Gemini or Bing numbers
-from the same project: those showed run-to-run flip rates of 10-13% on this
-benchmark, a different reliability class, not a like-for-like point estimate
-with the three systems plotted here.
+nDCG is reported in the main text's table, not this figure, which covers only
+the three recall cutoffs. MRR was dropped from the report entirely (2026-09-25,
+"keep it simple and few metrics tracked") -- kept in the data-provenance table
+above as a factual record of what was measured, not because it appears
+anywhere in the paper. Do not mix in Gemini or Bing numbers from the same
+project: those showed run-to-run flip rates of 10-13% on this benchmark, a
+different reliability class, not a like-for-like point estimate with the
+three systems plotted here.
 
 Run:  uv run --with matplotlib python figures/fig_quadrant3_recall.py
 """
