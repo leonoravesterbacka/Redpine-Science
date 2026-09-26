@@ -36,7 +36,7 @@ import matplotlib.pyplot as plt
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from redpine_style import (  # noqa: E402
-    ARM_COLORS, BASE_PT, DARK_GREY, LABEL_PT, SMALL_PT, TEXT_WIDTH_IN, apply_style,
+    CRIMSON, SKY_BLUE, BASE_PT, DARK_GREY, LABEL_PT, SMALL_PT, TEXT_WIDTH_IN, apply_style,
     bar_style, save,
 )
 
@@ -65,13 +65,17 @@ DATA = {
 JUDGES = ["sonnet", "jev"]
 JUDGE_LABELS = {"sonnet": "Sonnet 5", "jev": "Jev"}
 
-# Web search only is the comparison arm. Redpine Science with web search as
-# fallback is the same arm quadrant one calls "Redpine Science then web", so it
-# takes that role's colour (redpine_first, Orange) and a colour keeps meaning
-# the same thing across the report.
-ARMS = ["web", "redpine_first"]
+# Redpine's arm plots first (left of each judge's pair), web search second.
+# Colour is a local override, not the shared ARM_COLORS role dict: this chart
+# has only two arms and no separate "Redpine alone" bar to distinguish from,
+# so it reads as a plain two-system comparison (Crimson vs. Sky Blue, as in
+# quadrant three's recall figure) rather than quadrant one's four-arm
+# Orange-vs-Crimson distinction, even though the arm itself is the same
+# "Redpine Science with web search as fallback" quadrant one calls Orange.
+ARMS = ["redpine_first", "web"]
 ARM_LABELS = {"web": "Web search only",
               "redpine_first": "Redpine Science with web search as fallback"}
+LOCAL_COLORS = {"redpine_first": CRIMSON, "web": SKY_BLUE}
 
 METRICS = [
     ("claim_coverage", "Claim coverage (higher is better)", (0, 1.0), [0, 0.2, 0.4, 0.6, 0.8, 1.0]),
@@ -93,7 +97,7 @@ def _draw_panel(ax, metric, ylabel, ylim, yticks):
             xs.append(j * GROUP_GAP + (k - 0.5) * (BAR_WIDTH + PAIR_GAP))
             means.append(mean)
             errors.append(half)
-            colors.append(ARM_COLORS[arm])
+            colors.append(LOCAL_COLORS[arm])
     bars = ax.bar(xs, means, width=BAR_WIDTH, **bar_style(colors, linewidth=0.55 * TYPE_SCALE),
                   zorder=2)
     ax.errorbar(xs, means, yerr=errors, fmt="none", ecolor=DARK_GREY,
