@@ -241,7 +241,8 @@ words, and no hint of the paper's design, thresholds or timepoints. The specific
 the answer key instead.
 
 The answer key, which we call the gold, lists two to four required claims, the facts a
-good answer must state. Every claim is tied to a quoted passage in the paper, and its
+good answer must state; Table~\ref{tab:appendix-q2-questions} in the appendix shows four
+questions with their golds. Every claim is tied to a quoted passage in the paper, and its
 wording is graded to the evidence: a causal claim needs a randomized comparison; anything
 weaker is stated as an association or a preliminary finding. The gold also carries a
 certainty sentence that says how strong the evidence is, names the population and
@@ -286,8 +287,8 @@ the agent chooses when to use each tool, which is how a customer's agent would u
 Every judging pass scores the same stored text.
 
 \lead{Judging.} A second, fixed model (Claude Sonnet 5) judges every answer, the same
-way for both arms. Jev, TypeSafe's System One decision model \todo{add Jev
-citation}, is run as a second judge over the same answers. It does not generate text:
+way for both arms. Jev, TypeSafe's System One decision model~\cite{jev}, is run as a
+second judge over the same answers. It does not generate text:
 it takes the question, the gold and the answer as state and returns a typed verdict
 with a probability for each claim. Jev's numbers are the mean of two passes; Sonnet 5
 is the primary judge, fixed before any expert label was collected. It reads the question, the population and setting from the gold, and
@@ -716,10 +717,55 @@ discussions that laid the foundation for this evaluation work.
 
 \begin{appendices}
 
-\section{Example Expert-Judging Questions}\label{sec:appendix-questions}
+\section{Example Questions}\label{sec:appendix-questions}
 
-Table~\ref{tab:appendix-questions} shows one example question from each of the
-three domains in quadrant four's judging panel (Section~\ref{sec:method-quadrant-four}).
+Table~\ref{tab:appendix-q2-questions} shows four of the 179 expert-validated questions
+of quadrant two (Section~\ref{sec:method-quadrant-two}), one per track, each with the
+required claims and the scope line of its gold, quoted as the gold states them. The full
+set is released. Table~\ref{tab:appendix-questions} shows one example question from each
+of the three domains in quadrant four's judging panel
+(Section~\ref{sec:method-quadrant-four}).
+
+\begin{table}[h]
+\caption{Four of the 179 quadrant two questions, one per track, with the required claims
+and scope of each gold. The full set is released.}
+\label{tab:appendix-q2-questions}
+\begin{tabularx}{\textwidth}{@{}lXX@{}}
+\toprule
+\textbf{Track} & \textbf{Question} & \textbf{Required claims and scope} \\
+\midrule
+Cardiology & How does in-hospital mortality compare between transcatheter and surgical
+aortic valve replacement in patients with aortic stenosis? & In-hospital mortality was
+lower after transcatheter than after surgical aortic valve replacement overall; among
+patients younger than 75 years, in-hospital mortality did not differ between the
+transcatheter and surgical approaches. Scope: applies to severe non-rheumatic aortic
+stenosis treated with aortic valve replacement in adults, predominantly elderly,
+inpatient settings. \\[0.6em]
+Neuroimmunology & Which imaging measures relate to disability progression that occurs
+independently of relapses in multiple sclerosis? & Measures of cortical damage are
+central to predicting progression of disability that occurs without relapses; spinal
+cord degeneration also carries prognostic relevance for disability progression in
+multiple sclerosis; cortical thickness in the temporal lobe emerged as the strongest
+imaging predictor of time to relapse-independent progression. Scope: applies to multiple
+sclerosis in adults under regular clinical evaluation, outpatient settings. \\[0.6em]
+Sepsis & How does the timing of norepinephrine initiation after hypotension onset relate
+to mortality in sepsis? & A longer delay between hypotension onset and the start of
+norepinephrine is associated with higher 28-day mortality; the delay remains associated
+with 28-day death after multivariable adjustment for measured covariates; delays
+extending beyond the first hour after hypotension onset are associated with a higher
+adjusted hazard of death by day 28. Scope: applies to sepsis with hypotension requiring
+vasopressor support in adults, mixed settings. \\[0.6em]
+Immunology & How do ibrutinib, acalabrutinib, and zanubrutinib compare for atrial
+fibrillation risk in mantle cell lymphoma? & Newly recorded atrial fibrillation or
+flutter is less frequent with acalabrutinib than with ibrutinib, on the order of a third
+as frequent; newly recorded atrial fibrillation or flutter is likewise less frequent with
+zanubrutinib than with ibrutinib; atrial fibrillation or flutter frequency is similar
+between acalabrutinib and zanubrutinib, with no clear separation between the two
+second-generation agents. Scope: applies to mantle cell lymphoma treated with a covalent
+Bruton tyrosine kinase inhibitor in adults, outpatient settings. \\
+\bottomrule
+\end{tabularx}
+\end{table}
 
 \begin{table}[h]
 \caption{One example question per domain, quadrant four's judging panel.}
