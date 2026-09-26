@@ -10,15 +10,21 @@
 \usepackage{enumitem}%
 \usepackage{tikz}%
 
-% sn-jnl.cls hardcodes twoside layout (\LoadClass[twoside,...]{article}) and
-% loads geometry with bindingoffset=6mm, a print-book convention that shifts
-% the text block toward the binding edge, alternating direction on odd vs.
-% even pages. This is a PDF preprint, not a bound book, so the shift just
-% reads as the page wandering left/right. A second \usepackage{geometry}
-% call errors ("Option clash"), since the class already loaded it; \geometry{}
-% is the package's own command for changing settings afterward, and only
-% touches the key given, leaving every other class-set margin alone.
-\geometry{bindingoffset=0mm}%
+% sn-jnl.cls hardcodes twoside layout (\LoadClass[twoside,...]{article}, not
+% overridable via a document class option) and loads geometry with
+% bindingoffset=6mm, a print-book convention appropriate for a bound journal,
+% not a PDF preprint read on-screen. bindingoffset alone isn't the whole
+% story, though: geometry's default hmarginratio also splits the remaining
+% margin unevenly between inner and outer in twoside mode, so zeroing only
+% bindingoffset actually made the two sides MORE uneven (confirmed
+% numerically in isolation: odd=17.9pt/even=63.0pt with bindingoffset=0mm
+% alone, vs. odd=28.2pt/even=52.8pt with the class default). Adding
+% hmarginratio=1:1 forces an even split on top of the zeroed offset, giving
+% odd=even=40.5pt -- true centering, not just a smaller shift. A second
+% \usepackage{geometry} call errors ("Option clash"), since the class
+% already loaded it; \geometry{} is the package's own command for changing
+% settings afterward, and only touches the keys given.
+\geometry{bindingoffset=0mm,hmarginratio=1:1}%
 
 % Redpine brand palette (see brand brief) -- the only 7 colours allowed to ship
 % under the Redpine name. Never introduce off-palette hues elsewhere in this doc.
