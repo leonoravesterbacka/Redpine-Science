@@ -10,6 +10,16 @@
 \usepackage{enumitem}%
 \usepackage{tikz}%
 
+% sn-jnl.cls hardcodes twoside layout (\LoadClass[twoside,...]{article}) and
+% loads geometry with bindingoffset=6mm, a print-book convention that shifts
+% the text block toward the binding edge, alternating direction on odd vs.
+% even pages. This is a PDF preprint, not a bound book, so the shift just
+% reads as the page wandering left/right. A second \usepackage{geometry}
+% call errors ("Option clash"), since the class already loaded it; \geometry{}
+% is the package's own command for changing settings afterward, and only
+% touches the key given, leaving every other class-set margin alone.
+\geometry{bindingoffset=0mm}%
+
 % Redpine brand palette (see brand brief) -- the only 7 colours allowed to ship
 % under the Redpine name. Never introduce off-palette hues elsewhere in this doc.
 \definecolor{RPDarkRed}{HTML}{BD0519}
@@ -92,8 +102,9 @@ generation.
 
 \subsection{Redpine Science}\label{sec:redpine-science}
 
-The corpus holds over 20 million peer-reviewed articles, from closed-access
-journals and open-access repositories, served through Redpine's API and MCP.
+The corpus used in these evaluations is Redpine Science, which holds over 20
+million peer-reviewed articles from closed-access journals and open-access
+repositories, served through Redpine's API and MCP.
 Coverage concentrates in biomedicine, with smaller coverage of physics and
 chemistry. That concentration sets the domain for the rest of this report: the
 public benchmarks tested are mostly biomedical, and the relevance judges are PhDs
