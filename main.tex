@@ -51,13 +51,10 @@
 \abstract{Redpine Science gives models and agents a single access point to a wide range of
 peer-reviewed literature, queried directly through MCP and API. This report
 evaluates the performance of Redpine Science, testing both the relevance of the retrieved chunks as well as a model's answer when it has access to Redpine Science compared to web search. Both public benchmarks and expert-generated benchmarks are leveraged.
-Public benchmarks are a widely accepted way to test model development and are comparable across labs, but a
-model that has memorized the answer is not retrieving anything; the in-house set,
-reviewed by domain experts before use, requires material only available in a
-paper's full text. Scoring retrieval separately from the final answer distinguishes
-a weak result caused by poor retrieval from one caused by poor reasoning over good
-retrieval, a distinction a single blended score cannot make. Crossing the two
-axes gives four evaluations, quadrants one through four. On ScholarQABench SciFact, the public answer-quality benchmark
+Public benchmarks are a widely accepted way to test model development and are
+comparable across labs, but risk saturation and memorization. To address this, we
+complement them with an expert-validated question set reviewed by domain experts
+before use. Crossing the two axes gives four evaluations, quadrants one through four. On ScholarQABench SciFact, the public answer-quality benchmark
 reported here, an agent with Redpine Science answers 94.4\% of claims correctly
 against 87.6\% with no retrieval. On the expert-validated question set, an agent with Redpine Science states
 80.1\% of the required claims against 70.2\% for an agent restricted to web search, a direction three domain experts confirm on a blinded sample. On document retrieval, stripped of any model reasoning, Redpine Science
