@@ -278,7 +278,7 @@ way for both arms. Jev, TypeSafe's System One decision model \todo{add Jev
 citation}, is run as a second judge over the same answers. It does not generate text:
 it takes the question, the gold and the answer as state and returns a typed verdict
 with a probability for each claim. Jev's numbers are the mean of two passes; Sonnet 5
-is the pre-registered judge. It reads the question, the population and setting from the gold, and
+is the primary judge, fixed before any expert label was collected. It reads the question, the population and setting from the gold, and
 the required claims, and says of each claim whether the answer states it, contradicts
 it, or does not address it. Three scores follow. Claim coverage is the share of required
 claims the answer states; this is the primary score and corresponds to the strict recall
@@ -349,8 +349,8 @@ red.}
 \label{fig:q2-example}
 \end{figure}
 
-\lead{Checking the judge against the experts.} A pre-registered study asks whether the
-judge's claim verdicts agree with the experts'. The same three experts label answers
+\lead{Checking the judge against the experts.} A study designed before any label was
+collected asks whether the judge's claim verdicts agree with the experts'. The same three experts label answers
 with the judge's three verdicts plus a fourth label, cannot assess, one answer per screen with its
 citations replaced by a placeholder, and the two arms of a question at least two screens
 apart. Every expert labels a random core of 22
@@ -360,7 +360,10 @@ repeats for consistency. Agreement is measured with Krippendorff's alpha~\cite{k
 against the experts' consensus, next to the experts' agreement with each other. The
 difference between the arms over all 179 questions is estimated by prediction-powered
 inference~\cite{ppi,ppiplusplus}, which corrects the judge's
-estimate with the expert labels.
+estimate with the expert labels. The sample, the statistics, the reliability floors
+(0.80 on whether a claim is stated and 0.667 on the three-way label, Krippendorff's
+recommended and tentative standards) and the decision rules were fixed before the
+experts began.
 
 \subsection{Quadrant three: public benchmarks, retrieval}\label{sec:method-quadrant-three}
 
@@ -472,7 +475,7 @@ memory, and quadrants three and four measure the retrieved papers directly.
     \includegraphics[width=\linewidth]{figures/quadrant2_metrics.pdf}
     \caption{Claim coverage, contradiction rate and correctness by arm on the 179
     expert-validated questions (four tracks), under two judges. Sonnet 5 is the
-    pre-registered judge; Jev, averaged over two passes, is a second judge over the
+    primary judge; Jev, averaged over two passes, is a second judge over the
     same answers. Higher is better for coverage and correctness; lower is
     better for the contradiction rate. Error bars are 95\% t intervals of the mean
     over the 179 questions. The paired intervals for the differences between the arms
@@ -497,7 +500,7 @@ Immunology      & 20 & $+0.033$ $[-0.072, +0.139]$ & $+0.081$ $[-0.022, +0.184]$
 \end{table}
 
 Figure~\ref{fig:quadrant2-metrics} shows the three metrics of
-Section~\ref{sec:method-quadrant-two} by arm. Under the pre-registered judge, the arm
+Section~\ref{sec:method-quadrant-two} by arm. Under the primary judge, the arm
 with Redpine Science states 80.1\% of the gold claims against 70.2\% for web
 search alone, a paired difference of $+0.100$ (95\% interval $+0.058$ to $+0.142$,
 paired t $p = 6\times10^{-6}$, n = 179). It contradicts fewer claims, 3.8\% against
@@ -576,9 +579,8 @@ on the judge's 179-question estimate above.
 
 The experts' agreement with each other was moderate: Krippendorff's alpha 0.57 on
 whether a claim is stated and 0.54 on the three-way label, below the floors of 0.80 and
-0.667 that the pre-registration set as the condition for calling a judge adequate. The
-pre-registered outcome is therefore that no adequacy verdict is drawn for either judge,
-and the figures above describe alignment. Disagreement among the experts concentrates on
+0.667 we fixed in advance as the condition for calling a judge adequate. No adequacy
+verdict is therefore drawn for either judge, and the figures above describe alignment. Disagreement among the experts concentrates on
 whether a claim is stated or not addressed, and on the rare contradicted label; it varies
 by track, from alpha 0.92 on sepsis to 0.28 on neuroimmunology.
 
@@ -671,7 +673,7 @@ separately rather than folded into one blended score. Across all four:
 
 On the expert-validated question set, an agent with Redpine Science states 80.1\% of
 the required claims against 70.2\% for an agent restricted to web search, a gain of
-10 points in claim coverage under the pre-registered judge, a direction three domain
+10 points in claim coverage under the primary judge, a direction three domain
 experts confirm on a blinded sample. On ScholarQABench
 SciFact, the agent answers 94.4\% of claims correctly with Redpine Science against
 87.6\% with no retrieval and 93.1\% with web search; every arm scores above 87\%, so a
