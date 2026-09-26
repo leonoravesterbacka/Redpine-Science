@@ -62,7 +62,7 @@ retrieval, a distinction a single blended score cannot make. Crossing the two
 axes gives four evaluations, quadrants one through four. On ScholarQABench SciFact, the public answer-quality benchmark
 reported here, an agent with Redpine Science answers 94.4\% of claims correctly
 against 87.6\% with no retrieval. On the expert-validated question set, an agent with Redpine Science states
-80.1\% of the required claims against 70.2\% for an agent restricted to web search. On document retrieval, stripped of any model reasoning, Redpine Science
+80.1\% of the required claims against 70.2\% for an agent restricted to web search, a direction three domain experts confirm on a blinded sample. On document retrieval, stripped of any model reasoning, Redpine Science
 recovers the correct source paper 83.1\% of the time, against 77.5\% for Exa, the
 benchmark's creator, run under its published configuration. A blinded expert relevance panel places Redpine Science's
 Precision@5 at 75.2\% against 39.8\% for PubMed. We release the
@@ -524,7 +524,66 @@ agreement with an expert.
 Table~\ref{tab:quadrant-two-tracks} splits the coverage difference by track. The gain
 is largest on sepsis and smallest on immunology, where both arms already cover more
 than four claims in five; the two 20-question tracks have intervals that include zero
-under at least one judge. These are the judge's margins, not an expert's.
+under at least one judge. These are the judge's margins; the expert check follows.
+
+\begin{table}[htbp]
+\caption{Expert check on the quadrant two judges. Three domain experts labelled
+a blinded sample of the answers with the judge's three verdicts. Judge rows compare
+each judge with the experts; panel rows are the experts' agreement with each other.
+Intervals are 95\%: jackknife for alpha, bootstrap for the intraclass correlation.}
+\label{tab:quadrant-two-experts}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+ & \textbf{Sonnet 5} & \textbf{Jev} \\
+\midrule
+Agreement with the expert majority, 237 claim units & 0.86 & 0.82 \\
+Alt-test winning rate, $\epsilon = 0.2$ & 1.0 & 1.0 \\
+Mean Cohen's $\kappa$ against each expert (expert against expert: 0.53) & 0.58 & 0.54 \\
+ICC(2,1) against the leave-one-out consensus & 0.85 [0.76, 0.91] & 0.81 [0.71, 0.89] \\
+\midrule
+\multicolumn{3}{@{}l}{\textit{Panel, 151 shared claim units}} \\
+Experts' ICC ceiling & \multicolumn{2}{c}{0.71 [0.51, 0.84]} \\
+Krippendorff's alpha, stated versus not & \multicolumn{2}{c}{0.57 [0.45, 0.69]} \\
+Krippendorff's alpha, three-way & \multicolumn{2}{c}{0.54 [0.43, 0.66]} \\
+Fleiss's $\kappa$, stated versus not / three-way & \multicolumn{2}{c}{0.58 / 0.55} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Three domain experts then labelled a blinded sample of the same answers with the
+judge's three verdicts, as Section~\ref{sec:method-quadrant-two} describes: a random
+core of 22 questions, both arms, labelled by all three, and 16 further answers labelled
+by one expert each. One expert completed 34 of the 64 screens, so 100 of the 151
+shared claim units carry two expert labels and 51 carry three.
+Table~\ref{tab:quadrant-two-experts} reports the agreement.
+
+Both judges agree with the experts as well as the experts agree with each other.
+Sonnet 5 gives the same verdict as the expert majority on 86\% of claims, Jev on
+82\%. Under the alt-test at $\epsilon = 0.2$, each judge agrees with each of the three
+experts at least as well as the other two experts do. Mean pairwise Cohen's $\kappa$
+between a judge and an expert is 0.58 for Sonnet 5 and 0.54 for Jev, against 0.53
+between two experts. On the per-answer coverage score, the intraclass correlation
+between Sonnet 5 and the experts' leave-one-out consensus is 0.85, above the experts'
+own ceiling of 0.71; Jev's is 0.81. Sonnet 5 is ahead of Jev on every measure by a
+small margin.
+
+The experts confirm the direction of the arm effect. Prediction-powered inference over
+all 179 questions with the design's sampling weights puts the coverage gain of Redpine
+Science at $+0.156$ (95\% interval $-0.024$ to $+0.336$), next to the judge's $+0.100$;
+the expert-only, design-weighted estimate is $+0.150$. The contradiction rate on the core
+moves the same way, $-0.043$ ($-0.140$ to $+0.054$). With 38 expert-labelled questions
+the interval is wide: the expert labels settle the sign of the gain, and its size rests
+on the judge's 179-question estimate above.
+
+The experts' agreement with each other was moderate: Krippendorff's alpha 0.57 on
+whether a claim is stated and 0.54 on the three-way label, below the floors of 0.80 and
+0.667 that the pre-registration set as the condition for calling a judge adequate. The
+pre-registered outcome is therefore that no adequacy verdict is drawn for either judge,
+and the figures above describe alignment. Disagreement among the experts concentrates on
+whether a claim is stated or not addressed, and on the rare contradicted label; it varies
+by track, from alpha 0.92 on sepsis to 0.28 on neuroimmunology. The pre-registered
+follow-up is adjudication of the disputed units by the three experts together, then a
+declared re-analysis.
 
 \subsection{Quadrant three: public benchmarks, retrieval}\label{sec:results-quadrant-three}
 
@@ -596,8 +655,8 @@ directory per quadrant.
   \item \textbf{Quadrant one.} The SciFact harness, its per-arm configuration, and the
     run logs behind the reported numbers.
   \item \textbf{Quadrant two.} The 179-question expert-validated set with its golds,
-    and the harness that runs it (shared with quadrant one). No result is published
-    for this quadrant yet.
+    and the harness that runs it (shared with quadrant one), the judge verdicts under
+    both judges, the three experts' blinded labels, and the agreement report.
   \item \textbf{Quadrant three.} The 668-query retrieval dataset, the matching code,
     and the results behind the reported recall.
   \item \textbf{Quadrant four.} The 115-question relevance panel's dataset and
@@ -615,7 +674,8 @@ separately rather than folded into one blended score. Across all four:
 
 On the expert-validated question set, an agent with Redpine Science states 80.1\% of
 the required claims against 70.2\% for an agent restricted to web search, a gain of
-10 points in claim coverage under the pre-registered judge. On ScholarQABench
+10 points in claim coverage under the pre-registered judge, a direction three domain
+experts confirm on a blinded sample. On ScholarQABench
 SciFact, the agent answers 94.4\% of claims correctly with Redpine Science against
 87.6\% with no retrieval and 93.1\% with web search; every arm scores above 87\%, so a
 public benchmark of this kind leaves little room to measure retrieval, which is what the
