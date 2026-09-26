@@ -568,7 +568,7 @@ Fleiss's $\kappa$, stated versus not / three-way & \multicolumn{2}{c}{0.58 / 0.5
 
 Three domain experts then labelled a blinded sample of the same answers with the
 judge's three verdicts, as Section~\ref{sec:method-quadrant-two} describes: a random
-core of 22 questions, both arms, labelled by all three, and 16 further answers labelled
+core of 22 questions, both arms, each labelled by two or three experts, and 16 further answers labelled
 by one expert each. Of the 151 shared claim units, 51 carry three expert labels and
 100 carry two. Table~\ref{tab:quadrant-two-experts} reports the agreement.
 
@@ -582,13 +582,16 @@ between Sonnet 5 and the experts' leave-one-out consensus is 0.85, above the exp
 own ceiling of 0.71; Jev's is 0.81. Sonnet 5 is ahead of Jev on every measure by a
 small margin.
 
-The experts confirm the direction of the arm effect. Prediction-powered inference over
-all 179 questions with the design's sampling weights puts the coverage gain of Redpine
-Science at $+0.156$ (95\% interval $-0.024$ to $+0.336$), next to the judge's $+0.100$;
-the expert-only, design-weighted estimate is $+0.150$. The contradiction rate on the core
-moves the same way, $-0.043$ ($-0.140$ to $+0.054$). With 38 expert-labelled questions
-the interval is wide: the expert labels settle the sign of the gain, and its size rests
-on the judge's 179-question estimate above.
+The expert labels point the same way as the judge's. On the 22-question random core,
+where all experts labelled both arms, the expert-only coverage gain is $+0.251$ (95\%
+interval $+0.112$ to $+0.390$); that draw over-represents questions on which the judge saw
+a large gap ($+0.299$ against $+0.100$ on the frame), so the estimate for all 179 questions
+is prediction-powered inference with the design's sampling weights, $+0.156$ ($-0.024$ to
+$+0.336$), next to the judge's $+0.100$. Its interval is wide because the design placed only
+two labelled questions in the 88-question stratum where the judge saw no gap. The
+contradiction rate on the core moves the same way, $-0.043$ ($-0.140$ to $+0.054$). The
+expert labels agree with the judge on the direction of the gain; its size rests on the
+judge's 179-question estimate.
 
 The experts' agreement with each other was moderate: Krippendorff's alpha 0.57 on
 whether a claim is stated and 0.54 on the three-way label, below the floors of 0.80 and
@@ -690,8 +693,7 @@ effects of retrieval and generation.
 
 On the expert-validated question set, an agent with Redpine Science states 80.1\% of
 the required claims against 70.2\% for an agent restricted to web search, a gain of
-10 points in claim coverage under the primary judge, a direction three domain
-experts confirm on a blinded sample. On ScholarQABench
+10 points in claim coverage under the primary judge, expert labels on a blinded sample point the same way. On ScholarQABench
 SciFact, the agent answers 94.4\% of claims correctly with Redpine Science against
 87.6\% with no retrieval and 93.1\% with web search; every arm scores above 87\%, so a
 public benchmark of this kind leaves little room to measure retrieval, which is what the
