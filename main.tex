@@ -460,7 +460,9 @@ subspecialists, plus the 25 from this second pool.
     \label{fig:scifact-arms}
 \end{figure}
 
-Figure~\ref{fig:scifact-arms} shows the result. An agent with Redpine Science answers
+This quadrant tests whether access to Redpine Science changes an agent's answer
+accuracy on a public, claim-verification benchmark. Figure~\ref{fig:scifact-arms}
+shows the result. An agent with Redpine Science answers
 94.4\% of the claims correctly, against 87.6\% for the same agent with no
 retrieval: 6.8 percentage points more, or 7.8\% more claims right, averaged over
 the five runs and positive in each of them. Web search scores 93.1\%, and Redpine
@@ -505,6 +507,8 @@ Immunology      & 20 & $+0.033$ $[-0.072, +0.139]$ & $+0.081$ $[-0.022, +0.184]$
 \end{tabular}
 \end{table}
 
+This quadrant tests answer quality on the expert-validated question set, comparing
+an agent with web search alone against the same agent with Redpine Science added.
 Figure~\ref{fig:quadrant2-metrics} shows the three metrics of
 Section~\ref{sec:method-quadrant-two} by arm. Under the primary judge, the arm
 with Redpine Science states 80.1\% of the gold claims against 70.2\% for web
@@ -616,7 +620,9 @@ Tavily          & 39.4\% & 52.8\% & 54.8\% & 0.476 \\
 \end{tabular}
 \end{table}
 
-Figure~\ref{fig:quadrant3-recall} and Table~\ref{tab:quadrant-three} show the result.
+This quadrant tests retrieval alone, whether the correct source paper is surfaced,
+with no model reasoning involved. Figure~\ref{fig:quadrant3-recall} and
+Table~\ref{tab:quadrant-three} show the result.
 Recall@K is the fraction of queries where the correct paper appears in a system's top
 K results, on a 0 to 100\% scale. nDCG also rewards a higher rank for the correct
 paper, on a 0 to 1 scale where 1 means the correct paper is always ranked first.
@@ -638,7 +644,9 @@ against 81\% for Exa and 72\% for Tavily.
     \label{fig:quadrant4-metrics}
 \end{figure}
 
-Figure~\ref{fig:quadrant4-metrics} shows the result over all 115 questions.
+This quadrant tests retrieval relevance directly, judged by a blinded panel of
+domain experts rather than by a DOI match. Figure~\ref{fig:quadrant4-metrics}
+shows the result over all 115 questions.
 Precision@5 is the fraction of a system's top 5 results a judge scores 2 or higher out
 of 4 for relevance, on a 0 to 100\% scale.
 DCG@5 also weights a relevant result more heavily the higher it is ranked; the scale is
