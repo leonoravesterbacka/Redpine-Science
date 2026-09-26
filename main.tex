@@ -591,14 +591,22 @@ panel.
 
 \section{What we are releasing}\label{sec:releasing}
 
-Two artifacts are released with this report.
+All four evaluations in this report are released as a public benchmark suite, one
+directory per quadrant.
 
 \begin{itemize}[leftmargin=1.6em, itemsep=0.5em]
-  \item \textbf{The expert-validated question set.} The 179 questions with their golds, at
-    [link to redpine-benchmarks on GitHub].
-  \item \textbf{An evaluation harness.} The agent loop and scoring used in quadrants one and
-    two, comparing an agent with and without Redpine Science.
+  \item \textbf{Quadrant one.} The SciFact harness, its per-arm configuration, and the
+    run logs behind the reported numbers.
+  \item \textbf{Quadrant two.} The 179-question expert-validated set with its golds,
+    and the harness that runs it (shared with quadrant one). No result is published
+    for this quadrant yet.
+  \item \textbf{Quadrant three.} The 668-query retrieval dataset, the matching code,
+    and the results behind the reported recall.
+  \item \textbf{Quadrant four.} The 115-question relevance panel's dataset and
+    ratings, anonymized, and the scoring code behind the reported precision and DCG.
 \end{itemize}
+
+All four are at [link to redpine-benchmarks on GitHub].
 
 \section{Summary}\label{sec:summary}
 
