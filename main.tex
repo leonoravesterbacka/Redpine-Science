@@ -228,7 +228,8 @@ have one paper behind them, and that a biomedical expert has checked.
 \lead{Question set.} The set holds 179 questions in four clinical tracks: cardiology
 (79), neuroimmunology (60), sepsis (20) and immunology (20). Each question is written
 from one paper in the Redpine Science full-text corpus. Of these papers, 105 are open access and 74 paywalled. The split matters because web search can find an
-open-access paper, so results are reported by access class as well as overall.
+open-access paper, so results are reported by access class as well as overall
+(Section~\ref{sec:results-quadrant-two}).
 
 \lead{Writing the questions and their answer keys.} A language model pipeline turns a
 paper into a question and an answer key. Claude Opus 5 writes and reviews; Claude
@@ -497,7 +498,8 @@ memory, and quadrants three and four measure the retrieved papers directly.
 
 \begin{table}[htbp]
 \caption{Claim coverage difference, Redpine Science with web search as fallback minus web search
-only, by track and judge. Paired 95\% t intervals; n is the number of questions.}
+only, by track, by access class of the source paper, and by judge. Paired 95\% t intervals;
+n is the number of questions.}
 \label{tab:quadrant-two-tracks}
 \begin{tabular}{@{}lrcc@{}}
 \toprule
@@ -507,6 +509,9 @@ Cardiology      & 79 & $+0.075$ $[+0.014, +0.136]$ & $+0.052$ $[-0.001, +0.106]$
 Neuroimmunology & 60 & $+0.125$ $[+0.054, +0.196]$ & $+0.114$ $[+0.042, +0.186]$ \\
 Sepsis          & 20 & $+0.188$ $[+0.002, +0.373]$ & $+0.221$ $[+0.073, +0.369]$ \\
 Immunology      & 20 & $+0.033$ $[-0.072, +0.139]$ & $+0.081$ $[-0.022, +0.184]$ \\
+\midrule
+Open access     & 105 & $+0.067$ $[+0.017, +0.116]$ & $+0.051$ $[+0.003, +0.099]$ \\
+Paywalled       & 74 & $+0.146$ $[+0.072, +0.221]$ & $+0.158$ $[+0.094, +0.221]$ \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -541,7 +546,17 @@ agreement with an expert.
 Table~\ref{tab:quadrant-two-tracks} splits the coverage difference by track. The gain
 is largest on sepsis and smallest on immunology, where both arms already cover more
 than four claims in five; the two 20-question tracks have intervals that include zero
-under at least one judge. These are the judge's margins; the expert check follows.
+under at least one judge.
+
+The same table splits the difference by the access class of the source paper. On the
+74 questions whose paper is paywalled, the Redpine Science arm states 84.9\% of the
+gold claims against 70.3\% for web search alone, a difference of $+0.146$ ($+0.072$ to
+$+0.221$, $p = 2\times10^{-4}$, n = 74). On the 105 questions whose paper is open access
+the difference is $+0.067$ ($+0.017$ to $+0.116$, $p = 0.009$, n = 105), from 76.7\%
+against 70.1\%. Web search covers the two classes equally; the Redpine Science arm gains
+most where web search cannot read the paper. Jev gives the same split, $+0.158$ on the
+paywalled questions and $+0.051$ on the open-access ones. These are the judge's margins;
+the expert check follows.
 
 \begin{table}[htbp]
 \caption{Expert check on the quadrant two judges. Three domain experts labelled
