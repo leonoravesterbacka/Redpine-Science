@@ -73,9 +73,9 @@ complement them with by creating an expert-validated question set. In total, thi
 reports four different evaluation tracks. On ScholarQABench SciFact, the public answer-quality benchmark
 reported here, an agent with Redpine Science answers 94.4\% of claims correctly
 against 87.6\% with no retrieval. On the expert-validated question set, an agent with Redpine Science states
-80.1\% of the required claims against 70.2\% for an agent restricted to web search. On document retrieval, stripped of any model reasoning, Redpine Science
-recovers the correct source paper 83.1\% of the time, against 77.5\% for an
-advanced web search agent. A blinded expert relevance panel places Redpine Science's
+80.1\% of the required claims against 70.2\% for an agent restricted to web search. On the 668 queries of a public retrieval benchmark whose gold paper Redpine holds,
+stripped of any model reasoning, Redpine Science recovers the correct source paper
+83.1\% of the time, against 77.5\% for Exa, the benchmark's creator. A blinded expert relevance panel places Redpine Science's
 Precision@5 at 75.2\% against 39.8\% for the PubMed search tool. We release the
 expert-validated question set and instructions to reproduce every
 result above, at \todo{[link to redpine-benchmarks on GitHub].}}
@@ -403,10 +403,13 @@ otherwise. It asks several phrasings per source paper, so its 668 DOI-confirmed 
 map to 101 unique source papers. Recall is reported at the query level, the more demanding number since it counts
 every phrasing separately, and at three ranks, Recall@1, Recall@5, and Recall@10, so a
 gain at the top of the ranking is distinguishable from one that only appears deeper in
-it. We restrict to
-these 668 queries rather than the benchmark's full 1,866: the rest ask about papers
-outside Redpine's corpus, and scoring Redpine on documents it cannot hold would measure
-corpus coverage rather than retrieval quality.
+it. The full benchmark
+has 1,866 queries; the 668 used here are those whose gold paper is in Redpine's corpus,
+selected by corpus membership before any system was run, not by result. All three
+systems are scored on the same 668. The excluded queries ask about papers Redpine does
+not hold, so scoring it on them would measure corpus coverage rather than retrieval
+quality, and the numbers here are not comparable to full-benchmark numbers published
+elsewhere.
 
 Three retrieval services run against it with the identical query and no follow-up
 fetch or agent reasoning on any side: Redpine Science, Exa's own search, run as
@@ -652,7 +655,8 @@ Table~\ref{tab:quadrant-three} show the result.
 Recall@K is the fraction of queries where the correct paper appears in a system's top
 K results, on a 0 to 100\% scale. nDCG also rewards a higher rank for the correct
 paper, on a 0 to 1 scale where 1 means the correct paper is always ranked first.
-Redpine Science leads on all four metrics: 6.9 points over Exa at Recall@1, narrowing
+On the 668 in-corpus queries, Redpine Science leads on all four metrics: 6.9 points
+over Exa at Recall@1, narrowing
 to 5.5 points at Recall@10, and 27.7 to 30.4 points over Tavily across the three
 cutoffs. When it surfaces the right paper at all, it is at rank one 84\% of the time,
 against 81\% for Exa and 72\% for Tavily.
@@ -717,9 +721,10 @@ the required claims against 70.2\% for an agent restricted to web search, a gain
 SciFact, the agent answers 94.4\% of claims correctly with Redpine Science against
 87.6\% with no retrieval and 93.1\% with web search; every arm scores above 87\%, so a
 public benchmark of this kind leaves little room to measure retrieval, which is what the
-other three quadrants are for. On the public
-retrieval benchmark, Redpine Science recovers the correct document 83.1\% of the time,
-against 77.5\% for Exa, the benchmark's creator. On the expert-judged retrieval
+other three quadrants are for. On the 668 queries
+of the public retrieval benchmark whose gold paper Redpine holds, Redpine Science
+recovers the correct document 83.1\% of the time, against 77.5\% for Exa, the
+benchmark's creator. On the expert-judged retrieval
 panel, three PhD-level domain experts (neurology, cardiology, and rheumatology) plus
 a second, cross-judged pool of questions, n = 115 in all, place Redpine Science's
 Precision@5 at 75.2\% against 39.8\% for the PubMed search tool.
