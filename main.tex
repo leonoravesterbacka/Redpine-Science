@@ -265,9 +265,9 @@ the paper after repair, and the mechanical check all pass.
 The last step measures the gold before an expert sees it. Three test answers are
 generated for each question: one that read the paper, one that read a different but
 valid source, and one with no retrieval. Each is graded twice for how much of the gold
-it covers, a coverage score from 0 to 1, and the three scores travel with the question.
-A gold on which the paper-informed answer scores below 0.75, or the retrieval-free
-answer 0.5 or above, is flagged for the expert: the first rewards one paper's phrasing,
+it covers, a coverage score in percent, and the three scores travel with the question.
+A gold on which the paper-informed answer scores below 75\%, or the retrieval-free
+answer 50\% or above, is flagged for the expert: the first rewards one paper's phrasing,
 the second can be satisfied from memory. The same three answers later guard every edit
 to a gold.
 
@@ -277,8 +277,9 @@ it. For each question the expert marked good, edit or bad, could rewrite the que
 and could comment. A suggested rewrite is applied once a check confirms that the gold still
 answers it. A change to a gold is accepted only if the three test answers, regraded
 against the new gold, keep their coverage scores: the paper-informed answer's score stays
-at or above 0.85 and drops by at most 0.05, the other-source answer's score drops by at
-most 0.05, the retrieval-free answer's score rises by at most 0.05, and no test answer
+at or above 85\% and drops by at most 5 points, the other-source answer's score drops by
+at most 5 points, the retrieval-free answer's score rises by at most 5 points, and no
+test answer
 newly contradicts the gold. When either check fails, the
 generated version stays and the failed edit is recorded with the reason: a rewrite that
 widens the question past what the gold answers, or a gold edit that lets the
@@ -311,7 +312,8 @@ and contradicts $c$, coverage is $C = s/n$, the contradiction rate is $K = c/n$,
 %
 the harmonic mean of the share of claims stated and the share not contradicted. An
 answer that states every claim and contradicts none scores 1; one that states half the
-claims and contradicts the rest scores 0.5. The bottom panel of Figure~\ref{fig:q2-example}
+claims and contradicts the rest scores 0.5. Correctness is reported as a percentage
+below. The bottom panel of Figure~\ref{fig:q2-example}
 shows the judge's verdicts on one answer and the scores they give. The judge reads the
 answer as written, citations included. Scores that compare an answer
 with its own retrieved text (groundedness, faithfulness, contextual recall and relevancy,
@@ -438,20 +440,15 @@ reading. URL, DOI and publication date are removed from every result before a ju
 reads it, since a database record and a scraped web page format these differently
 enough to identify the source.
 
-Three PhD-level domain experts are the judges. Each scores a batch of 30 subspecialty
-questions that require domain knowledge to evaluate the results, not only to answer:
-one batch is mostly neurology, with a handful of adjacent critical care, immunology,
-microbiology, and pharmacology questions; one is entirely cardiology; one is entirely
-rheumatology. These three batches do not overlap and each is judged by a single
-panelist, for breadth across subspecialties.
-
-A second pool of 25 questions is judged by two panelists against the same
-blinded result set, to measure inter-rater agreement. Per-item scores are averaged
-across the two judges before pooling, so a question in this pool contributes one data
-point, not two.
-
-The full panel is 115 questions: 90 domain-specific, 30 from each of the three
-subspecialists, plus the 25 from this second pool.
+Three PhD-level domain experts are the judges, and the panel holds 115 questions in
+two pools. The first pool is 90 subspecialty questions that require domain knowledge
+to evaluate the results, not only to answer, in three non-overlapping batches of 30,
+each judged by one panelist for breadth across subspecialties: one batch is mostly
+neurology, with a handful of adjacent critical care, immunology, microbiology and
+pharmacology questions; one is entirely cardiology; one is entirely rheumatology. The
+second pool is 25 questions judged by two panelists against the same blinded result
+set, to measure inter-rater agreement; per-item scores are averaged across the two
+judges before pooling, so each of these questions contributes one data point, not two.
 
 \section{Results}\label{sec:results}
 
@@ -476,7 +473,7 @@ This quadrant tests whether access to Redpine Science changes an agent's answer
 accuracy on a public, claim-verification benchmark. Figure~\ref{fig:scifact-arms}
 shows the result. An agent with Redpine Science answers
 94.4\% of the claims correctly, against 87.6\% for the same agent with no
-retrieval: 6.8 percentage points more, or 7.8\% more claims right, averaged over
+retrieval: 6.8 points more, or 7.8\% more claims right, averaged over
 the five runs and positive in each of them. Web search scores 93.1\%, and Redpine
 Science with web search as fallback 93.9\%.
 
@@ -504,7 +501,7 @@ memory, and quadrants three and four measure the retrieved papers directly.
 \end{figure}
 
 \begin{table}[htbp]
-\caption{Claim coverage difference, Redpine Science with web search as fallback minus web search
+\caption{Claim coverage difference in percentage points, Redpine Science with web search as fallback minus web search
 only, by track, by access class of the source paper, and by judge. Paired 95\% t intervals;
 n is the number of questions.}
 \label{tab:quadrant-two-tracks}
@@ -512,13 +509,13 @@ n is the number of questions.}
 \toprule
 \textbf{Track} & \textbf{n} & \textbf{Sonnet 5} & \textbf{Jev} \\
 \midrule
-Cardiology      & 79 & $+0.075$ $[+0.014, +0.136]$ & $+0.052$ $[-0.001, +0.106]$ \\
-Neuroimmunology & 60 & $+0.125$ $[+0.054, +0.196]$ & $+0.114$ $[+0.042, +0.186]$ \\
-Sepsis          & 20 & $+0.188$ $[+0.002, +0.373]$ & $+0.221$ $[+0.073, +0.369]$ \\
-Immunology      & 20 & $+0.033$ $[-0.072, +0.139]$ & $+0.081$ $[-0.022, +0.184]$ \\
+Cardiology      & 79 & $+7.5$ $[+1.4, +13.6]$ & $+5.2$ $[-0.1, +10.6]$ \\
+Neuroimmunology & 60 & $+12.5$ $[+5.4, +19.6]$ & $+11.4$ $[+4.2, +18.6]$ \\
+Sepsis          & 20 & $+18.8$ $[+0.2, +37.3]$ & $+22.1$ $[+7.3, +36.9]$ \\
+Immunology      & 20 & $+3.3$ $[-7.2, +13.9]$ & $+8.1$ $[-2.2, +18.4]$ \\
 \midrule
-Open access     & 105 & $+0.067$ $[+0.017, +0.116]$ & $+0.051$ $[+0.003, +0.099]$ \\
-Paywalled       & 74 & $+0.146$ $[+0.072, +0.221]$ & $+0.158$ $[+0.094, +0.221]$ \\
+Open access     & 105 & $+6.7$ $[+1.7, +11.6]$ & $+5.1$ $[+0.3, +9.9]$ \\
+Paywalled       & 74 & $+14.6$ $[+7.2, +22.1]$ & $+15.8$ $[+9.4, +22.1]$ \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -528,20 +525,20 @@ an agent with web search alone against the same agent with Redpine Science added
 Figure~\ref{fig:quadrant2-metrics} shows the three metrics of
 Section~\ref{sec:method-quadrant-two} by arm. Under the primary judge, the arm
 with Redpine Science states 80.1\% of the gold claims against 70.2\% for web
-search alone, a paired difference of $+0.100$ (95\% interval $+0.058$ to $+0.142$,
+search alone, a paired difference of $+10.0$ points (95\% interval $+5.8$ to $+14.2$,
 paired t $p = 6\times10^{-6}$, n = 179). It contradicts fewer claims, 3.8\% against
-6.9\%, a difference of $-0.031$ ($-0.055$ to $-0.008$, $p = 0.01$). Correctness,
-the harmonic mean of the two, is 0.847 against 0.759, a difference of $+0.088$ ($+0.049$ to $+0.127$,
+6.9\%, a difference of $-3.1$ points ($-5.5$ to $-0.8$, $p = 0.01$). Correctness,
+the harmonic mean of the two, is 84.7\% against 75.9\%, a difference of $+8.8$ points ($+4.9$ to $+12.7$,
 $p = 2\times10^{-5}$). Per question, the Redpine Science arm covers more claims on 62
 questions, fewer on 22, and the same number on 95. Half the questions are answered
 equally well by both arms; the gain sits in the other half.
 
 Jev gives the same picture. Under Jev the coverage difference is
-$+0.095$ ($+0.056$ to $+0.134$, $p = 3\times10^{-6}$), the contradiction difference
-$-0.029$ ($-0.056$ to $-0.002$, $p = 0.03$) and the correctness difference $+0.084$
-($+0.048$ to $+0.121$, $p = 1\times10^{-5}$), with 62 questions won, 21 lost and 96 tied.
+$+9.5$ points ($+5.6$ to $+13.4$, $p = 3\times10^{-6}$), the contradiction difference
+$-2.9$ points ($-5.6$ to $-0.2$, $p = 0.03$) and the correctness difference $+8.4$ points
+($+4.8$ to $+12.1$, $p = 1\times10^{-5}$), with 62 questions won, 21 lost and 96 tied.
 Paired per question, the coverage differences under Jev and under Sonnet 5 differ by
-0.002 on a standard error of 0.015. Jev scores both arms lower on the absolute scale,
+0.2 points on a standard error of 1.5 points. Jev scores both arms lower on the absolute scale,
 mostly because it labels about twice as many claims contradicted (7.8\% against
 3.8\% on the Redpine Science arm), but the gap between the arms does not move.
 Contradiction is rare under either judge: at most 10.7\% of claims on either arm.
@@ -557,12 +554,12 @@ under at least one judge.
 
 The same table splits the difference by the access class of the source paper. On the
 74 questions whose paper is paywalled, the Redpine Science arm states 84.9\% of the
-gold claims against 70.3\% for web search alone, a difference of $+0.146$ ($+0.072$ to
-$+0.221$, $p = 2\times10^{-4}$, n = 74). On the 105 questions whose paper is open access
-the difference is $+0.067$ ($+0.017$ to $+0.116$, $p = 0.009$, n = 105), from 76.7\%
+gold claims against 70.3\% for web search alone, a difference of $+14.6$ points ($+7.2$ to
+$+22.1$, $p = 2\times10^{-4}$, n = 74). On the 105 questions whose paper is open access
+the difference is $+6.7$ points ($+1.7$ to $+11.6$, $p = 0.009$, n = 105), from 76.7\%
 against 70.1\%. Web search covers the two classes equally; the Redpine Science arm gains
-most where web search cannot read the paper. Jev gives the same split, $+0.158$ on the
-paywalled questions and $+0.051$ on the open-access ones. These are the judge's margins;
+most where web search cannot read the paper. Jev gives the same split, $+15.8$ points on the
+paywalled questions and $+5.1$ on the open-access ones. These are the judge's margins;
 the expert check follows.
 
 \begin{table}[htbp]
@@ -575,8 +572,8 @@ Intervals are 95\%: jackknife for alpha, bootstrap for the intraclass correlatio
 \toprule
  & \textbf{Sonnet 5} & \textbf{Jev} \\
 \midrule
-Agreement with the expert majority, 237 claim units & 0.86 & 0.82 \\
-Alt-test winning rate, $\epsilon = 0.2$ & 1.0 & 1.0 \\
+Agreement with the expert majority, 237 claim units & 86\% & 82\% \\
+Alt-test winning rate, $\epsilon = 0.2$ & 100\% & 100\% \\
 Mean Cohen's $\kappa$ against each expert (expert against expert: 0.53) & 0.58 & 0.54 \\
 ICC(2,1) against the leave-one-out consensus & 0.85 [0.76, 0.91] & 0.81 [0.71, 0.89] \\
 \midrule
@@ -606,13 +603,13 @@ own ceiling of 0.71; Jev's is 0.81. Sonnet 5 is ahead of Jev on every measure by
 small margin.
 
 The expert labels point the same way as the judge's. On the 22-question random core,
-where all experts labelled both arms, the expert-only coverage gain is $+0.251$ (95\%
-interval $+0.112$ to $+0.390$); that draw over-represents questions on which the judge saw
-a large gap ($+0.299$ against $+0.100$ on the frame), so the estimate for all 179 questions
-is prediction-powered inference with the design's sampling weights, $+0.156$ ($-0.024$ to
-$+0.336$), next to the judge's $+0.100$. Its interval is wide because the design placed only
+where all experts labelled both arms, the expert-only coverage gain is $+25.1$ points
+(95\% interval $+11.2$ to $+39.0$); that draw over-represents questions on which the judge saw
+a large gap ($+29.9$ against $+10.0$ points on the frame), so the estimate for all 179 questions
+is prediction-powered inference with the design's sampling weights, $+15.6$ points ($-2.4$ to
+$+33.6$), next to the judge's $+10.0$. Its interval is wide because the design placed only
 two labelled questions in the 88-question stratum where the judge saw no gap. The
-contradiction rate on the core moves the same way, $-0.043$ ($-0.140$ to $+0.054$). The
+contradiction rate on the core moves the same way, $-4.3$ points ($-14.0$ to $+5.4$). The
 expert labels agree with the judge on the direction of the gain; its size rests on the
 judge's 179-question estimate.
 
@@ -717,7 +714,7 @@ effects of retrieval and generation.
 
 On the expert-validated question set, an agent with Redpine Science states 80.1\% of
 the required claims against 70.2\% for an agent restricted to web search, a gain of
-10 points in claim coverage under the primary judge, expert labels on a blinded sample point the same way. On ScholarQABench
+10.0 points in claim coverage under the primary judge, expert labels on a blinded sample point the same way. On ScholarQABench
 SciFact, the agent answers 94.4\% of claims correctly with Redpine Science against
 87.6\% with no retrieval and 93.1\% with web search; every arm scores above 87\%, so a
 public benchmark of this kind leaves little room to measure retrieval, which is what the

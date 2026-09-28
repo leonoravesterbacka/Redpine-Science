@@ -78,9 +78,9 @@ ARM_LABELS = {"web": "Web search only",
 LOCAL_COLORS = {"redpine_first": CRIMSON, "web": SKY_BLUE}
 
 METRICS = [
-    ("claim_coverage", "Claim coverage (higher is better)", (0, 1.0), [0, 0.2, 0.4, 0.6, 0.8, 1.0]),
-    ("contradiction_rate", "Contradiction rate (lower is better)", (0, 0.2), [0, 0.05, 0.10, 0.15, 0.20]),
-    ("correctness", "Correctness, F1 (higher is better)", (0, 1.0), [0, 0.2, 0.4, 0.6, 0.8, 1.0]),
+    ("claim_coverage", "Claim coverage, % (higher is better)", (0, 100), [0, 20, 40, 60, 80, 100]),
+    ("contradiction_rate", "Contradiction rate, % (lower is better)", (0, 20), [0, 5, 10, 15, 20]),
+    ("correctness", "Correctness, % (higher is better)", (0, 100), [0, 20, 40, 60, 80, 100]),
 ]
 
 BAR_WIDTH = 0.38
@@ -94,6 +94,7 @@ def _draw_panel(ax, metric, ylabel, ylim, yticks):
     for j, judge in enumerate(JUDGES):
         for k, arm in enumerate(ARMS):
             mean, half = DATA[judge][metric][arm]
+            mean, half = mean * 100, half * 100   # DATA holds proportions; the report is in percent
             xs.append(j * GROUP_GAP + (k - 0.5) * (BAR_WIDTH + PAIR_GAP))
             means.append(mean)
             errors.append(half)
@@ -106,7 +107,7 @@ def _draw_panel(ax, metric, ylabel, ylim, yticks):
     # Value above each bar, clear of its error bar.
     for bar, mean, half in zip(bars, means, errors):
         ax.text(bar.get_x() + bar.get_width() / 2, mean + half + 0.012 * ylim[1],
-                f"{mean:.2f}", ha="center", va="bottom", color=DARK_GREY,
+                f"{mean:.1f}", ha="center", va="bottom", color=DARK_GREY,
                 fontsize=BASE_PT * TYPE_SCALE)
     # A bar chart is read by comparing heights, so every panel starts at zero.
     ax.set_ylim(*ylim)
