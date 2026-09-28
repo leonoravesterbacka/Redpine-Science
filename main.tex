@@ -65,7 +65,8 @@
 \affil[1]{\orgname{Redpine}, \orgaddress{\country{Sweden}}}
 
 \abstract{Redpine Science gives models and agents a single access point to a wide range of
-peer-reviewed literature, queried directly through MCP and API. This report
+peer-reviewed literature, queried directly through the Model Context Protocol
+(MCP) and an Application Programming Interface (API). This report
 evaluates the performance of Redpine Science, testing both the relevance of the retrieved chunks as well as a model's answer when it has access to Redpine Science compared to web search. Both public benchmarks and expert-generated benchmarks are leveraged.
 Public benchmarks are a widely accepted way to test model development and are
 comparable across labs, but risk saturation and memorization. To address this, we
@@ -87,7 +88,8 @@ result above, at \todo{[link to redpine-benchmarks on GitHub].}}
 \section{Introduction}\label{sec:introduction}
 
 Redpine Science gives models and agents a single access point to a wide range of
-peer-reviewed literature, queried directly through MCP~\cite{mcp} and API. This
+peer-reviewed literature, queried directly through the Model Context Protocol
+(MCP)~\cite{mcp} and an Application Programming Interface (API). This
 report measures how much that access improves the answers a model produces, and how
 reliably that improvement can be measured.
 
@@ -122,7 +124,7 @@ A query to Redpine Science returns a ranked list of chunks, short passages from
 inside an article rather than whole documents, each tied to its source paper. The
 two retrieval quadrants score this ranked list directly, before any model reasons
 over it, at two levels: Section~\ref{sec:method-quadrant-three} checks whether a
-chunk's source paper is the gold paper, by DOI or title, and at what rank;
+chunk's source paper is the gold paper, by Digital Object Identifier (DOI) or title, and at what rank;
 Section~\ref{sec:method-quadrant-four} asks a domain expert to judge the chunk's
 content for relevance.
 
@@ -186,7 +188,7 @@ scoring rule differ between the two quadrants and are set in each subsection bel
 
 Public benchmarks are the standard way to compare models across labs and
 domains~\cite{math,swebench,ecollm}: the question set and the scoring rule are
-published, so a number can be checked against other groups' results. Biomedicine has many, among them MMLU~\cite{mmlu},
+published, so a number can be checked against other groups' results. Biomedicine has many, among them Massive Multitask Language Understanding (MMLU)~\cite{mmlu},
 MedHELM~\cite{medhelm}, BioASQ~\cite{bioasq}, MedXpertQA~\cite{medxpertqa},
 HealthBench~\cite{healthbench}, LiveMedBench~\cite{livemedbench}, and the Bio/Chem Gold
 subset of Humanity's Last Exam~\cite{hle}.
@@ -371,7 +373,7 @@ citations replaced by a placeholder, and the two arms of a question at least two
 apart. Every expert labels a random core of 22
 questions; each also labels six further questions chosen to cover large and small
 judge differences, with the sampling weights recorded; eight screens per expert are
-repeats for consistency. Agreement is measured with Krippendorff's alpha~\cite{krippendorff} and with the intraclass correlation of the judge
+repeats for consistency. Agreement is measured with Krippendorff's alpha~\cite{krippendorff} and with the intraclass correlation coefficient (ICC) of the judge
 against the experts' consensus, next to the experts' agreement with each other. The
 difference between the arms over all 179 questions is estimated by prediction-powered
 inference~\cite{ppi,ppiplusplus}, which corrects the judge's
@@ -428,7 +430,8 @@ receive the identical, unmodified question text, with no query engineering on ei
 side.
 
 Judges score each result on a 0 to 4 scale, 0 not relevant, 4 perfectly relevant,
-matching the scale and Precision@K / DCG@K reporting used in a published relevance
+matching the scale and Precision@K / Discounted Cumulative Gain (DCG)@K reporting
+used in a published relevance
 evaluation~\cite{consensus}, blind to which system produced it; system identity is
 randomized left-to-right per query to prevent a judge from guessing rather than
 reading. URL, DOI and publication date are removed from every result before a judge
@@ -645,7 +648,7 @@ This quadrant tests retrieval alone, whether the correct source paper is surface
 with no model reasoning involved. Figure~\ref{fig:quadrant3-recall} and
 Table~\ref{tab:quadrant-three} show the result.
 Recall@K is the fraction of queries where the correct paper appears in a system's top
-K results, on a 0 to 100\% scale. nDCG also rewards a higher rank for the correct
+K results, on a 0 to 100\% scale. Normalized DCG (nDCG) also rewards a higher rank for the correct
 paper, on a 0 to 1 scale where 1 means the correct paper is always ranked first.
 On the 668 in-corpus queries, Redpine Science leads on all four metrics: 6.9 points
 over Exa at Recall@1, narrowing
