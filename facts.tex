@@ -11,7 +11,7 @@
 % write \qFourPrecisionRedpine, not "54.3\%", so a future update only ever
 % touches this one file.
 %
-% Last synced: 2026-09-25, against Redpine-Science commit f90dccb.
+% Last synced: 2026-09-28, against Redpine-Science commit f08a330.
 
 % --- Quadrant 1: public benchmarks, Q&As ---
 % ScholarQABench SciFact, n=208 claims, mean of five runs.
@@ -42,12 +42,13 @@
 \newcommand{\qThreeExaRecall}{77.5\%}
 
 % --- Quadrant 4: expert-validated questions, retrieval ---
-% Blinded PhD relevance panel, n=115 questions (90 domain-specific across
-% three subspecialists, plus 25 cross-judged real-world questions).
-% Precision@5 and mean DCG@5 shown here; the preprint also reports mean
-% relevance and an inter-rater kappa, not carried into the blog.
+% Blinded PhD relevance panel, final n=115 (all three panelists scored:
+% 90 domain-specific, 30 each, plus 25 cross-judged questions). Precision@5
+% (score >=2 of 4) and mean DCG@5 shown here; the preprint also reports mean
+% relevance and an inter-rater kappa, not carried into the blog. Comparator
+% is "the PubMed search tool", matching the preprint's own phrasing.
 \newcommand{\qFourN}{115}
-\newcommand{\qFourPrecisionRedpine}{54.3\%}
-\newcommand{\qFourPrecisionPubmed}{25.4\%}
-\newcommand{\qFourDCGRedpine}{7.70}
-\newcommand{\qFourDCGPubmed}{4.45}
+\newcommand{\qFourPrecisionRedpine}{75.2\%}
+\newcommand{\qFourPrecisionPubmed}{39.8\%}
+\newcommand{\qFourDCGRedpine}{7.26}
+\newcommand{\qFourDCGPubmed}{4.02}
