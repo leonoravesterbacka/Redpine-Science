@@ -227,8 +227,9 @@ have one paper behind them, and that a biomedical expert has checked.
 
 \lead{Question set.} The set holds 179 questions in four clinical tracks: cardiology
 (79), neuroimmunology (60), sepsis (20) and immunology (20). Each question is written
-from one paper in the Redpine Science full-text corpus. Of these papers, 105 are open access and 74 paywalled. The split matters because web search can find an
-open-access paper, so results are reported by access class as well as overall
+from one paper in the Redpine Science full-text corpus. Of these papers, 105 are open
+access and 74 paywalled. The split matters because web search can find an open-access
+paper, so results are reported by access class as well as overall
 (Section~\ref{sec:results-quadrant-two}).
 
 \lead{Writing the questions and their answer keys.} A language model pipeline turns a
@@ -252,9 +253,12 @@ over-claim, which an answer must not make. Figure~\ref{fig:q2-example} shows one
 question with its gold in full. Passages from other papers on the same
 question decide whether a finding is corroborated, uncontested or conflicting, which sets
 how firmly the gold may state it. A mechanical check confirms that every quote appears in
-the paper and every claim has evidence behind it. The model then reviews each gold
-against standards distilled from the experts' verdicts in earlier rounds, repairs what
-it can and discards the rest. A question goes to the experts only if this review, a
+the paper and every claim has evidence behind it. A model review then judges each gold
+as the two specialist reviewers would, calibrated on their verdicts from earlier sets:
+each claim is marked supported, overstated, unsupported or contradicted against the
+paper's text, and the certainty sentence and wrong-if clause are checked against the
+study design. A flagged gold is repaired once and re-validated; one that still fails is
+dropped. A question goes to the experts only if this review, a
 check that the question belongs to its track, a check that the claims stay faithful to
 the paper after repair, and the mechanical check all pass.
 
