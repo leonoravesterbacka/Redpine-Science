@@ -176,17 +176,17 @@ is the contribution of this methodology.
 
 Quadrants one and two score answers from the same kind of agent: a language model in
 a tool-use loop, with a fixed budget of tool calls, that decides what to search and
-when to stop. Each arm of a comparison runs the same loop, the same model, and the
-same system prompt; the prompt differs between arms in one clause only, the list of
-tools the agent may call. Answers are stored and scored afterwards, so a difference
-between arms can come only from the tools. Which arms run, which model answers, and
-how answers are scored are set per quadrant below.
+when to stop. Within a quadrant, every arm runs the same loop, the same model, and the same
+system prompt; the prompt differs between arms in one clause only, the list of tools
+the agent may call. Answers are stored and scored afterwards, so a difference between
+arms can come only from the tools. The model, the call budget, the arms and the
+scoring rule differ between the two quadrants and are set in each subsection below.
 
 \subsection{Quadrant one: public benchmarks, Q\&As}\label{sec:method-quadrant-one}
 
-Public benchmarks are the standard way to compare models across labs: the questions are
-fixed, the scoring rule is published, and a number can be checked against other groups'
-results. Biomedicine has many, among them MMLU~\cite{mmlu},
+Public benchmarks are the standard way to compare models across labs and
+domains~\cite{math,swebench,ecollm}: the question set and the scoring rule are
+published, so a number can be checked against other groups' results. Biomedicine has many, among them MMLU~\cite{mmlu},
 MedHELM~\cite{medhelm}, BioASQ~\cite{bioasq}, MedXpertQA~\cite{medxpertqa},
 HealthBench~\cite{healthbench}, LiveMedBench~\cite{livemedbench}, and the Bio/Chem Gold
 subset of Humanity's Last Exam~\cite{hle}.
