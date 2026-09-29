@@ -677,20 +677,23 @@ panel.
 \section{What we are releasing}\label{sec:releasing}
 
 All four evaluations in this report are released as a public benchmark suite, one
-directory per quadrant.
+directory per evaluation.
 
 \begin{itemize}[leftmargin=1.6em, itemsep=0.5em]
-  \item \textbf{Quadrant one.} The SciFact harness, its per-arm configuration, and the
-    reduced run logs (per-claim scores and exclusions) behind the reported numbers.
-  \item \textbf{Quadrant two.} The 179-question expert-validated set with its golds,
-    the harness that runs it (shared with quadrant one), the run log behind the reported
-    numbers with every model answer (retrieved passage text removed), both judges' code,
-    the per-question judge verdicts under both judges, and the agreement between the two
-    judges recomputed from them; the experts' claim labels and the second judge's
-    probabilities and confidences are withheld.
-  \item \textbf{Quadrant three.} The 668-query retrieval dataset, the matching code,
-    and the results behind the reported recall.
-  \item \textbf{Quadrant four.} The 115-question relevance panel's dataset and
+  \item \textbf{External QA benchmark} (\texttt{external-qa}). The SciFact harness, its
+    per-arm configuration, and the reduced run logs (per-claim scores and exclusions)
+    behind the reported numbers.
+  \item \textbf{Redpine Biomedical QA} (\texttt{redpine-biomedical-qa}). The 179-question
+    expert-validated set with its golds, the harness that runs it (shared with the external
+    QA benchmark), the run log behind the reported numbers with every model answer
+    (retrieved passage text removed), both judges' code, the per-question judge verdicts
+    under both judges, and the agreement between the two judges recomputed from them; the
+    experts' claim labels and the second judge's probabilities and confidences are withheld.
+  \item \textbf{External retrieval benchmark} (\texttt{external-retrieval}). The
+    668-query retrieval dataset, the matching code, and the results behind the reported
+    recall.
+  \item \textbf{Redpine Biomedical Retrieval Evaluation}
+    (\texttt{redpine-biomedical-retrieval}). The 115-question relevance panel's dataset and
     ratings, anonymized, and the scoring code behind the reported precision and DCG.
 \end{itemize}
 
