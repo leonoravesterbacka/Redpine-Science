@@ -75,8 +75,8 @@ reports four different evaluation tracks. On ScholarQABench SciFact, the public 
 reported here, an agent with Redpine Science answers 94.4\% of claims correctly
 against 87.6\% with no retrieval. On the expert-validated question set, an agent with Redpine Science states
 80.1\% of the required claims against 70.2\% for an agent restricted to web search. On the 668 queries of a public retrieval benchmark whose gold paper Redpine holds,
-stripped of any model reasoning, Redpine Science recovers the correct source paper
-83.1\% of the time, against 77.5\% for Exa, the benchmark's creator. A blinded expert relevance panel places Redpine Science's
+stripped of any model reasoning, Redpine Science places the correct source paper in its
+top ten results for 83.1\% of queries (Recall@10), against 77.5\% for Exa, the benchmark's creator. A blinded expert relevance panel places Redpine Science's
 Precision@5 at 75.2\% against 39.8\% for the PubMed search tool. We release the
 expert-validated question set and instructions to reproduce every
 result above, at \todo{[link to redpine-benchmarks on GitHub].}}
@@ -701,19 +701,19 @@ directory per quadrant.
 This report evaluates a retrieval-augmented generation system by separating the
 effects of retrieval and generation.
 
-On the expert-validated question set, an agent with Redpine Science states 80.1\% of
-the required claims against 70.2\% for an agent restricted to web search, a gain of
-10.0 points in claim coverage under the primary judge, expert labels on a blinded sample point the same way. On ScholarQABench
-SciFact, the agent answers 94.4\% of claims correctly with Redpine Science against
-87.6\% with no retrieval and 93.1\% with web search; every arm scores above 87\%, so a
-public benchmark of this kind leaves little room to measure retrieval, which is what the
-other three quadrants are for. On the 668 queries
-of the public retrieval benchmark whose gold paper Redpine holds, Redpine Science
-recovers the correct document 83.1\% of the time, against 77.5\% for Exa, the
-benchmark's creator. On the expert-judged retrieval
-panel, three PhD-level domain experts (neurology, cardiology, and rheumatology) plus
-a second, cross-judged pool of questions, n = 115 in all, place Redpine Science's
-Precision@5 at 75.2\% against 39.8\% for the PubMed search tool.
+On ScholarQABench SciFact, the agent answers 94.4\% of claims correctly with Redpine
+Science against 87.6\% with no retrieval and 93.1\% with web search; every arm scores
+above 87\%, so a public benchmark of this kind leaves little room to measure retrieval,
+which is what the other three quadrants are for. On the expert-validated question set,
+an agent with Redpine Science states 80.1\% of the required claims against 70.2\% for
+an agent restricted to web search, a paired gain of 10.0 points in claim coverage under
+the primary judge; expert labels on a blinded sample point the same way. On the 668
+queries of the public retrieval benchmark whose gold paper Redpine holds, Redpine
+Science places the correct document in its top ten results for 83.1\% of queries
+(Recall@10), against 77.5\% for Exa, the benchmark's creator. On the expert-judged
+retrieval panel, three PhD-level domain experts (neurology, cardiology, and
+rheumatology) plus a second, cross-judged pool of questions, n = 115 in all, place
+Redpine Science's Precision@5 at 75.2\% against 39.8\% for the PubMed search tool.
 
 \section{Acknowledgments}\label{sec:thanks}
 
