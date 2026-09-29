@@ -152,7 +152,7 @@ four evaluations in Figure~\ref{fig:methodology}.
      \textbf{Biomedical Relevance Panel v1}\\[2pt]
      115 questions};
 
-  \node[axis] at (0,1.6) {Question answering};
+  \node[axis] at (0,1.6) {QA};
   \node[axis] at (6.3,1.6) {Retrieval};
   \node[axis, rotate=90] at (-3.4,0) {External};
   \node[axis, rotate=90] at (-3.4,-3.0) {Redpine};
@@ -178,7 +178,7 @@ the agent may call. Answers are stored and scored afterwards, so a difference be
 arms can come only from the tools. The model, the call budget, the arms and the
 scoring rule differ between the two quadrants and are set in each subsection below.
 
-\subsection{External question-answering benchmark: ScholarQABench SciFact}\label{sec:method-quadrant-one}
+\subsection{External QA benchmark: ScholarQABench SciFact}\label{sec:method-quadrant-one}
 
 Public benchmarks are the standard way to compare models across labs and
 domains~\cite{math,swebench,ecollm}: the question set and the scoring rule are
@@ -215,7 +215,7 @@ so no arm answers from memory alone; after that the agent decides. The full set 
 five times and the mean over runs is reported, so the spread is run-to-run variation
 rather than one draw.
 
-\subsection{Redpine question-answering benchmark: Biomedical QA v1}\label{sec:method-quadrant-two}
+\subsection{Redpine QA benchmark: Biomedical QA v1}\label{sec:method-quadrant-two}
 
 Public benchmarks are comparable across labs, but a model that has memorized an answer
 is not retrieving anything. Quadrant two therefore asks questions that are new, that
@@ -441,7 +441,7 @@ judges before pooling, so each of these questions contributes one data point, no
 The following subsections present the results of the four evaluation tracks
 described above.
 
-\subsection{External question-answering benchmark: ScholarQABench SciFact}\label{sec:results-quadrant-one}
+\subsection{External QA benchmark: ScholarQABench SciFact}\label{sec:results-quadrant-one}
 
 \begin{figure}[htbp]
     \centering
@@ -471,7 +471,7 @@ about whether the retrieved papers are the right ones. The remaining quadrants t
 those two questions in turn: quadrant two asks questions the model cannot answer from
 memory, and quadrants three and four measure the retrieved papers directly.
 
-\subsection{Redpine question-answering benchmark: Biomedical QA v1}\label{sec:results-quadrant-two}
+\subsection{Redpine QA benchmark: Biomedical QA v1}\label{sec:results-quadrant-two}
 
 \begin{figure}[htbp]
     \centering
