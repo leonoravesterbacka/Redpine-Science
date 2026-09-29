@@ -112,21 +112,15 @@ generation.
 
 The corpus used for these evaluations is Redpine Science, which holds over 20
 million peer-reviewed articles from closed-access journals and open-access
-repositories, served through Redpine's API and MCP.
+repositories, served through Redpine's API and MCP. A query returns a ranked list
+of chunks, short passages from inside an article rather than whole documents, each
+tied to its source paper.
 Coverage concentrates in biomedicine, with smaller coverage of physics and
 chemistry. That concentration sets the domain for the rest of this report: the
 public benchmarks tested are mostly biomedical, and the relevance judges are PhDs
 in a few clinical subspecialties drawn from the corpus's wider biomedical
 coverage.\footnote{For the full list of partners and coverage by field, see
 \url{https://redpine.ai}.}
-
-A query to Redpine Science returns a ranked list of chunks, short passages from
-inside an article rather than whole documents, each tied to its source paper. The
-two retrieval quadrants score this ranked list directly, before any model reasons
-over it, at two levels: Section~\ref{sec:method-quadrant-three} checks whether a
-chunk's source paper is the gold paper, by Digital Object Identifier (DOI) or title, and at what rank;
-Section~\ref{sec:method-quadrant-four} asks a domain expert to judge the chunk's
-content for relevance.
 
 \section{Evaluation methodology}\label{sec:methodology}
 
@@ -397,7 +391,7 @@ regardless because it is independent.
 
 The Exa publication-retrieval benchmark~\cite{exabenchmarks} grounds every query in one
 gold publication and scores whether it is surfaced and at what rank: a match is exact
-DOI when a system returns one, or a normalized title substring
+Digital Object Identifier (DOI) when a system returns one, or a normalized title substring
 otherwise. It asks several phrasings per source paper, so its 668 DOI-confirmed queries
 map to 101 unique source papers. Recall is reported at the query level, the more demanding number since it counts
 every phrasing separately, and at three ranks, Recall@1, Recall@5, and Recall@10, so a
