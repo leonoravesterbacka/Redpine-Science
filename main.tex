@@ -131,31 +131,31 @@ four evaluations in Figure~\ref{fig:methodology}.
 \centering
 \resizebox{\linewidth}{!}{%
 \begin{tikzpicture}[
-  quad/.style={draw=RPDarkGrey, line width=0.6pt, text width=5.0cm,
-    minimum height=2.8cm, align=center, inner sep=10pt, font=\small, text=RPDarkGrey},
+  quad/.style={draw=RPDarkGrey, line width=0.6pt, text width=5.3cm,
+    minimum height=3.3cm, align=center, inner sep=10pt, font=\small, text=RPDarkGrey},
   axis/.style={font=\bfseries, text=RPDarkGrey},
 ]
   \node[quad, fill=RPSkyBlue!12] (q1) at (0,0)
     {{\bfseries\large\color{RPCrimson}Q1}\\[2pt]
-     \textbf{ScholarQABench SciFact}\\[4pt]
-     208 claims, true or false};
-  \node[quad, fill=RPOrange!12] (q3) at (6.6,0)
+     \textbf{External $\times$ Q\&As}\\[4pt]
+     established public benchmarks};
+  \node[quad, fill=RPOrange!12] (q3) at (7.5,0)
     {{\bfseries\large\color{RPCrimson}Q3}\\[2pt]
-     \textbf{Exa publication retrieval}\\[4pt]
-     668 queries, single-shot, no agent};
-  \node[quad, fill=RPLightGreen!12] (q2) at (0,-3.4)
+     \textbf{External $\times$ Retrieval}\\[4pt]
+     gold-document retrieval, single-shot, no agent};
+  \node[quad, fill=RPLightGreen!12] (q2) at (0,-4)
     {{\bfseries\large\color{RPCrimson}Q2}\\[2pt]
-     \textbf{Biomedical QA}\\[4pt]
-     179 literature-grounded questions, model-judged};
-  \node[quad, fill=RPDarkRed!10] (q4) at (6.6,-3.4)
+     \textbf{Redpine $\times$ Q\&As}\\[4pt]
+     our own literature-grounded questions, agent-scored};
+  \node[quad, fill=RPDarkRed!10] (q4) at (7.5,-4)
     {{\bfseries\large\color{RPCrimson}Q4}\\[2pt]
-     \textbf{Biomedical Retrieval Evaluation}\\[4pt]
-     115 questions, blinded PhD judging};
+     \textbf{Redpine $\times$ Retrieval}\\[4pt]
+     blinded PhD relevance judging, single-shot, no agent};
 
-  \node[axis] at (0,1.8) {QA};
-  \node[axis] at (6.6,1.8) {Retrieval};
-  \node[axis, rotate=90] at (-3.5,0) {External};
-  \node[axis, rotate=90] at (-3.5,-3.4) {Redpine};
+  \node[axis] at (0,2.0) {Q\&As};
+  \node[axis] at (7.5,2.0) {Retrieval};
+  \node[axis, rotate=90] at (-3.8,0) {External};
+  \node[axis, rotate=90] at (-3.8,-4) {Redpine};
 \end{tikzpicture}%
 }
 \caption{The four evaluations, crossing who built the questions against what is measured.}
