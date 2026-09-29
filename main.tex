@@ -695,10 +695,11 @@ directory per quadrant.
   \item \textbf{Quadrant one.} The SciFact harness, its per-arm configuration, and the
     reduced run logs (per-claim scores and exclusions) behind the reported numbers.
   \item \textbf{Quadrant two.} The 179-question expert-validated set with its golds,
-    the harness that runs it (shared with quadrant one), the per-question judge verdicts
-    under both judges, and the agreement between the two judges recomputed from them;
-    model answers, the experts' claim labels and the second judge's raw outputs are
-    withheld.
+    the harness that runs it (shared with quadrant one), the run log behind the reported
+    numbers with every model answer (retrieved passage text removed), both judges' code,
+    the per-question judge verdicts under both judges, and the agreement between the two
+    judges recomputed from them; the experts' claim labels and the second judge's
+    probabilities are withheld.
   \item \textbf{Quadrant three.} The 668-query retrieval dataset, the matching code,
     and the results behind the reported recall.
   \item \textbf{Quadrant four.} The 115-question relevance panel's dataset and
