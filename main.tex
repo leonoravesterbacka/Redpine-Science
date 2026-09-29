@@ -383,13 +383,9 @@ may reflect generation rather than retrieval, and a strong result may reflect wr
 quality compensating for weak retrieval. Quadrant three isolates retrieval: each system returns its own ranking once, with no
 agent loop, reformulation, or added reasoning.
 
-This quadrant uses an existing open benchmark, built and maintained by an independent
-third party, rather than one of our own: its queries and gold documents are public, so
-the result can be checked. We have not confirmed whether it includes an expert
-validation step, as some other public benchmarks in this report do; it is used
-regardless because it is independent.
-
-The Exa publication-retrieval benchmark~\cite{exabenchmarks} grounds every query in one
+This quadrant uses the Exa publication-retrieval benchmark~\cite{exabenchmarks}, an
+existing open benchmark published by Exa rather than built by us: its queries and gold
+documents are public, so the result can be checked. It grounds every query in one
 gold publication and scores whether it is surfaced and at what rank: a match is exact
 Digital Object Identifier (DOI) when a system returns one, or a normalized title substring
 otherwise. It asks several phrasings per source paper, so its 668 DOI-confirmed queries
