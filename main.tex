@@ -124,41 +124,41 @@ coverage.\footnote{For the full list of partners and coverage by field, see
 
 \section{Evaluation methodology}\label{sec:methodology}
 
-The evaluation crosses question source against what is measured, producing the
+The evaluation crosses who built the questions against what is measured, producing the
 four evaluations in Figure~\ref{fig:methodology}.
 
 \begin{figure}[h]
 \centering
 \resizebox{\linewidth}{!}{%
 \begin{tikzpicture}[
-  quad/.style={draw=RPDarkGrey, line width=0.6pt, text width=5.3cm,
-    minimum height=3.3cm, align=center, inner sep=10pt, font=\small, text=RPDarkGrey},
+  quad/.style={draw=RPDarkGrey, line width=0.6pt, text width=4.8cm,
+    minimum height=2.4cm, align=center, inner sep=10pt, font=\small, text=RPDarkGrey},
   axis/.style={font=\bfseries, text=RPDarkGrey},
 ]
   \node[quad, fill=RPSkyBlue!12] (q1) at (0,0)
     {{\bfseries\large\color{RPCrimson}Q1}\\[2pt]
-     \textbf{Public benchmark $\times$ Q\&As}\\[4pt]
-     established public benchmarks};
-  \node[quad, fill=RPOrange!12] (q3) at (7.5,0)
+     \textbf{ScholarQABench SciFact}\\[2pt]
+     208 claims};
+  \node[quad, fill=RPSkyBlue!12] (q3) at (6.3,0)
     {{\bfseries\large\color{RPCrimson}Q3}\\[2pt]
-     \textbf{Public benchmark $\times$ Retrieval}\\[4pt]
-     gold-document retrieval, single-shot, no agent};
-  \node[quad, fill=RPLightGreen!12] (q2) at (0,-4)
+     \textbf{Exa publication retrieval}\\[2pt]
+     668 queries};
+  \node[quad, fill=RPCrimson!12] (q2) at (0,-3.0)
     {{\bfseries\large\color{RPCrimson}Q2}\\[2pt]
-     \textbf{Expert-validated $\times$ Q\&As}\\[4pt]
-     our own literature-grounded questions, agent-scored};
-  \node[quad, fill=RPDarkRed!10] (q4) at (7.5,-4)
+     \textbf{Biomedical QA v1}\\[2pt]
+     179 questions};
+  \node[quad, fill=RPCrimson!12] (q4) at (6.3,-3.0)
     {{\bfseries\large\color{RPCrimson}Q4}\\[2pt]
-     \textbf{Expert-validated $\times$ Retrieval}\\[4pt]
-     blinded PhD relevance judging, single-shot, no agent};
+     \textbf{Biomedical Relevance Panel v1}\\[2pt]
+     115 questions};
 
-  \node[axis] at (0,2.0) {Q\&As};
-  \node[axis] at (7.5,2.0) {Retrieval};
-  \node[axis, rotate=90] at (-3.8,0) {Public benchmark};
-  \node[axis, rotate=90] at (-3.8,-4) {Expert-validated};
+  \node[axis] at (0,1.6) {Question answering};
+  \node[axis] at (6.3,1.6) {Retrieval};
+  \node[axis, rotate=90] at (-3.4,0) {External};
+  \node[axis, rotate=90] at (-3.4,-3.0) {Redpine};
 \end{tikzpicture}%
 }
-\caption{The four evaluations, crossing question source against measurement target.}
+\caption{The four evaluations, crossing who built the questions against what is measured.}
 \label{fig:methodology}
 \end{figure}
 
@@ -178,7 +178,7 @@ the agent may call. Answers are stored and scored afterwards, so a difference be
 arms can come only from the tools. The model, the call budget, the arms and the
 scoring rule differ between the two quadrants and are set in each subsection below.
 
-\subsection{Quadrant one: public benchmarks, Q\&As}\label{sec:method-quadrant-one}
+\subsection{External question-answering benchmark: ScholarQABench SciFact}\label{sec:method-quadrant-one}
 
 Public benchmarks are the standard way to compare models across labs and
 domains~\cite{math,swebench,ecollm}: the question set and the scoring rule are
@@ -215,7 +215,7 @@ so no arm answers from memory alone; after that the agent decides. The full set 
 five times and the mean over runs is reported, so the spread is run-to-run variation
 rather than one draw.
 
-\subsection{Quadrant two: expert-validated, Q\&As}\label{sec:method-quadrant-two}
+\subsection{Redpine question-answering benchmark: Biomedical QA v1}\label{sec:method-quadrant-two}
 
 Public benchmarks are comparable across labs, but a model that has memorized an answer
 is not retrieving anything. Quadrant two therefore asks questions that are new, that
@@ -376,7 +376,7 @@ estimate with the expert labels. The sample, the statistics, the reliability flo
 recommended and tentative standards) and the decision rules were fixed before the
 experts began.
 
-\subsection{Quadrant three: public benchmarks, retrieval}\label{sec:method-quadrant-three}
+\subsection{External retrieval benchmark: Exa publication retrieval}\label{sec:method-quadrant-three}
 
 Quadrants one and two score the full agentic answer, where a poor result
 may reflect generation rather than retrieval, and a strong result may reflect writing
@@ -408,7 +408,7 @@ used throughout this report. Exa and Tavily, advanced web search services, searc
 open web, Redpine Science a curated, licensed corpus, so this compares retrieval
 quality on identical terms.
 
-\subsection{Quadrant four: expert validated, retrieval}\label{sec:method-quadrant-four}
+\subsection{Redpine retrieval evaluation: Biomedical Relevance Panel v1}\label{sec:method-quadrant-four}
 
 Quadrant three can only score queries tied to one known publication, but most research
 questions have many relevant papers rather than a single gold source. Quadrant four
@@ -441,7 +441,7 @@ judges before pooling, so each of these questions contributes one data point, no
 The following subsections present the results of the four evaluation tracks
 described above.
 
-\subsection{Quadrant one: public benchmarks, Q\&As}\label{sec:results-quadrant-one}
+\subsection{External question-answering benchmark: ScholarQABench SciFact}\label{sec:results-quadrant-one}
 
 \begin{figure}[htbp]
     \centering
@@ -471,7 +471,7 @@ about whether the retrieved papers are the right ones. The remaining quadrants t
 those two questions in turn: quadrant two asks questions the model cannot answer from
 memory, and quadrants three and four measure the retrieved papers directly.
 
-\subsection{Quadrant two: expert-validated, Q\&As}\label{sec:results-quadrant-two}
+\subsection{Redpine question-answering benchmark: Biomedical QA v1}\label{sec:results-quadrant-two}
 
 \begin{figure}[htbp]
     \centering
@@ -607,7 +607,7 @@ verdict is therefore drawn for either judge, and the figures above describe alig
 whether a claim is stated or not addressed, and on the rare contradicted label; it varies
 by track, from alpha 0.92 on sepsis to 0.28 on neuroimmunology.
 
-\subsection{Quadrant three: public benchmarks, retrieval}\label{sec:results-quadrant-three}
+\subsection{External retrieval benchmark: Exa publication retrieval}\label{sec:results-quadrant-three}
 
 \begin{figure}[h]
   \centering
@@ -645,7 +645,7 @@ to 5.5 points at Recall@10, and 27.7 to 30.4 points over Tavily across the three
 cutoffs. When it surfaces the right paper at all, it is at rank one 84\% of the time,
 against 81\% for Exa and 72\% for Tavily.
 
-\subsection{Quadrant four: expert validated, retrieval}\label{sec:results-quadrant-four}
+\subsection{Redpine retrieval evaluation: Biomedical Relevance Panel v1}\label{sec:results-quadrant-four}
 
 \begin{figure}[htbp]
     \centering
