@@ -178,7 +178,7 @@ the agent may call. Answers are stored and scored afterwards, so a difference be
 arms can come only from the tools. The model, the call budget, the arms and the
 scoring rule differ between the two quadrants and are set in each subsection below.
 
-\subsection{External QA benchmark: ScholarQABench SciFact}\label{sec:method-quadrant-one}
+\subsection{External QA benchmark}\label{sec:method-quadrant-one}
 
 Public benchmarks are the standard way to compare models across labs and
 domains~\cite{math,swebench,ecollm}: the question set and the scoring rule are
@@ -215,7 +215,7 @@ so no arm answers from memory alone; after that the agent decides. The full set 
 five times and the mean over runs is reported, so the spread is run-to-run variation
 rather than one draw.
 
-\subsection{Redpine QA benchmark: Biomedical QA v1}\label{sec:method-quadrant-two}
+\subsection{Redpine QA benchmark}\label{sec:method-quadrant-two}
 
 Public benchmarks are comparable across labs, but a model that has memorized an answer
 is not retrieving anything. Quadrant two therefore asks questions that are new, that
@@ -376,7 +376,7 @@ estimate with the expert labels. The sample, the statistics, the reliability flo
 recommended and tentative standards) and the decision rules were fixed before the
 experts began.
 
-\subsection{External retrieval benchmark: Exa publication retrieval}\label{sec:method-quadrant-three}
+\subsection{External retrieval benchmark}\label{sec:method-quadrant-three}
 
 Quadrants one and two score the full agentic answer, where a poor result
 may reflect generation rather than retrieval, and a strong result may reflect writing
@@ -408,7 +408,7 @@ used throughout this report. Exa and Tavily, advanced web search services, searc
 open web, Redpine Science a curated, licensed corpus, so this compares retrieval
 quality on identical terms.
 
-\subsection{Redpine retrieval evaluation: Biomedical Relevance Panel v1}\label{sec:method-quadrant-four}
+\subsection{Redpine retrieval evaluation}\label{sec:method-quadrant-four}
 
 Quadrant three can only score queries tied to one known publication, but most research
 questions have many relevant papers rather than a single gold source. Quadrant four
@@ -441,7 +441,7 @@ judges before pooling, so each of these questions contributes one data point, no
 The following subsections present the results of the four evaluation tracks
 described above.
 
-\subsection{External QA benchmark: ScholarQABench SciFact}\label{sec:results-quadrant-one}
+\subsection{External QA benchmark}\label{sec:results-quadrant-one}
 
 \begin{figure}[htbp]
     \centering
@@ -471,7 +471,7 @@ about whether the retrieved papers are the right ones. The remaining quadrants t
 those two questions in turn: quadrant two asks questions the model cannot answer from
 memory, and quadrants three and four measure the retrieved papers directly.
 
-\subsection{Redpine QA benchmark: Biomedical QA v1}\label{sec:results-quadrant-two}
+\subsection{Redpine QA benchmark}\label{sec:results-quadrant-two}
 
 \begin{figure}[htbp]
     \centering
@@ -607,7 +607,7 @@ verdict is therefore drawn for either judge, and the figures above describe alig
 whether a claim is stated or not addressed, and on the rare contradicted label; it varies
 by track, from alpha 0.92 on sepsis to 0.28 on neuroimmunology.
 
-\subsection{External retrieval benchmark: Exa publication retrieval}\label{sec:results-quadrant-three}
+\subsection{External retrieval benchmark}\label{sec:results-quadrant-three}
 
 \begin{figure}[h]
   \centering
@@ -645,7 +645,7 @@ to 5.5 points at Recall@10, and 27.7 to 30.4 points over Tavily across the three
 cutoffs. When it surfaces the right paper at all, it is at rank one 84\% of the time,
 against 81\% for Exa and 72\% for Tavily.
 
-\subsection{Redpine retrieval evaluation: Biomedical Relevance Panel v1}\label{sec:results-quadrant-four}
+\subsection{Redpine retrieval evaluation}\label{sec:results-quadrant-four}
 
 \begin{figure}[htbp]
     \centering
