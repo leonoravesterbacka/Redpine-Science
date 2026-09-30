@@ -552,56 +552,58 @@ Intervals are 95\%: jackknife for alpha, bootstrap for the intraclass correlatio
 \toprule
  & \textbf{Sonnet 5} & \textbf{Jev} \\
 \midrule
-Agreement with the expert majority, 237 claim units & 86\% & 82\% \\
+Agreement with the expert majority, 144 claim units with two or more expert labels & 90\% & 85\% \\
 Alt-test winning rate, $\epsilon = 0.2$ & 100\% & 100\% \\
-Mean Cohen's $\kappa$ against each expert (expert against expert: 0.53) & 0.58 & 0.54 \\
-ICC(2,1) against the leave-one-out consensus & 0.85 [0.76, 0.91] & 0.81 [0.71, 0.89] \\
+Mean Cohen's $\kappa$ against each expert (expert against expert: 0.48) & 0.59 & 0.55 \\
+ICC(2,1) against the leave-one-out consensus & 0.86 [0.77, 0.92] & 0.82 [0.71, 0.90] \\
 \midrule
-\multicolumn{3}{@{}l}{\textit{Panel, 151 shared claim units}} \\
-Experts' ICC ceiling & \multicolumn{2}{c}{0.71 [0.51, 0.84]} \\
-Krippendorff's alpha, stated versus not & \multicolumn{2}{c}{0.57 [0.45, 0.69]} \\
-Krippendorff's alpha, three-way & \multicolumn{2}{c}{0.54 [0.43, 0.65]} \\
-Fleiss's $\kappa$, stated versus not / three-way & \multicolumn{2}{c}{0.58 / 0.55} \\
+\multicolumn{3}{@{}l}{\textit{Panel, 154 core claim units}} \\
+Experts' ICC ceiling & \multicolumn{2}{c}{0.74 [0.56, 0.85]} \\
+Krippendorff's alpha, stated versus not & \multicolumn{2}{c}{0.53 [0.42, 0.65]} \\
+Krippendorff's alpha, three-way & \multicolumn{2}{c}{0.49 [0.38, 0.59]} \\
+Fleiss's $\kappa$, stated versus not / three-way & \multicolumn{2}{c}{0.53 / 0.49} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 Three domain experts then labeled a blinded sample of the same answers with the
 judge's three verdicts, as Section~\ref{sec:method-quadrant-two} describes: a random
-core of 22 questions, both arms, each labeled by two or three experts, and 16 further answers labeled
-by one expert each. Of the 151 shared claim units, 51 carry three expert labels and
-100 carry two. Table~\ref{tab:quadrant-two-experts} reports the agreement.
+core of 22 questions, both arms, every answer labeled by all three experts, and 18 further
+questions, both arms, labeled by one expert each. Of the 154 core claim units, 138 carry three
+usable labels and 16 carry two, because one expert marked that claim cannot assess. Table~\ref{tab:quadrant-two-experts} reports the agreement.
 
-Both judges agree with the experts as well as the experts agree with each other.
-Sonnet 5 gives the same verdict as the expert majority on 86\% of claims, Jev on
-82\%. The alt-test~\cite{alttest} holds out each expert in turn and asks whether the judge agrees with
+Both judges agree with the experts at least as well as the experts agree with each other.
+Sonnet 5 gives the same verdict as the expert majority on 90\% of the claims carrying two or
+more expert labels, Jev on 85\%. The alt-test~\cite{alttest} holds out each expert in turn and asks whether the judge agrees with
 that expert at least as well as the other two do; at the
 $\epsilon = 0.2$ its authors recommend for expert annotators, both judges win for all three. The test gets easier the more a
 panel disagrees among itself, so we do not read 100\% as adequacy. Mean pairwise Cohen's $\kappa$
-between a judge and an expert is 0.58 for Sonnet 5 and 0.54 for Jev, against 0.53
-between two experts. On the per-answer coverage score, the intraclass correlation
-between Sonnet 5 and the experts' leave-one-out consensus is 0.85, above the experts'
-own ceiling of 0.71; Jev's is 0.81. Sonnet 5 is ahead of Jev on every measure by a
+between a judge and an expert is 0.59 for Sonnet 5 and 0.55 for Jev, against 0.48
+between two experts. The judges exceed the experts' agreement with each other partly because
+the experts disagree among themselves, so this is alignment with a noisy panel, not superiority
+to it. On the per-answer coverage score, the intraclass correlation
+between Sonnet 5 and the experts' leave-one-out consensus is 0.86, above the experts'
+own ceiling of 0.74; Jev's is 0.82. Sonnet 5 is ahead of Jev on every measure by a
 small margin.
 
 The expert labels point the same way as the judge's. On the 22-question random core,
-where all experts labeled both arms, the expert-only coverage gain is $+25.1$ points
-(95\% interval $+11.2$ to $+39.0$); that draw over-represents questions on which the judge saw
+where all experts labeled both arms, the expert-only coverage gain is $+24.9$ points
+(95\% interval $+11.6$ to $+38.2$); that draw over-represents questions on which the judge saw
 a large gap ($+29.9$ against $+10.0$ points on the frame), so the estimate for all 179 questions
 is, by prediction-powered
-inference with the design's sampling weights, $+15.6$ points ($-2.4$ to
-$+33.6$), next to the judge's $+10.0$. Its interval is wide because the design placed only
+inference with the design's sampling weights, $+15.5$ points ($-1.9$ to
+$+33.0$), next to the judge's $+10.0$. Its interval is wide because the design placed only
 two labeled questions in the 88-question stratum where the judge saw no gap. The
-contradiction rate on the core moves the same way, $-4.3$ points ($-14.0$ to $+5.4$). The
+contradiction rate on the core moves the same way, $-6.3$ points ($-16.1$ to $+3.5$). The
 expert labels agree with the judge on the direction of the gain; its size rests on the
 judge's 179-question estimate.
 
-The experts' agreement with each other was moderate: Krippendorff's alpha 0.57 on
-whether a claim is stated and 0.54 on the three-way label, below the floors of 0.80 and
+The experts' agreement with each other was moderate: Krippendorff's alpha 0.53 on
+whether a claim is stated and 0.49 on the three-way label, below the floors of 0.80 and
 0.667 we fixed in advance as the condition for calling a judge adequate. No adequacy
 verdict is therefore drawn for either judge, and the figures above describe alignment. Disagreement among the experts concentrates on
 whether a claim is stated or not addressed, and on the rare contradicted label; it varies
-by track, from alpha 0.92 on sepsis to 0.28 on neuroimmunology.
+by track, from alpha 0.75 on sepsis to 0.23 on neuroimmunology and 0.20 on immunology.
 
 \subsection{External retrieval benchmark}\label{sec:results-quadrant-three}
 
