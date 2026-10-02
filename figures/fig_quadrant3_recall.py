@@ -6,21 +6,26 @@ benchmark, restricted to the 671 queries whose gold paper is confirmed present
 in Redpine Science's corpus (publication_search_in_corpus_v3.jsonl). Three of
 the 671 queries failed on a transient API error during the run and are
 excluded rather than scored as misses, leaving n=668 actually scored. Matching
-is exact DOI where a system returns one (only Redpine does), else a
-normalized title substring match.
+is exact DOI where a system returns one (only Redpine does, structurally;
+Tavily/Exa can still match on a DOI embedded in a result's URL or snippet
+text, not just a clean field for it), else a normalized title substring
+match (HTML tags stripped whole first, not just their angle brackets).
+Updated 2026-10-02 after checking the matching rule directly against
+exa-labs/benchmarks' own current grader and fixing the two gaps above --
+Redpine is unaffected by design, Exa and Tavily both move up.
 
     System    n    Found   Recall@1   Recall@5   Recall@10   MRR      nDCG
-    Redpine   668  555     69.76%     80.54%     83.08%      0.7440   0.7651
-    Exa       668  518     62.87%     75.60%     77.54%      0.6865   0.7086
-    Tavily    668  366     39.37%     52.84%     54.79%      0.4521   0.4758
+    Redpine   668  555     69.76%     80.54%     83.08%      0.7439   0.7651
+    Exa       668  530     62.87%     76.35%     79.34%      0.6878   0.7137
+    Tavily    668  407     48.20%     57.49%     60.93%      0.5242   0.5446
 
 Exact found-counts at each rank cutoff, derived from each system's rank
 distribution (1-10) and cross-checked against the percentages above:
 
     System    Recall@1 (k/n)   Recall@5 (k/n)   Recall@10 (k/n)
     Redpine   466/668          538/668          555/668
-    Exa       420/668          505/668          518/668
-    Tavily    263/668          353/668          366/668
+    Exa       420/668          510/668          530/668
+    Tavily    322/668          384/668          407/668
 
 Error bars are a Wald (normal-approximation) 95% confidence interval for a
 binomial proportion, computed here from these exact counts -- the same
@@ -55,8 +60,8 @@ N_QUERIES = 668
 # (found, n) at each rank cutoff, one tuple per rank, in RANKS order.
 COUNTS = {
     "redpine": [(466, N_QUERIES), (538, N_QUERIES), (555, N_QUERIES)],
-    "exa":     [(420, N_QUERIES), (505, N_QUERIES), (518, N_QUERIES)],
-    "tavily":  [(263, N_QUERIES), (353, N_QUERIES), (366, N_QUERIES)],
+    "exa":     [(420, N_QUERIES), (510, N_QUERIES), (530, N_QUERIES)],
+    "tavily":  [(322, N_QUERIES), (384, N_QUERIES), (407, N_QUERIES)],
 }
 
 # Plot order left to right within each rank group: Redpine first since it is
