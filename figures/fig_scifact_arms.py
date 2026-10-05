@@ -44,9 +44,10 @@ RUNS = {
     "redpine_first": [93.9, 93.0, 93.5, 94.5, 94.4],
 }
 
-# Plot order runs left to right from least to most tool access, so the bars
-# tell the story in reading order rather than needing the caption to explain it.
-ORDER = ["closed_book", "web", "redpine", "redpine_first"]
+# Plot order runs left to right from lowest to highest mean accuracy, so
+# every Redpine Science result ends up on the right and the bars read as an
+# ascending story without needing the caption to explain it.
+ORDER = ["closed_book", "web", "redpine_first", "redpine"]
 
 LABELS = {
     "closed_book": "No retrieval",

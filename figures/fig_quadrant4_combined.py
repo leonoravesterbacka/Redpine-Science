@@ -59,7 +59,9 @@ import matplotlib.pyplot as plt  # noqa: E402
 
 OUT = Path(__file__).resolve().parent / "quadrant4_metrics"
 
-ORDER = ["redpine", "pubmed"]
+# Lower value first (left), Redpine Science -- the higher value on both
+# panels -- second (right).
+ORDER = ["pubmed", "redpine"]
 LABELS = {"redpine": "Redpine Science", "pubmed": "PubMed"}
 
 # --- Panel 1: Precision@5 ---------------------------------------------------

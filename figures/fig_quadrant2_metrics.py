@@ -65,14 +65,20 @@ DATA = {
 JUDGES = ["sonnet", "jev"]
 JUDGE_LABELS = {"sonnet": "Sonnet 5", "jev": "Jev"}
 
-# Redpine's arm plots first (left of each judge's pair), web search second.
-# Colour is a local override, not the shared ARM_COLORS role dict: this chart
-# has only two arms and no separate "Redpine alone" bar to distinguish from,
-# so it reads as a plain two-system comparison (Crimson vs. Sky Blue, as in
-# quadrant three's recall figure) rather than quadrant one's four-arm
-# Orange-vs-Crimson distinction, even though the arm itself is the same
-# "Redpine Science with web search as fallback" quadrant one calls Orange.
-ARMS = ["redpine_first", "web"]
+# Web search plots first (left of each judge's pair), Redpine's arm second,
+# so every Redpine Science result ends up on the right -- a single shared
+# order across all three panels, including contradiction rate, where
+# Redpine's bar is actually the LOWER value (lower is better there); the
+# y-axis label says so, and consistent left/right positioning across the
+# three panels of one figure matters more than strict ascending order
+# within that one panel. Colour is a local override, not the shared
+# ARM_COLORS role dict: this chart has only two arms and no separate
+# "Redpine alone" bar to distinguish from, so it reads as a plain
+# two-system comparison (Crimson vs. Sky Blue, as in quadrant three's
+# recall figure) rather than quadrant one's four-arm Orange-vs-Crimson
+# distinction, even though the arm itself is the same "Redpine Science
+# with web search as fallback" quadrant one calls Orange.
+ARMS = ["web", "redpine_first"]
 ARM_LABELS = {"web": "Web search only",
               "redpine_first": "Redpine Science with web search as fallback"}
 LOCAL_COLORS = {"redpine_first": CRIMSON, "web": SKY_BLUE}

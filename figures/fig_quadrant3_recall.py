@@ -64,9 +64,9 @@ COUNTS = {
     "tavily":  [(322, N_QUERIES), (384, N_QUERIES), (407, N_QUERIES)],
 }
 
-# Plot order left to right within each rank group: Redpine first since it is
-# the system this report is about, then the two comparison systems.
-ORDER = ["redpine", "exa", "tavily"]
+# Plot order left to right within each rank group: lowest recall to highest,
+# so Redpine Science, the highest at every cutoff, ends up on the right.
+ORDER = ["tavily", "exa", "redpine"]
 RANKS = ["Recall@1", "Recall@5", "Recall@10"]
 
 LABELS = {
