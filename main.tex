@@ -310,7 +310,8 @@ the harmonic mean of the share of claims stated and the share not contradicted. 
 answer that states every claim and contradicts none scores 1; one that states half the
 claims and contradicts the rest scores 0.5. Correctness is reported as a percentage
 below. The bottom panel of Figure~\ref{fig:q2-example}
-shows the judge's verdicts on one answer and the scores they give. The judge reads the
+works the score through for one real answer: the judge's verdict on each required claim,
+and the coverage, contradiction rate and correctness those verdicts give. The judge reads the
 answer as written, citations included.
 
 \begin{figure}[htbp]
@@ -344,15 +345,16 @@ answer as written, citations included.
      anticoagulation according to frailty category, or states that frailty-guided
      stroke prevention has been shown to improve outcomes.};
   \node[panel, fill=RPWarmWhite] (j) at ([yshift=-5pt]g.south west)
-    {\paneltag{Judge, one web-search answer}\\[2pt]
+    {\paneltag{Scoring example: the judge's verdicts on the web search only answer}\\[2pt]
      \textcolor{RPLightGreen}{\rule{0.9ex}{0.9ex}}\ 1.\ stated\quad
      \textcolor{RPLightGreen}{\rule{0.9ex}{0.9ex}}\ 2.\ stated\quad
      \textcolor{RPOrange}{\rule{0.9ex}{0.9ex}}\ 3.\ not addressed\\[2pt]
      coverage $C = 2/3$, \ contradiction rate $K = 0$, \ correctness
      $= \dfrac{2 \cdot \tfrac{2}{3} \cdot 1}{\tfrac{2}{3} + 1} = 0.80$};
 \end{tikzpicture}
-\caption{One question from the cardiology track, its gold, and the judge's verdicts on
-one web-search answer. The gold names three required claims, the certainty and scope
+\caption{One question from the cardiology track, its gold, and a worked example of the
+scoring: the judge's verdicts on the web search only arm's answer to it, the answer itself
+not shown. The gold names three required claims, the certainty and scope
 they hold under, and the over-claim an answer must not make. The answer states two of
 the three claims and contradicts none, so coverage is 0.67, the contradiction rate is 0
 and correctness is 0.80 by Equation~\ref{eq:correctness}. Green marks a stated claim and
