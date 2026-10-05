@@ -38,6 +38,14 @@
 
 \raggedbottom
 
+% The class already sets \tolerance=9999 (near-\sloppy), which is fine for
+% ordinary paragraphs but lets an isolated short line (e.g. a long itemize
+% label pushing its texttt parenthetical to the next line) get justified by
+% stretching very few interword gaps very wide. emergencystretch gives
+% LaTeX margin slack to borrow from instead, smoothing that case out without
+% touching any wording.
+\emergencystretch=3em
+
 \newcommand{\lead}[1]{\textbf{#1}}   % bold run-in lead phrase, e.g. "Method."
 
 % Placeholder box for a chart/graph not yet embedded -- swap for
