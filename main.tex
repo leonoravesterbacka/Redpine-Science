@@ -445,6 +445,9 @@ described above.
 
 \subsection{External QA benchmark}\label{sec:results-quadrant-one}
 
+This quadrant tests whether access to Redpine Science changes an agent's answer
+accuracy on a public, claim-verification benchmark.
+
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.6\linewidth]{figures/scifact_arms.pdf}
@@ -457,8 +460,7 @@ described above.
     \label{fig:scifact-arms}
 \end{figure}
 
-This quadrant tests whether access to Redpine Science changes an agent's answer
-accuracy on a public, claim-verification benchmark. Figure~\ref{fig:scifact-arms}
+Figure~\ref{fig:scifact-arms}
 shows the result. An agent with Redpine Science answers
 94.4\% of the claims correctly, against 87.6\% for the same agent with no
 retrieval: 6.8 points more, or 7.8\% more claims right, averaged over
@@ -474,6 +476,9 @@ those two questions in turn: quadrant two asks questions the model cannot answer
 memory, and quadrants three and four measure the retrieved papers directly.
 
 \subsection{Redpine QA benchmark}\label{sec:results-quadrant-two}
+
+This quadrant tests answer quality on the expert-validated question set, comparing
+an agent with web search alone against the same agent with Redpine Science added.
 
 \begin{figure}[htbp]
     \centering
@@ -504,8 +509,6 @@ Paywalled       & 74 & $+14.6$ $[+7.2, +22.1]$ & $+15.8$ $[+9.4, +22.1]$ \\
 \end{tabular}
 \end{table}
 
-This quadrant tests answer quality on the expert-validated question set, comparing
-an agent with web search alone against the same agent with Redpine Science added.
 Figure~\ref{fig:quadrant2-metrics} shows the three metrics of
 Section~\ref{sec:method-quadrant-two} by arm. Under the primary judge, the arm
 with Redpine Science states 80.1\% of the gold claims against 70.2\% for web
@@ -609,6 +612,9 @@ by track, from alpha 0.75 on sepsis to 0.23 on neuroimmunology and 0.20 on immun
 
 \subsection{External retrieval benchmark}\label{sec:results-quadrant-three}
 
+This quadrant tests retrieval alone, whether the correct source paper is surfaced,
+with no model reasoning involved.
+
 \begin{figure}[h]
   \centering
   \includegraphics[width=0.6\linewidth]{figures/quadrant3_recall.pdf}
@@ -633,8 +639,7 @@ Tavily          & 48.2\% & 57.5\% & 60.9\% & 0.545 \\
 \end{tabular}
 \end{table}
 
-This quadrant tests retrieval alone, whether the correct source paper is surfaced,
-with no model reasoning involved. Figure~\ref{fig:quadrant3-recall} and
+Figure~\ref{fig:quadrant3-recall} and
 Table~\ref{tab:quadrant-three} show the result.
 Recall@K is the fraction of queries where the correct paper appears in a system's top
 K results, on a 0 to 100\% scale. Normalized DCG (nDCG) also rewards a higher rank for the correct
@@ -645,6 +650,9 @@ to 3.7 points at Recall@10, and 21.6 to 23.1 points over Tavily across the three
 cutoffs.
 
 \subsection{Redpine retrieval evaluation}\label{sec:results-quadrant-four}
+
+This quadrant tests retrieval relevance directly, judged by a blinded panel of
+domain experts rather than by a DOI match.
 
 \begin{figure}[htbp]
     \centering
@@ -658,8 +666,7 @@ cutoffs.
     \label{fig:quadrant4-metrics}
 \end{figure}
 
-This quadrant tests retrieval relevance directly, judged by a blinded panel of
-domain experts rather than by a DOI match. Figure~\ref{fig:quadrant4-metrics}
+Figure~\ref{fig:quadrant4-metrics}
 shows the result over all 115 questions.
 Precision@5 is the fraction of a system's top 5 results a judge scores 2 or higher out
 of 4 for relevance, on a 0 to 100\% scale.
