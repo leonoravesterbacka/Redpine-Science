@@ -3,12 +3,14 @@
 *.log
 *.out
 *.toc
-*.bbl
 *.blg
 *.fls
 *.fdb_latexmk
 *.synctex.gz
 *.pdf
+
+# main.bbl is tracked deliberately, not ignored: arXiv doesn't always run BibTeX
+# itself, so a pre-generated .bbl needs to ship in the submission.
 
 # Generated figures are build products, but Overleaf needs them in the repo.
 !figures/*.pdf
