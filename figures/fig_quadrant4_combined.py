@@ -20,7 +20,7 @@ batch of 30 subspecialty questions (neurology-mostly, cardiology,
 rheumatology), plus 25 further questions cross-judged by two of the three for
 an inter-rater agreement check (see quadrant four's Method section) --
 115 questions in all. Top 5 results per system, 0-4 relevance scale,
-single-shot retrieval (no agent loop), "relevant" = score >= 3 of 4. Read
+single-shot retrieval (no agent loop), "relevant" = score >= 2 of 4. Read
 directly from connect-eval-fresh's run outputs, each domain batch's own
 summary.json/raw_scores.json plus the cross-judged 25's pooled per-item
 average (judges' scores on a shared item averaged before pooling, so a
@@ -37,7 +37,7 @@ binomial proportion, from these exact pooled counts.
 Mean DCG@5: per-query DCG@5 values from all three domain batches (90 values)
 plus the 25 cross-judged questions' own pooled per-query DCG (each already an
 average across whichever judges scored it) -- 115 values per system in query
-order (Jin's 30, Zihan's 30, Nora's 30, then the 25 cross-judged). Error bars
+order (the neurology batch's 30, the cardiology batch's 30, the rheumatology batch's 30, then the 25 cross-judged). Error bars
 are a two-sided t 95% CI of the mean over the 115 pooled per-query values
 (114 df).
 
@@ -84,7 +84,7 @@ def proportion_and_ci(k, n):
 # --- Panel 2: mean DCG@5 -----------------------------------------------------
 # Per-query DCG@5, all three domain batches (90 values) plus the 25
 # cross-judged questions' own pooled per-query value (115 per system), in
-# query order: Jin's 30, Zihan's 30, Nora's 30, then the 25 cross-judged.
+# query order: the neurology batch's 30, the cardiology batch's 30, the rheumatology batch's 30, then the 25 cross-judged.
 PER_QUERY_DCG = {
     "redpine": [
         7.202601495740551, 8.801553605799326, 5.0716717421690936, 9.976307110209634,

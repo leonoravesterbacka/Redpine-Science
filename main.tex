@@ -80,7 +80,7 @@ stripped of any model reasoning, Redpine Science places the correct source paper
 top ten results for 83.1\% of queries (Recall@10), against 79.3\% for Exa, the benchmark's creator. A blinded expert relevance panel places Redpine Science's
 Precision@5 at 75.2\% against 39.8\% for the PubMed search tool. We release the
 expert-validated question set and instructions to reproduce every
-result above, in the \href{https://github.com/redpine-ai/redpine-benchmarks/tree/main/science}{science folder of redpine-ai/redpine-benchmarks on GitHub}.}
+headline result above, in the \href{https://github.com/redpine-ai/redpine-benchmarks/tree/main/science}{science folder of redpine-ai/redpine-benchmarks on GitHub}.}
 
 \keywords{Evaluation Benchmarks, LLM, RAG, Information Retrieval, Question Answering, Human Evaluation, Biomedical NLP}
 
@@ -186,7 +186,7 @@ domains~\cite{math,swebench,ecollm}: the question set and the scoring rule are
 published, so a number can be checked against other groups' results. Biomedicine has many, among them Massive Multitask Language Understanding (MMLU)~\cite{mmlu},
 MedHELM~\cite{medhelm}, BioASQ~\cite{bioasq}, MedXpertQA~\cite{medxpertqa},
 HealthBench~\cite{healthbench}, LiveMedBench~\cite{livemedbench}, and the Bio/Chem Gold
-subset of Humanity's Last Exam~\cite{hle}.
+subset~\cite{hlegold} of Humanity's Last Exam~\cite{hle}.
 
 Many of these benchmarks cannot show a retrieval effect, for two reasons. The first is
 saturation. Models answer most of the questions correctly from memory: by 2023, GPT-4
@@ -207,7 +207,7 @@ subtask~\cite{scifact} holds 208 biomedical claims, each a one-sentence scientif
 statement such as a drug's effect on a patient group, with a label saying whether the
 published literature supports or refutes it. The agent reads the claim, searches if it
 has a tool, and states a verdict. The suite's scoring rule marks the answer correct if the
-stated verdict matches the label; no judge model is involved.
+gold label, true or false, appears in the answer text; no judge model is involved.
 
 \lead{Arms.} Claude Sonnet 5 answers every claim in four arms with a budget of 16 tool
 calls: no tools, web search, Redpine Science, and Redpine Science with web search as
@@ -236,7 +236,8 @@ Redpine Science for papers in a track, skipping case reports, protocols without 
 and papers with no clinical content. It then writes the question with the paper's
 results hidden from it, so that the question reads as one a clinician would ask a
 literature assistant rather than as a summary of the paper: one thing asked, 10 to 22
-words, and no hint of the paper's design, thresholds or timepoints. The specifics go into
+words as the target (three released questions run to 26 after expert review), and no
+hint of the paper's design, thresholds or timepoints. The specifics go into
 the answer key instead.
 
 The answer key, which we call the gold, lists two to four required claims, the facts a
@@ -245,8 +246,8 @@ questions with their golds. Every claim is tied to a quoted passage in the paper
 wording is graded to the evidence: a causal claim needs a randomized comparison; anything
 weaker is stated as an association or a preliminary finding. The gold also carries a
 certainty sentence that says how strong the evidence is, names the population and
-setting the claims hold for, and ends with one wrong-if clause: the most tempting
-over-claim, which an answer must not make. Figure~\ref{fig:q2-example} shows one
+setting the claims hold for, and ends with one wrong-if clause where the paper admits
+one: the most tempting over-claim, which an answer must not make. Figure~\ref{fig:q2-example} shows one
 question with its gold in full. Passages from other papers on the same
 question decide whether a finding is corroborated, uncontested or conflicting, which sets
 how firmly the gold may state it. A mechanical check confirms that every quote appears in
@@ -274,7 +275,7 @@ it. For each question the expert marked good, edit or bad, could rewrite the que
 and could comment. A suggested rewrite is applied once a check confirms that the gold still
 answers it. A change to a gold is accepted only if the three test answers, regraded
 against the new gold, keep their coverage scores: the paper-informed answer's score stays
-at or above 85\% and drops by at most 5 points, the other-source answer's score drops by
+at or above 85\% where it already was and drops by at most 5 points, the other-source answer's score drops by
 at most 5 points, the retrieval-free answer's score rises by at most 5 points, and no
 test answer
 newly contradicts the gold. When either check fails, the
@@ -376,7 +377,7 @@ difference between the arms over all 179 questions is estimated by prediction-po
 inference~\cite{ppi,ppiplusplus}, which corrects the judge's
 estimate with the expert labels. The sample, the statistics, the reliability floors
 (0.80 on whether a claim is stated and 0.667 on the three-way label, Krippendorff's
-recommended and tentative standards) and the decision rules were fixed before the
+recommended and tentative standards~\cite{krippendorff2004}) and the decision rules were fixed before the
 experts began.
 
 \subsection{External retrieval benchmark}\label{sec:method-quadrant-three}
@@ -390,22 +391,23 @@ This quadrant uses the Exa publication-retrieval benchmark~\cite{exabenchmarks},
 existing open benchmark published by Exa rather than built by us: its queries and gold
 documents are public, so the result can be checked. It grounds every query in one
 gold publication and scores whether it is surfaced and at what rank: a match is exact
-Digital Object Identifier (DOI) when a system returns one, or a normalized title substring
-otherwise.
+Digital Object Identifier (DOI) when a system returns one or one appears in a result's
+URL or text, or a normalized title substring otherwise.
 
-The full benchmark has 1,866 queries; the 668 used here are those whose gold paper is in
-Redpine's corpus, selected by corpus membership before any system was run. The excluded queries ask about papers Redpine does not hold, so scoring it on
+The full benchmark has 1,866 queries; 671 have a gold paper in Redpine's corpus,
+selected by corpus membership before any system was run, not by result. Three of these
+failed on a transient API error for one system and are excluded rather than scored as
+misses, leaving 668, on which all three systems are scored. The excluded queries ask about papers Redpine does not hold, so scoring it on
 them would measure corpus coverage rather than retrieval quality, and the numbers here
-are not comparable to full-benchmark numbers published elsewhere. All three systems are
-scored on the same 668. The benchmark asks several phrasings per source paper, so these
+are not comparable to full-benchmark numbers published elsewhere. The benchmark asks several phrasings per source paper, so these
 668 DOI-confirmed queries map to 101 unique source papers. Recall is reported at the
 query level, the more demanding number since it counts every phrasing separately, and at
 three ranks, Recall@1, Recall@5, and Recall@10, so a gain at the top of the ranking is
 distinguishable from one that only appears deeper in it.
 
 Three retrieval services run against it with the identical query and no follow-up
-fetch or agent reasoning on any side: Redpine Science, Exa's own search, run as
-Exa's own documentation describes~\cite{exabenchmarks}, and Tavily~\cite{tavily}, the web-search arm
+fetch or agent reasoning on any side: Redpine Science, Exa's own search, configured as
+Exa's own benchmark implementation runs it~\cite{exabenchmarks}, and Tavily~\cite{tavily}, the web-search arm
 used throughout this report. Exa and Tavily, advanced web search services, search the
 open web, Redpine Science a curated, licensed corpus, so this compares retrieval
 quality on identical terms.
@@ -416,17 +418,19 @@ Quadrant three can only score queries tied to one known publication, but most re
 questions have many relevant papers rather than a single gold source. Quadrant four
 covers these: a blinded domain expert judges each result for relevance instead of
 checking it against a gold paper. Redpine Science is compared against PubMed, a widely used search
-engine for the biomedical literature. Both systems receive the identical question text,
-with no query engineering on either side.
+engine for the biomedical literature. Both systems receive the identical question text. Redpine Science is
+queried once as written; PubMed is queried as written and, when fewer than eight hits
+return, re-queried with stopwords and then trailing words removed, keeping the attempt
+with the most results. No other reformulation is applied on either side.
 
 Judges score each result on a 0 to 4 scale, 0 not relevant, 4 perfectly relevant,
-matching the scale and Precision@K / Discounted Cumulative Gain (DCG)@K reporting
-used in a published relevance
-evaluation, blind to which system produced it; system identity is
+the scale of a published relevance evaluation~\cite{consensus}, blind to which system produced it; system identity is
 randomized left-to-right per query to prevent a judge from guessing rather than
 reading. URL, DOI and publication date are removed from every result before a judge
 reads it, since a database record and a scraped web page format these differently
-enough to identify the source.
+enough to identify the source. Two parameters differ from that evaluation: Precision@K
+counts a score of 2 or higher as relevant, where it counts 3 or higher, and K is 5 for
+both Precision@K and Discounted Cumulative Gain (DCG)@K, where it is 10.
 
 Three PhD-level domain experts are the judges, and the panel holds 115 questions in
 two pools. The first pool is 90 subspecialty questions that require domain knowledge
@@ -440,7 +444,7 @@ judges before pooling, so each of these questions contributes one data point, no
 
 \section{Results}\label{sec:results}
 
-The following subsections present the results of the four evaluation tracks
+The following subsections present the results of the four evaluations
 described above.
 
 \subsection{External QA benchmark}\label{sec:results-quadrant-one}
@@ -494,8 +498,8 @@ an agent with web search alone against the same agent with Redpine Science added
 \end{figure}
 
 \begin{table}[htbp]
-\caption{Claim coverage difference in percentage points, Redpine Science with web search as
-fallback minus web search only, on all questions and by access class of the source paper,
+\caption{Claim coverage difference in percentage points, web search plus Redpine Science
+minus web search only, on all questions and by access class of the source paper,
 under each judge. Paired 95\% confidence intervals of the mean (Student's $t$);
 n is the number of questions.}
 \label{tab:quadrant-two-access}
@@ -516,7 +520,7 @@ with Redpine Science states 80.1\% of the gold claims against 70.2\% for web
 search alone, a paired difference of $+10.0$ points (95\% interval $+5.8$ to $+14.2$,
 paired t $p = 6\times10^{-6}$, n = 179). It contradicts fewer claims, 3.8\% against
 6.9\%, a difference of $-3.1$ points ($-5.5$ to $-0.8$, $p = 0.01$). Correctness,
-the harmonic mean of the two, is 84.7\% against 75.9\%, a difference of $+8.8$ points ($+4.9$ to $+12.7$,
+the harmonic mean of the two per question, averages 84.7\% against 75.9\%, a difference of $+8.8$ points ($+4.9$ to $+12.7$,
 $p = 2\times10^{-5}$). Per question, the Redpine Science arm covers more claims on 62
 questions, fewer on 22, and the same number on 95. Half the questions are answered
 equally well by both arms; the gain sits in the other half.
@@ -551,7 +555,8 @@ the expert check follows.
 \caption{Expert check on the quadrant two judges. Three domain experts labeled
 a blinded sample of the answers with the judge's three verdicts. Judge rows compare
 each judge with the experts; panel rows are the experts' agreement with each other.
-Majority agreement is over the claim units with two or more expert labels.
+Majority agreement is over the 144 core claim units on which the expert labels have a
+majority; the ten tied units are excluded.
 Intervals are 95\%: jackknife for alpha, bootstrap for the intraclass correlation.}
 \label{tab:quadrant-two-experts}
 \begin{tabular}{@{}lcc@{}}
@@ -579,8 +584,8 @@ questions, both arms, labeled by one expert each. Of the 154 core claim units, 1
 usable labels and 16 carry two, because one expert marked that claim cannot assess. Table~\ref{tab:quadrant-two-experts} reports the agreement.
 
 Both judges agree with the experts at least as well as the experts agree with each other.
-Sonnet 5 gives the same verdict as the expert majority on 90\% of the claims carrying two or
-more expert labels, Jev on 85\%. The alt-test~\cite{alttest} holds out each expert in turn and asks whether the judge agrees with
+Sonnet 5 gives the same verdict as the expert majority on 90\% of the claims with an
+expert majority, Jev on 85\%. The alt-test~\cite{alttest} holds out each expert in turn and asks whether the judge agrees with
 that expert at least as well as the other two do; at the
 $\epsilon = 0.2$ its authors recommend for expert annotators, both judges win for all three. The test gets easier the more a
 panel disagrees among itself, so we do not read 100\% as adequacy. Mean pairwise Cohen's $\kappa$
@@ -609,7 +614,8 @@ whether a claim is stated and 0.49 on the three-way label, below the floors of 0
 0.667 we fixed in advance as the condition for calling a judge adequate. No adequacy
 verdict is therefore drawn for either judge, and the figures above describe alignment. Disagreement among the experts concentrates on
 whether a claim is stated or not addressed, and on the rare contradicted label; it varies
-by track, from alpha 0.75 on sepsis to 0.23 on neuroimmunology and 0.20 on immunology.
+by track, from alpha 0.75 on sepsis and 0.52 on cardiology to 0.23 on neuroimmunology
+and 0.20 on immunology (16 claim units).
 
 \subsection{External retrieval benchmark}\label{sec:results-quadrant-three}
 
@@ -631,7 +637,7 @@ with no model reasoning involved.
 \label{tab:quadrant-three}
 \begin{tabular}{@{}lcccc@{}}
 \toprule
- & \textbf{Recall@1} & \textbf{Recall@5} & \textbf{Recall@10} & \textbf{nDCG} \\
+ & \textbf{Recall@1} & \textbf{Recall@5} & \textbf{Recall@10} & \textbf{nDCG@10} \\
 \midrule
 Redpine Science & 69.8\% & 80.5\% & 83.1\% & 0.765 \\
 Exa             & 62.9\% & 76.3\% & 79.3\% & 0.714 \\
@@ -643,7 +649,7 @@ Tavily          & 48.2\% & 57.5\% & 60.9\% & 0.545 \\
 Figure~\ref{fig:quadrant3-recall} and
 Table~\ref{tab:quadrant-three} show the result.
 Recall@K is the fraction of queries where the correct paper appears in a system's top
-K results, on a 0 to 100\% scale. Normalized DCG (nDCG) also rewards a higher rank for the correct
+K results, on a 0 to 100\% scale. Normalized DCG at ten (nDCG@10) also rewards a higher rank for the correct
 paper, on a 0 to 1 scale where 1 means the correct paper is always ranked first.
 On the 668 in-corpus queries, Redpine Science leads on all four metrics: 6.9 points
 over Exa at Recall@1, narrowing
@@ -687,12 +693,12 @@ All four evaluations in this report are released as a public benchmark suite, on
 directory per evaluation.
 
 \begin{itemize}[leftmargin=1.6em, itemsep=0.5em]
-  \item \textbf{External QA benchmark} (\texttt{external-qa}). The SciFact harness, its
-    per-arm configuration, and the reduced run logs (per-claim scores and exclusions)
-    behind the reported numbers.
+  \item \textbf{External QA benchmark} (\texttt{external-qa}). Its per-arm configuration,
+    runner, and the reduced run logs (per-claim scores and exclusions) behind the reported
+    numbers.
   \item \textbf{Redpine Biomedical QA} (\texttt{redpine-biomedical-qa}). The 179-question
-    expert-validated set with its golds, the harness that runs it (shared with the external
-    QA benchmark), the run log behind the reported numbers with every model answer
+    expert-validated set with its golds, its configuration and runner, the run log behind
+    the reported numbers with every model answer
     (retrieved passage text removed), both judges' code, the per-question judge verdicts
     under both judges, and the agreement between the two judges recomputed from them; the
     experts' claim labels and the second judge's probabilities and confidences are withheld.
@@ -704,7 +710,9 @@ directory per evaluation.
     ratings, anonymized, and the scoring code behind the reported precision and DCG.
 \end{itemize}
 
-\noindent All four are at \url{https://github.com/redpine-ai/redpine-benchmarks/tree/main/science}.
+\noindent Both QA benchmarks run on one shared tool-use harness (\texttt{harness}), which
+reproduces the logged setup; it is not the internal code that produced the logs.
+All four are at \url{https://github.com/redpine-ai/redpine-benchmarks/tree/main/science}.
 
 \section{Summary}\label{sec:summary}
 

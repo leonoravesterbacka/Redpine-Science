@@ -23,8 +23,8 @@ Each script writes two files beside itself: a `.pdf` for the document and a
   mean of five repeat runs. Error bars are 95\% confidence intervals of the
   mean over the five runs, so they show run-to-run variation rather than
   sampling error within a run. An agent with Redpine Science access answers
-  6.6 points more claims correctly than the same agent with no retrieval, a
-  relative gain of 7.6\%.}
+  6.8 points more claims correctly than the same agent with no retrieval, a
+  relative gain of 7.8\%.}
   \label{fig:scifact-arms}
 \end{figure}
 ```
@@ -52,7 +52,7 @@ These are deliberate, and a new figure should not quietly break them.
   `#171717`, which reads as black at bar size and drowns the other bars. The
   exception is for data marks only and never touches type or rules. Do not
   extend it: a second off-palette colour is how a palette stops being one.
-- **Bars start at zero.** A truncated axis turns a 6.6 point gap into a visual
+- **Bars start at zero.** A truncated axis turns a 6.8 point gap into a visual
   doubling, and this report's whole argument is that the numbers are modest and
   real.
 - **Bars are translucent (alpha 0.5) with a solid, fully opaque, thin
